@@ -9,7 +9,7 @@ const dummyDonationConfigs = {
   "Round Up Donation": {
     id: 0,
     type: "single",
-    actions: [
+    options: [
       {
         type: "roundup",
         donation_cents: 14,
@@ -26,7 +26,7 @@ const dummyDonationConfigs = {
   },
   "Fixed Donation Amount": {
     type: "single",
-    actions: [
+    options: [
       {
         type: "fixed",
       },
@@ -34,7 +34,7 @@ const dummyDonationConfigs = {
   },
   "Customer Input": {
     type: "single",
-    actions: [
+    options: [
       {
         type: "input",
       },
@@ -42,7 +42,7 @@ const dummyDonationConfigs = {
   },
   "Multiple Donation Types": {
     type: "multi_type",
-    actions: [
+    options: [
       {
         type: "roundup",
       },
@@ -56,7 +56,7 @@ const dummyDonationConfigs = {
   },
   "Multiple Recipients": {
     type: "multi_recipient",
-    actions: [
+    options: [
       {
         type: "roundup",
       },
@@ -70,7 +70,7 @@ const dummyDonationConfigs = {
   },
   "Custom": {
     type: "custom",
-    actions: [
+    options: [
       {
         type: "roundup",
       },
@@ -86,20 +86,20 @@ const dummyDonationConfigs = {
 
 function DemoComponent(props) {
   const { label, config } = props;
-  const [selectedAction, setSelectedAction] = React.useState();
+  const [selectedOption, setSelectedOption] = React.useState();
   let donationDollars, recipientName;
-  if (selectedAction) {
-    donationDollars = utils.centsToDollars(selectedAction.donation_cents);
-    recipientName = selectedAction.recipient.name;
+  if (selectedOption) {
+    donationDollars = utils.centsToDollars(selectedOption.donation_cents);
+    recipientName = selectedOption.recipient.name;
   }
 
   return ( 
     <div>
       <p>{label}</p>
-      <DonationComponent config={config} setSelectedAction={setSelectedAction}/>
+      <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
       <p>Selected donation:</p>
       {
-        selectedAction &&
+        selectedOption &&
         <p>{donationDollars} to {recipientName}</p>
       }
     </div>

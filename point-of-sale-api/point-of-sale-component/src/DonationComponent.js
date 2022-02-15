@@ -6,13 +6,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 function RoundUpComponent(props) {
-  const { action, setSelectedAction } = props;
-  const transactionDollars = utils.centsToDollars(action.transaction_cents);
-  const donationDollars = utils.centsToDollars(action.donation_cents);
-  const recipientName = action.recipient.name;
+  const { option, setSelectedOption } = props;
+  const transactionDollars = utils.centsToDollars(option.transaction_cents);
+  const donationDollars = utils.centsToDollars(option.donation_cents);
+  const recipientName = option.recipient.name;
 
   const handleChange = (event) => {
-    setSelectedAction(event.target.checked ? action : null);
+    setSelectedOption(event.target.checked ? option : null);
   };
 
   return (
@@ -27,15 +27,15 @@ function RoundUpComponent(props) {
 }
 
 function DonationComponent(props) {
-  const { config, setSelectedAction } = props;
+  const { config, setSelectedOption } = props;
 
   let component;
   switch(config.type) {
     case "single":
-      const action = config.actions[0];
-      switch(action.type) {
+      const option = config.options[0];
+      switch(option.type) {
         case "roundup":
-          component = <RoundUpComponent action={action} setSelectedAction={setSelectedAction} />;
+          component = <RoundUpComponent option={option} setSelectedOption={setSelectedOption} />;
           break;
         case "fixed": 
           component = <p>fixed</p>;
