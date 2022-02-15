@@ -1,12 +1,41 @@
+import * as React from 'react';
+import * as utils from './utils';
+
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+
+function RoundUpComponent(props) {
+  const { action, setSelectedAction } = props;
+  const transactionDollars = utils.centsToDollars(action.transaction_cents);
+  const donationDollars = utils.centsToDollars(action.donation_cents);
+  const recipientName = action.recipient.name;
+
+  const handleChange = (event) => {
+    setSelectedAction(event.target.checked ? action : null);
+  };
+
+  return (
+    <FormGroup>
+      <FormControlLabel 
+        control={<Checkbox />}
+        onChange={handleChange}
+        label={`Round up to ${transactionDollars} by adding a ${donationDollars} donation to ${recipientName}`} 
+      />
+    </FormGroup>
+  );
+}
+
 function DonationComponent(props) {
-  const { donation_config } = props;
+  const { config, setSelectedAction } = props;
 
   let component;
-  switch(donation_config.type) {
+  switch(config.type) {
     case "single":
-      switch(donation_config.donation_actions[0].type) {
+      const action = config.actions[0];
+      switch(action.type) {
         case "roundup":
-          component = <p>roundup</p>;
+          component = <RoundUpComponent action={action} setSelectedAction={setSelectedAction} />;
           break;
         case "fixed": 
           component = <p>fixed</p>;
