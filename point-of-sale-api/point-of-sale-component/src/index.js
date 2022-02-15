@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Demo from './Demo';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import CssBaseline from '@mui/material/CssBaseline';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <CssBaseline />
+    <Demo />
   </React.StrictMode>,
   document.getElementById('root')
 );
