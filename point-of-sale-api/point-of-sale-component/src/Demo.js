@@ -4,6 +4,8 @@ import DonationComponent from "./DonationComponent";
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 const dummyDonationConfigs = {
   "Round Up Donation": {
@@ -95,12 +97,13 @@ function DemoComponent(props) {
 
   return ( 
     <div>
-      <p>{label}</p>
-      <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
-      <p>Selected donation:</p>
+      <Typography variant="h6">{label}</Typography>
+      <Box sx={{bgcolor:"#f7f7f7", p:4, borderRadius: 2}}>
+        <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+      </Box>
       {
         selectedOption &&
-        <p>{donationDollars} to {recipientName}</p>
+        <Typography>Selected donation option: {donationDollars} to {recipientName}</Typography>
       }
     </div>
   );
@@ -109,8 +112,10 @@ function DemoComponent(props) {
 function Demo() {
 	return (
 		<Container maxWidth="sm">
+      <Typography variant="h4" align="center">Checkout Donations Demo</Typography>
       <Stack 
         spacing={2} 
+        sx={{pt:2, pb:2}}
         divider={<Divider />}
       >
       	{Object.entries(dummyDonationConfigs).map((example, index) => (

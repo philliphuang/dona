@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as utils from './utils';
 
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -16,13 +18,17 @@ function RoundUpComponent(props) {
   };
 
   return (
-    <FormGroup>
-      <FormControlLabel 
-        control={<Checkbox />}
-        onChange={handleChange}
-        label={`Round up to ${transactionDollars} by adding a ${donationDollars} donation to ${recipientName}`} 
-      />
-    </FormGroup>
+    <Container maxWidth="xs">
+      <Paper sx={{p:2}}>
+        <FormGroup>
+          <FormControlLabel 
+            control={<Checkbox />}
+            onChange={handleChange}
+            label={`Round up to ${transactionDollars} with a ${donationDollars} donation to ${recipientName}`} 
+          />
+        </FormGroup>
+      </Paper>
+    </Container>
   );
 }
 
