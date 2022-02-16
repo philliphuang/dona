@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const dummyDonationConfigs = {
-  "Round Up Donation": {
+  "Round up to the nearest dollar": {
     id: 0,
     type: "single",
     options: [
@@ -26,19 +26,39 @@ const dummyDonationConfigs = {
       },
     ],
   },
-  "Fixed Donation Amount": {
+  "Donate a fixed amount": {
+    id: 1,
     type: "single",
     options: [
       {
         type: "fixed",
+        donation_cents: 100,
+        purchase_cents: 286,
+        transaction_cents: 386,
+        recipient: {
+          id: 0,
+          name: "UNICEF",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
       },
     ],
   },
-  "Customer Input": {
+  "Customer inputs donation amount": {
+    id: 2,
     type: "single",
     options: [
       {
         type: "input",
+        donation_cents: 100,
+        purchase_cents: 286,
+        transaction_cents: 386,
+        recipient: {
+          id: 0,
+          name: "UNICEF",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
       },
     ],
   },
@@ -103,7 +123,7 @@ function DemoComponent(props) {
       </Box>
       {
         selectedOption &&
-        <Typography>Selected donation option: {donationDollars} to {recipientName}</Typography>
+        <Typography>Selected donation option: ${donationDollars} to {recipientName}</Typography>
       }
     </div>
   );
