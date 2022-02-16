@@ -20,7 +20,7 @@ function RoundUpComponent(props) {
       <FormControlLabel 
         control={<Checkbox />}
         onChange={handleChange}
-        label={`Round up to $${transactionDollars} with a $${donationDollars} donation to ${recipientName}`} 
+        label={`Round up with a $${donationDollars} donation to ${recipientName}`} 
       />
     </FormGroup>
   );

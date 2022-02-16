@@ -7,6 +7,7 @@ import RoundUpComponent from './components/RoundUpComponent';
 import FixedComponent from './components/FixedComponent';
 import InputComponent from './components/InputComponent';
 import MultiTypeComponent from './components/MultiTypeComponent';
+import MultiRecipientComponent from './components/MultiRecipientComponent';
 
 function DonationComponent(props) {
   const { config, setSelectedOption } = props;
@@ -33,7 +34,7 @@ function DonationComponent(props) {
       component = <MultiTypeComponent config={config} setSelectedOption={setSelectedOption} />;
       break;
     case "multi_recipient":
-      component = <p>multi_recipient</p>;
+      component = <MultiRecipientComponent config={config} setSelectedOption={setSelectedOption} />;
       break;
     case "custom":
       component = <p>custom</p>;

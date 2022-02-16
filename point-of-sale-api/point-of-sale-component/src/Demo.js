@@ -44,7 +44,7 @@ const dummyDonationConfigs = {
       },
     ],
   },
-  "Customer inputs donation amount": {
+  "Customer enters donation amount": {
     id: 2,
     type: "single",
     options: [
@@ -62,22 +62,10 @@ const dummyDonationConfigs = {
       },
     ],
   },
-  "Multiple Donation Types": {
+  "Multiple donation types": {
     id: 3,
     type: "multi_type",
     options: [
-      {
-        type: "roundup",
-        donation_cents: 14,
-        purchase_cents: 286,
-        transaction_cents: 300,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
       {
         type: "fixed",
         donation_cents: 100,
@@ -128,17 +116,45 @@ const dummyDonationConfigs = {
       },
     ],
   },
-  "Multiple Recipients": {
+  "Multiple donation recipients": {
+    id: 4,
     type: "multi_recipient",
     options: [
       {
         type: "roundup",
+        donation_cents: 14,
+        purchase_cents: 286,
+        transaction_cents: 300,
+        recipient: {
+          id: 0,
+          name: "UNICEF",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
       },
       {
         type: "roundup",
+        donation_cents: 14,
+        purchase_cents: 286,
+        transaction_cents: 300,
+        recipient: {
+          id: 1,
+          name: "American Red Cross",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
       },
       {
         type: "roundup",
+        donation_cents: 14,
+        purchase_cents: 286,
+        transaction_cents: 300,
+        recipient: {
+          id: 2,
+          name: "Charity: Water",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
       },
     ],
   },

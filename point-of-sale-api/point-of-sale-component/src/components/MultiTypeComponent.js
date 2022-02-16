@@ -56,7 +56,6 @@ function MultiTypeOptionComponent(props) {
           {
             selected &&
             <InputField 
-              sx={{marginTop: 5}}
               inputAmount={inputAmount} 
               setInputAmount={setInputAmount}
             />
@@ -112,7 +111,7 @@ function MultiTypeComponent(props) {
         ))
       }
       <Button 
-        variant={selectedOptionIndex === "none" ? "contained" : "outlined"}
+        variant={selectedOptionIndex === "none" ? "contained" : "standard"}
         onClick={() => setSelectedOptionIndex("none")}
       >
           No thanks
