@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import RoundUpComponent from './components/RoundUpComponent';
 import FixedComponent from './components/FixedComponent';
 import InputComponent from './components/InputComponent';
+import MultiTypeComponent from './components/MultiTypeComponent';
 
 function DonationComponent(props) {
   const { config, setSelectedOption } = props;
@@ -29,7 +30,7 @@ function DonationComponent(props) {
       }
       break;
     case "multi_type":
-      component = <p>multi_type</p>;
+      component = <MultiTypeComponent config={config} setSelectedOption={setSelectedOption} />;
       break;
     case "multi_recipient":
       component = <p>multi_recipient</p>;
@@ -40,6 +41,7 @@ function DonationComponent(props) {
     default:
       component = <p>Invalid donation config type.</p>;
   }
+  
   return (
     <Container maxWidth="xs">
       <Paper sx={{p:2}}>

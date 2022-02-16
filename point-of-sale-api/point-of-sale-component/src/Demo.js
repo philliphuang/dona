@@ -63,16 +63,68 @@ const dummyDonationConfigs = {
     ],
   },
   "Multiple Donation Types": {
+    id: 3,
     type: "multi_type",
     options: [
       {
         type: "roundup",
+        donation_cents: 14,
+        purchase_cents: 286,
+        transaction_cents: 300,
+        recipient: {
+          id: 0,
+          name: "UNICEF",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
       },
       {
         type: "fixed",
+        donation_cents: 100,
+        purchase_cents: 286,
+        transaction_cents: 386,
+        recipient: {
+          id: 0,
+          name: "UNICEF",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
+      },
+      {
+        type: "fixed",
+        donation_cents: 300,
+        purchase_cents: 286,
+        transaction_cents: 586,
+        recipient: {
+          id: 0,
+          name: "UNICEF",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
+      },
+      {
+        type: "fixed",
+        donation_cents: 500,
+        purchase_cents: 286,
+        transaction_cents: 786,
+        recipient: {
+          id: 0,
+          name: "UNICEF",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
       },
       {
         type: "input",
+        donation_cents: 100,
+        purchase_cents: 286,
+        transaction_cents: 386,
+        recipient: {
+          id: 0,
+          name: "UNICEF",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
       },
     ],
   },

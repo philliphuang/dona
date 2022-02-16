@@ -4,8 +4,6 @@ export function centsToDollars(cents) {
     {
       style:"decimal", 
       currency:"USD", 
-      minimumFractionDigits:2, 
-      maximumFractionDigits:2,
     }
   );
 }

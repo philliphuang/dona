@@ -9,6 +9,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
+import InputField from './InputField';
+
 function InputComponent(props) {
   const { option, setSelectedOption } = props;
   const recipientName = option.recipient.name;
@@ -17,7 +19,7 @@ function InputComponent(props) {
   const [inputAmount, setInputAmount] = React.useState(donationDollars);
 
   React.useEffect(() => {
-    let inputOption = null;
+    let inputOption;
     if (inputAmount > 0) {
       inputOption = { 
         ...option,
@@ -31,20 +33,6 @@ function InputComponent(props) {
     setChecked(event.target.checked);
   };
 
-  const handleChange = (event) => {
-    // TODO: replace this with something much more legit
-    setInputAmount(
-      (Number(event.target.value)).toLocaleString(
-        "en-US", 
-        {
-          style:"decimal", 
-          currency:"USD", 
-          maximumFractionDigits:2,
-        }
-      )
-    );
-  };
-
   return (
     <FormGroup>
       <FormControlLabel 
@@ -52,15 +40,7 @@ function InputComponent(props) {
         onChange={handleCheckedChange}
         label={`Donate to ${recipientName}`} 
       />
-      <FormControl variant="filled">
-        <InputLabel htmlFor="filled-adornment-amount">Amount</InputLabel>
-        <FilledInput
-          type="number"
-          onChange={handleChange}
-          value={inputAmount}
-          startAdornment={<InputAdornment position="start">$</InputAdornment>}
-        />
-      </FormControl>
+      <InputField inputAmount={inputAmount} setInputAmount={setInputAmount} />
     </FormGroup>
   );
 }
