@@ -8,9 +8,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 
-const dummyDonationConfigs = {
-  "Round up to the nearest dollar": {
+const dummyDonationConfigs = [
+  {
     id: 0,
+    name: "Round up to the nearest dollar",
     type: "single",
     options: [
       {
@@ -27,8 +28,9 @@ const dummyDonationConfigs = {
       },
     ],
   },
-  "Donate a fixed amount": {
+  {
     id: 1,
+    name: "Donate a fixed amount",
     type: "single",
     options: [
       {
@@ -45,8 +47,9 @@ const dummyDonationConfigs = {
       },
     ],
   },
-  "Customer enters donation amount": {
+  {
     id: 2,
+    name: "Customer enters donation amount",
     type: "single",
     options: [
       {
@@ -63,8 +66,9 @@ const dummyDonationConfigs = {
       },
     ],
   },
-  "Multiple donation types": {
+  {
     id: 3,
+    name: "Multiple donation types",
     type: "multi_type",
     options: [
       {
@@ -117,8 +121,9 @@ const dummyDonationConfigs = {
       },
     ],
   },
-  "Multiple donation recipients": {
+  {
     id: 4,
+    name: "Multiple donation recipients",
     type: "multi_recipient",
     options: [
       {
@@ -159,8 +164,9 @@ const dummyDonationConfigs = {
       },
     ],
   },
-  "Custom": {
+  {
     id: 5,
+    name: "Complex custom configurations",
     type: "custom",
     options: [
       {
@@ -201,10 +207,10 @@ const dummyDonationConfigs = {
       },
     ],
   },
-};
+];
 
 function DemoComponent(props) {
-  const { label, config } = props;
+  const { config } = props;
   const [selectedOption, setSelectedOption] = React.useState();
   let donationDollars, recipientName;
   if (selectedOption) {
@@ -214,7 +220,7 @@ function DemoComponent(props) {
 
   return ( 
     <Stack spacing={1}>
-      <Typography variant="h6">{label}</Typography>
+      <Typography variant="h6">{config.name}</Typography>
       <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, borderRadius: 2}}>
         <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
       </Box>
@@ -235,8 +241,8 @@ function Demo() {
         sx={{pt:2, pb:2}}
         divider={<Divider />}
       >
-      	{Object.entries(dummyDonationConfigs).map((example, index) => (
-          <DemoComponent key={index} label={example[0]} config={example[1]}/>
+      	{dummyDonationConfigs.map((config, index) => (
+          <DemoComponent key={index} config={config}/>
 				))}
       </Stack>
     </Container>
