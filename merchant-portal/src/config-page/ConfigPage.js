@@ -5,7 +5,10 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import DonationComponent from '@demo-organization/demo-scope.ui.donation-component';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
 
 export const dummyDonationConfigs = [
   {
@@ -211,15 +214,34 @@ export const dummyDonationConfigs = [
 function ConfigPage() {
   const [selectedOption, setSelectedOption] = React.useState();
   // TODO: load real data
-  
+
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
   return (
     <Container maxWidth="sm">
       <Stack spacing={2} sx={{mt:2, mb:2}}>
         {dummyDonationConfigs.map((config, index) => (
-          <Card key={index}>
+          <Card key={index} variant="outlined">
             <CardContent>
-              <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+              <Typography variant="h6">{config.name}</Typography>
+              <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2,  borderRadius: 2}}>
+                <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+              </Box>
             </CardContent>
+            <CardActions>
+              <Button onClick={handleExpandClick}>Edit</Button>
+              <Button>Delete</Button>
+              <Button>Set as active</Button>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent>
+                <Typography>Editing options</Typography>
+              </CardContent>
+            </Collapse>
           </Card>
         ))}
       </Stack>
