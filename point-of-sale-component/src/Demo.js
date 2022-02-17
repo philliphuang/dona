@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 
-const dummyDonationConfigs = [
+export const dummyDonationConfigs = [
   {
     id: 0,
     name: "Round up to the nearest dollar",
