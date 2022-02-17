@@ -1,6 +1,6 @@
 import * as React from 'react';
-import * as utils from './utils';
-import DonationComponent from "./DonationComponent";
+import * as utils from './donation-component/utils';
+import DonationComponent from "./donation-component/DonationComponent";
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
