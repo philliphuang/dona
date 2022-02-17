@@ -100,12 +100,15 @@ function MerchantPortal() {
   };
 
   let pageComponent;
+  let pageTitle;
   switch(page) {
     case "configs":
       pageComponent = <ConfigPage/>;
+      pageTitle = "Checkout Donation Configurations";
       break;
     case "transactions":
         pageComponent = <p>Transactions page</p>;
+        pageTitle = "Donation Transactions";
         break;
     default: 
       pageComponent = <p>Invalid page.</p>;
@@ -129,7 +132,7 @@ function MerchantPortal() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Checkout Donation Configurations
+            {pageTitle}
           </Typography>
         </Toolbar>
       </AppBar>
