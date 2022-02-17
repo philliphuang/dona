@@ -24,6 +24,7 @@ function InputComponent(props) {
       inputOption = { 
         ...option,
         donation_cents: inputAmount * 100,
+        transaction_cents: option.purchase_cents + inputAmount * 100,
       };
     }
     setSelectedOption(checked ? inputOption : null);

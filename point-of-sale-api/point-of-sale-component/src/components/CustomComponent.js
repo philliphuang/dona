@@ -85,6 +85,7 @@ function CustomComponent(props) {
           inputOption = { 
             ...selectedOption,
             donation_cents: inputAmount * 100,
+            transaction_cents: selectedOption.purchase_cents + inputAmount * 100,
           };
         }
         setSelectedOption(inputOption);
