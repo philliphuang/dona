@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 
 const dummyDonationConfigs = {
   "Round up to the nearest dollar": {
@@ -159,16 +160,44 @@ const dummyDonationConfigs = {
     ],
   },
   "Custom": {
+    id: 5,
     type: "custom",
     options: [
       {
+        type: "fixed",
+        donation_cents: 100,
+        purchase_cents: 286,
+        transaction_cents: 386,
+        recipient: {
+          id: 0,
+          name: "UNICEF",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
+      },
+      {
+        type: "input",
+        donation_cents: 500,
+        purchase_cents: 286,
+        transaction_cents: 786,
+        recipient: {
+          id: 1,
+          name: "American Red Cross",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
+      },
+      {
         type: "roundup",
-      },
-      {
-        type: "fixed",
-      },
-      {
-        type: "fixed",
+        donation_cents: 14,
+        purchase_cents: 286,
+        transaction_cents: 300,
+        recipient: {
+          id: 2,
+          name: "Charity: Water",
+          wallet: "loremipsumdolorsitamet",
+          description: 'lorem ipsum dolor sit amet',
+        }
       },
     ],
   },
@@ -184,16 +213,16 @@ function DemoComponent(props) {
   }
 
   return ( 
-    <div>
+    <Stack spacing={1}>
       <Typography variant="h6">{label}</Typography>
-      <Box sx={{bgcolor:"#f7f7f7", p:4, borderRadius: 2}}>
+      <Box sx={{bgcolor:"#e7ebf0", p:4, borderRadius: 2}}>
         <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
       </Box>
       {
         selectedOption &&
-        <Typography>Selected donation option: ${donationDollars} to {recipientName}</Typography>
+        <Alert severity="info">Selected donation option: ${donationDollars} to {recipientName}</Alert>
       }
-    </div>
+    </Stack>
   );
 }
 

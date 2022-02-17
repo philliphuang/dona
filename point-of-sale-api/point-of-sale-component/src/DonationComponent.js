@@ -8,6 +8,7 @@ import FixedComponent from './components/FixedComponent';
 import InputComponent from './components/InputComponent';
 import MultiTypeComponent from './components/MultiTypeComponent';
 import MultiRecipientComponent from './components/MultiRecipientComponent';
+import CustomComponent from './components/CustomComponent';
 
 function DonationComponent(props) {
   const { config, setSelectedOption } = props;
@@ -37,7 +38,7 @@ function DonationComponent(props) {
       component = <MultiRecipientComponent config={config} setSelectedOption={setSelectedOption} />;
       break;
     case "custom":
-      component = <p>custom</p>;
+      component = <CustomComponent config={config} setSelectedOption={setSelectedOption} />;
       break;
     default:
       component = <p>Invalid donation config type.</p>;
