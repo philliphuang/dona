@@ -215,7 +215,7 @@ function DemoComponent(props) {
   return ( 
     <Stack spacing={1}>
       <Typography variant="h6">{label}</Typography>
-      <Box sx={{bgcolor:"#e7ebf0", p:4, borderRadius: 2}}>
+      <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, borderRadius: 2}}>
         <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
       </Box>
       {
