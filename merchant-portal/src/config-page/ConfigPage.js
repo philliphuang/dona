@@ -17,9 +17,52 @@ function ConfigCard(props) {
   const [editing, setEditing] = React.useState(false);
   const [selectedOption, setSelectedOption] = React.useState();
 
+  React.useEffect(() => {
+    setConfig(initialConfig);
+  }, [initialConfig]);
+
   const handleEditClick = () => {
+    if (editing) {
+      // save
+    }
     setEditing(!editing);
   };
+
+  const handleActiveToggleClick = () => {
+    // TODO: modal to confirm this
+    if (isActive) {
+      setMerchantConfigs(
+        (prevMerchantConfigs) => {
+          return {
+            "inactive_configs": [config, ...prevMerchantConfigs.inactive_configs],
+          };
+        }
+      );
+    } else {
+      setMerchantConfigs(
+        (prevMerchantConfigs) => {
+          if (prevMerchantConfigs.active_config) {
+            prevMerchantConfigs.inactive_configs.splice(index, 1);
+            return {
+              "active_config": config,
+              "inactive_configs": [prevMerchantConfigs.active_config, ...prevMerchantConfigs.inactive_configs],
+            };
+          } else {
+            prevMerchantConfigs.inactive_configs.splice(index, 1);
+            return {
+              "active_config": config,
+              "inactive_configs": prevMerchantConfigs.inactive_configs,
+            };
+          }
+         
+        }
+      )
+    }
+  }
+
+  const handleDeleteClick = () => {
+    // show modal, confirm delete
+  }
 
   return (
     <div>
@@ -31,10 +74,26 @@ function ConfigCard(props) {
           </Box>
         </CardContent>
         <CardActions>
-          <Button onClick={handleEditClick} color={editing ? "success" : "primary"}>{editing ? "Save" : "Edit"}</Button>
-          <Button>{isActive ? "Set as inactive" : "Set as active"}</Button>
+          <Button 
+            onClick={handleEditClick} 
+            color={editing ? "success" : "primary"}
+          >
+            {editing ? "Save" : "Edit"}
+          </Button>
+          <Button 
+            disabled={editing} 
+            onClick={handleActiveToggleClick}
+          >
+            {isActive ? "Set as inactive" : "Set as active"}
+          </Button>
           <Box sx={{display: 'flex', flexGrow: 1, justifyContent:"flex-end", flexDirection: "row"}}>
-            <Button color="error">Delete</Button>
+            <Button 
+              disabled={editing} 
+              color="error" 
+              onClick={handleDeleteClick}
+            >
+              Delete
+            </Button>
           </Box>
         </CardActions>
         <Collapse in={editing} timeout="auto" unmountOnExit>
