@@ -10,239 +10,75 @@ import DonationComponent from '@demo-organization/demo-scope.ui.donation-compone
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 
-export const dummyDonationConfigs = [
-  {
-    id: 0,
-    name: "Round up to the nearest dollar",
-    type: "single",
-    options: [
-      {
-        type: "roundup",
-        donation_cents: 14,
-        purchase_cents: 286,
-        transaction_cents: 300,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-    ],
-  },
-  {
-    id: 1,
-    name: "Donate a fixed amount",
-    type: "single",
-    options: [
-      {
-        type: "fixed",
-        donation_cents: 100,
-        purchase_cents: 286,
-        transaction_cents: 386,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "Customer enters donation amount",
-    type: "single",
-    options: [
-      {
-        type: "input",
-        donation_cents: 100,
-        purchase_cents: 286,
-        transaction_cents: 386,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Multiple donation types",
-    type: "multi_type",
-    options: [
-      {
-        type: "fixed",
-        donation_cents: 100,
-        purchase_cents: 286,
-        transaction_cents: 386,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-      {
-        type: "fixed",
-        donation_cents: 300,
-        purchase_cents: 286,
-        transaction_cents: 586,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-      {
-        type: "fixed",
-        donation_cents: 500,
-        purchase_cents: 286,
-        transaction_cents: 786,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-      {
-        type: "input",
-        donation_cents: 100,
-        purchase_cents: 286,
-        transaction_cents: 386,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: "Multiple donation recipients",
-    type: "multi_recipient",
-    options: [
-      {
-        type: "roundup",
-        donation_cents: 14,
-        purchase_cents: 286,
-        transaction_cents: 300,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-      {
-        type: "roundup",
-        donation_cents: 14,
-        purchase_cents: 286,
-        transaction_cents: 300,
-        recipient: {
-          id: 1,
-          name: "American Red Cross",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-      {
-        type: "roundup",
-        donation_cents: 14,
-        purchase_cents: 286,
-        transaction_cents: 300,
-        recipient: {
-          id: 2,
-          name: "Charity: Water",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-    ],
-  },
-  {
-    id: 5,
-    name: "Complex custom configurations",
-    type: "custom",
-    options: [
-      {
-        type: "fixed",
-        donation_cents: 100,
-        purchase_cents: 286,
-        transaction_cents: 386,
-        recipient: {
-          id: 0,
-          name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-      {
-        type: "input",
-        donation_cents: 500,
-        purchase_cents: 286,
-        transaction_cents: 786,
-        recipient: {
-          id: 1,
-          name: "American Red Cross",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-      {
-        type: "roundup",
-        donation_cents: 14,
-        purchase_cents: 286,
-        transaction_cents: 300,
-        recipient: {
-          id: 2,
-          name: "Charity: Water",
-          wallet: "loremipsumdolorsitamet",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-    ],
-  },
-];
-
-function ConfigPage() {
+function ConfigCard(props) {
+  const { isActive, config } = props;
   const [selectedOption, setSelectedOption] = React.useState();
-  // TODO: load real data
-
   const [expanded, setExpanded] = React.useState(false);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  return (
+    <Card variant="outlined">
+      <CardContent>
+        <Typography variant="h6">{config.name}</Typography>
+        <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2,  borderRadius: 2}}>
+          <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+        </Box>
+      </CardContent>
+      <CardActions>
+        <Button onClick={handleExpandClick}>Edit</Button>
+        <Button>Delete</Button>
+        <Button>Set as active</Button>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography>Editing options</Typography>
+        </CardContent>
+      </Collapse>
+    </Card>
+  );
+}
+
+function ConfigPage() {
+  const [merchantConfigs, setMerchantConfigs] = React.useState();
+
+  React.useEffect(() => {
+    fetch(`http://127.0.0.1:5000/api/merchants/test-id/donation-configs`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: "include",
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw res.status;
+      }
+    })
+    .then(
+      (result) => {
+        console.log(result);
+        setMerchantConfigs(result);
+      },
+      (error) => {
+        switch(error) {
+          default:
+        }
+    });
+  }, []);
 
   return (
     <Container maxWidth="sm">
       <Stack spacing={2} sx={{mt:2, mb:2}}>
-        {dummyDonationConfigs.map((config, index) => (
-          <Card key={index} variant="outlined">
-            <CardContent>
-              <Typography variant="h6">{config.name}</Typography>
-              <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2,  borderRadius: 2}}>
-                <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
-              </Box>
-            </CardContent>
-            <CardActions>
-              <Button onClick={handleExpandClick}>Edit</Button>
-              <Button>Delete</Button>
-              <Button>Set as active</Button>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <CardContent>
-                <Typography>Editing options</Typography>
-              </CardContent>
-            </Collapse>
-          </Card>
+        {
+          merchantConfigs &&
+            <ConfigCard config={merchantConfigs.active_config} isActive={true}/>
+        }
+        {merchantConfigs && merchantConfigs.inactive_configs.map((config, index) => (
+          <ConfigCard key={index} config={config} isActive={false}/>
         ))}
       </Stack>
     </Container>
