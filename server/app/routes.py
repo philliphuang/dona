@@ -19,7 +19,6 @@ def user_info(merchant_id):
 		if merchant is not None:
 			return merchant.donation_configs, 200
 
-
 	elif request.method == "PUT":
 		if merchant_id is None:
 			return {"message": "No merchant_id provided"}, 400
@@ -29,7 +28,7 @@ def user_info(merchant_id):
 		if merchant is None:
 			return {"message": "Merchant does not exist for provided merchant_id"}, 404
 		if merchant is not None:
-			if request.json['donation_configs'] is not None:
+			if request.json.get('donation_configs') is not None:
 				merchant.donation_configs = request.json['donation_configs']
 				db.session.commit()
 				return {}, 200
