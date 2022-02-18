@@ -19,6 +19,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 import BuildIcon from '@mui/icons-material/Build';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 import ConfigPage from './config-page/ConfigPage';
 
@@ -163,6 +164,16 @@ function MerchantPortal() {
               <PointOfSaleIcon/>
             </ListItemIcon>
             <ListItemText primary="Transactions" />
+          </ListItem>
+          <ListItem 
+            button 
+            onClick={() => setPage("transactions")}
+            selected={page === "transactions"}
+          >
+            <ListItemIcon>
+              <AssessmentIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Analytics" />
           </ListItem>
         </List>
       </Drawer>

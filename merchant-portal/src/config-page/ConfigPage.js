@@ -6,6 +6,8 @@ import ConfigCard from './ConfigCard';
 function ConfigPage() {
   const [merchantConfigs, setMerchantConfigs] = React.useState();
 
+  // TODO: save when merchantConfigs change
+
   React.useEffect(() => {
     fetch(`http://127.0.0.1:5000/api/merchants/test-id/donation-configs`, {
       method: 'GET',

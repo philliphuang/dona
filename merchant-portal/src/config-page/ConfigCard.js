@@ -59,7 +59,26 @@ function ConfigCard(props) {
   }
 
   const handleDeleteClick = () => {
-    // show modal, confirm delete
+    // TODO: show modal
+    if (isActive) {
+      setMerchantConfigs(
+        (prevMerchantConfigs) => {
+          return {
+            "inactive_configs": prevMerchantConfigs.inactive_configs,
+          };
+        }
+      );
+    } else {
+      setMerchantConfigs(
+        (prevMerchantConfigs) => {
+          prevMerchantConfigs.inactive_configs.splice(index, 1);
+          return {
+            ...prevMerchantConfigs,
+            "inactive_configs": prevMerchantConfigs.inactive_configs,
+          };        
+        }
+      )
+    }
   }
 
   return (
