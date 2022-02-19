@@ -12,9 +12,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Stack from '@mui/material/Stack';
 
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
+import TitleEditor from './editors/TitleEditor';
 import RoundUpEditor from './editors/RoundUpEditor';
 import FixedEditor from './editors/FixedEditor';
 import InputEditor from './editors/InputEditor';
@@ -235,7 +237,10 @@ function ConfigCard(props) {
         </CardActions>
         <Collapse in={editing} timeout="auto" unmountOnExit>
           <CardContent>
-            {editorComponent}
+            <Stack spacing={2}>
+              <TitleEditor config={config} setConfig={setConfig}/>
+              {editorComponent}
+            </Stack>
           </CardContent>
         </Collapse>
       </Card>
