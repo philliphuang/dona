@@ -36,7 +36,7 @@ const dummyRecipients = [
   },
 ]
 
-function RoundUpEditing(props) {
+function RecipientSelector(props) {
   const { config, setConfig } = props;
   const [value, setValue] = React.useState(config.options[0].recipient);
 
@@ -71,4 +71,4 @@ function RoundUpEditing(props) {
   );
 }
 
-export default RoundUpEditing;
+export default RecipientSelector;

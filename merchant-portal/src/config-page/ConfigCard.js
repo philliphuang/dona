@@ -15,7 +15,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
-import RoundUpEditing from './RoundUpEditing';
+import RoundUpEditor from './editors/RoundUpEditor';
+import FixedEditor from './editors/FixedEditor';
 
 function ConfigCard(props) {
   const { index, isActive, initialConfig, setMerchantConfigs } = props;
@@ -52,35 +53,35 @@ function ConfigCard(props) {
     }
     setEditing(!editing);
   };
-  let editingComponent;
+  let editorComponent;
   switch(config.type) {
     case "single":
       const option = config.options[0];
       switch(option.type) {
         case "roundup":
-          editingComponent = <RoundUpEditing config={config} setConfig={setConfig}/>;
+          editorComponent = <RoundUpEditor config={config} setConfig={setConfig}/>;
           break;
         case "fixed": 
-          editingComponent = <p>Fixed</p>;
+          editorComponent = <FixedEditor config={config} setConfig={setConfig}/>;
           break;
         case "input":
-          editingComponent = <p>Input</p>;
+          editorComponent = <p>Input</p>;
           break;
         default: 
-          editingComponent = <p>Invalid donation type.</p>;
+          editorComponent = <p>Invalid donation type.</p>;
       }
       break;
     case "multi_type":
-      editingComponent = <p>Multi Type</p>;
+      editorComponent = <p>Multi Type</p>;
       break;
     case "multi_recipient":
-      editingComponent = <p>Multi Recipient</p>;
+      editorComponent = <p>Multi Recipient</p>;
       break;
     case "custom":
-      editingComponent = <p>Custom</p>;
+      editorComponent = <p>Custom</p>;
       break;
     default:
-      editingComponent = <p>Invalid donation config type.</p>;
+      editorComponent = <p>Invalid donation config type.</p>;
   }
 
   const [activeToggleDialogOpen, setActiveToggleDialogOpen] = React.useState(false);
@@ -233,7 +234,7 @@ function ConfigCard(props) {
         </CardActions>
         <Collapse in={editing} timeout="auto" unmountOnExit>
           <CardContent>
-            {editingComponent}
+            {editorComponent}
           </CardContent>
         </Collapse>
       </Card>
