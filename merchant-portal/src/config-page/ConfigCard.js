@@ -15,6 +15,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
+import RoundUpEditing from './RoundUpEditing';
+
 function ConfigCard(props) {
   const { index, isActive, initialConfig, setMerchantConfigs } = props;
   const [config, setConfig] = React.useState(initialConfig);
@@ -27,10 +29,59 @@ function ConfigCard(props) {
 
   const handleEditClick = () => {
     if (editing) {
-      // save
+      if (isActive) {
+        setMerchantConfigs(
+          (prevMerchantConfigs) => {
+            return {
+              ...prevMerchantConfigs,
+              "active_config": config,
+            };
+          }
+        );
+      } else {
+        setMerchantConfigs(
+          (prevMerchantConfigs) => {
+            prevMerchantConfigs.inactive_configs[index] = config;
+            return {
+              ...prevMerchantConfigs,
+              "inactive_configs": prevMerchantConfigs.inactive_configs,
+            };        
+          }
+        )
+      }
     }
     setEditing(!editing);
   };
+  let editingComponent;
+  switch(config.type) {
+    case "single":
+      const option = config.options[0];
+      switch(option.type) {
+        case "roundup":
+          editingComponent = <RoundUpEditing config={config} setConfig={setConfig}/>;
+          break;
+        case "fixed": 
+          editingComponent = <p>Fixed</p>;
+          break;
+        case "input":
+          editingComponent = <p>Input</p>;
+          break;
+        default: 
+          editingComponent = <p>Invalid donation type.</p>;
+      }
+      break;
+    case "multi_type":
+      editingComponent = <p>Multi Type</p>;
+      break;
+    case "multi_recipient":
+      editingComponent = <p>Multi Recipient</p>;
+      break;
+    case "custom":
+      editingComponent = <p>Custom</p>;
+      break;
+    default:
+      editingComponent = <p>Invalid donation config type.</p>;
+  }
 
   const [activeToggleDialogOpen, setActiveToggleDialogOpen] = React.useState(false);
   const handleActiveToggleDialogClickOpen = () => {
@@ -64,7 +115,6 @@ function ConfigCard(props) {
               "inactive_configs": prevMerchantConfigs.inactive_configs,
             };
           }
-         
         }
       )
     }
@@ -100,10 +150,6 @@ function ConfigCard(props) {
     }
     handleDeleteDialogClose();
   }
-
-  
-
-
 
   return (
     <div>
@@ -187,7 +233,7 @@ function ConfigCard(props) {
         </CardActions>
         <Collapse in={editing} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography>Editing options</Typography>
+            {editingComponent}
           </CardContent>
         </Collapse>
       </Card>
