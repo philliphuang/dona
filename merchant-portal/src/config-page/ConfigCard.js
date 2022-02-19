@@ -17,6 +17,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 import RoundUpEditor from './editors/RoundUpEditor';
 import FixedEditor from './editors/FixedEditor';
+import InputEditor from './editors/InputEditor';
 
 function ConfigCard(props) {
   const { index, isActive, initialConfig, setMerchantConfigs } = props;
@@ -65,7 +66,7 @@ function ConfigCard(props) {
           editorComponent = <FixedEditor config={config} setConfig={setConfig}/>;
           break;
         case "input":
-          editorComponent = <p>Input</p>;
+          editorComponent = <InputEditor config={config} setConfig={setConfig}/>;
           break;
         default: 
           editorComponent = <p>Invalid donation type.</p>;

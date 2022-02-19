@@ -18,6 +18,8 @@ function InputComponent(props) {
   const [checked, setChecked] = React.useState(false);
   const [inputAmount, setInputAmount] = React.useState(donationDollars);
 
+  // TODO: update inputAmount if initial amount changes
+
   React.useEffect(() => {
     let inputOption;
     if (inputAmount > 0) {
