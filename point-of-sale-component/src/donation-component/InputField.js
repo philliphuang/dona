@@ -6,6 +6,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
+// TODO: make all values cents and display as dollars
+
 function InputField(props) {
   const { inputAmount, setInputAmount } = props;
 

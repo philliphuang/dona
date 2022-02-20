@@ -8,8 +8,6 @@ function ConfigPage() {
 
   // TODO: save when merchantConfigs change
 
-  console.log("merchantConfigs " + JSON.stringify(merchantConfigs));
-
   React.useEffect(() => {
     fetch(`http://127.0.0.1:5000/api/merchants/test-id/donation-configs`, {
       method: 'GET',
