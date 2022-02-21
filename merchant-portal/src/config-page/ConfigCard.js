@@ -22,6 +22,7 @@ import FixedEditor from './editors/FixedEditor';
 import InputEditor from './editors/InputEditor';
 import MultiTypeEditor from './editors/MultiTypeEditor';
 import MultiRecipientEditor from './editors/MultiRecipientEditor';
+import CustomEditor from './editors/CustomEditor';
 
 function ConfigCard(props) {
   const { index, isActive, initialConfig, setMerchantConfigs } = props;
@@ -83,7 +84,7 @@ function ConfigCard(props) {
       editorComponent = <MultiRecipientEditor config={config} setConfig={setConfig}/>;
       break;
     case "custom":
-      editorComponent = <p>Custom</p>;
+      editorComponent = <CustomEditor config={config} setConfig={setConfig}/>;
       break;
     default:
       editorComponent = <p>Invalid donation config type.</p>;
