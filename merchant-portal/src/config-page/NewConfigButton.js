@@ -53,10 +53,17 @@ function NewConfigButton(props) {
   const addNewConfig = (config) => {
     setMerchantConfigs(
       (prevMerchantConfigs) => {
-        return {
-          ...prevMerchantConfigs,
-          "inactive_configs": [...prevMerchantConfigs.inactive_configs, config],
-        };        
+        if (prevMerchantConfigs.inactive_configs) {
+          return {
+            ...prevMerchantConfigs,
+            "inactive_configs": [...prevMerchantConfigs.inactive_configs, config],
+          };  
+        } else {
+          return {
+            ...prevMerchantConfigs,
+            "inactive_configs": [config],
+          };
+        }   
       }
     )
     handleClose();

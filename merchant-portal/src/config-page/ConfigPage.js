@@ -6,10 +6,23 @@ import NewConfigButton from './NewConfigButton';
 
 function ConfigPage() {
   const [merchantConfigs, setMerchantConfigs] = React.useState();
+  const [configsLoaded, setConfigsLoaded] = React.useState(false);
 
-  // TODO: save when merchantConfigs change
-
-  console.log("merchantConfigs " + JSON.stringify(merchantConfigs));
+  React.useEffect(() => {
+    if (configsLoaded) {
+      fetch(`http://127.0.0.1:5000/api/merchants/test-id/donation-configs`, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          donation_configs: merchantConfigs,
+        })
+      });
+    }
+  }, [merchantConfigs, configsLoaded]);
 
   React.useEffect(() => {
     fetch(`http://127.0.0.1:5000/api/merchants/test-id/donation-configs`, {
@@ -30,6 +43,7 @@ function ConfigPage() {
     .then(
       (result) => {
         setMerchantConfigs(result);
+        setConfigsLoaded(true);
       },
       (error) => {
         switch(error) {
