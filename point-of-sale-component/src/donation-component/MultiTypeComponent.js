@@ -17,12 +17,9 @@ function MultiTypeOptionComponent(props) {
     setInputAmount,
   } = props;
 
-  const onInputOptionClick = () => {
-    if (inputAmount === undefined) {
-      setInputAmount(utils.centsToDollars(option.donation_cents));
-    }
-    setSelectedOptionIndex(index);
-  }
+  React.useEffect(() => {
+    setInputAmount(utils.centsToDollars(option.donation_cents));
+  }, [option]);
 
   let component;
   switch(option.type) {
@@ -49,7 +46,7 @@ function MultiTypeOptionComponent(props) {
         <Stack spacing={1}>
           <Button 
             variant={selected ? "contained" : "outlined"}
-            onClick={onInputOptionClick}
+            onClick={() => setSelectedOptionIndex(index)}
           >
             Enter amount
           </Button>
