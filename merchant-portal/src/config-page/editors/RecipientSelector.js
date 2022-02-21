@@ -37,28 +37,47 @@ const dummyRecipients = [
 ]
 
 function RecipientSelector(props) {
-  const { config, setConfig } = props;
-  const [value, setValue] = React.useState(config.options[0].recipient);
+  const { config, setConfig, option, index, setOptionByIndex } = props;
+  const [value, setValue] = React.useState(
+    config ? config.options[0].recipient : option.recipient
+  );
+  
+  React.useEffect(() => {
+    if (config) {
+      setValue(config.options[0].recipient);
+    } else if (option) {
+      setValue(option.recipient);
+    }
+  }, [config, option]);
 
   React.useEffect(() => {
-    setConfig(
-      (prevConfig) => {
-        return {
-          ...prevConfig,
-          "options": prevConfig.options.map(
-            (option) => {
-              return (
-                {
-                  ...option,
-                  "recipient": value,
-                }
-              )
-            }
-            
-          )
-        };
-      }
-    );
+    if (setConfig) {
+      setConfig(
+        (prevConfig) => {
+          return {
+            ...prevConfig,
+            "options": prevConfig.options.map(
+              (option) => {
+                return (
+                  {
+                    ...option,
+                    "recipient": value,
+                  }
+                )
+              }
+            )
+          };
+        }
+      );
+    } else if (setOptionByIndex) {
+      setOptionByIndex(
+        index,
+        {
+          ...option,
+          recipient: value,
+        }
+      );
+    }
   }, [value]);
 
   return (

@@ -9,6 +9,7 @@ function FixedEditor(props) {
   const [inputAmount, setInputAmount] = React.useState(config.options[0].donation_cents);
 
   // TODO: unify with InputEditor for cleanliness
+  // TODO: unify with InputDefaultField in MultiType and MultiRecipient editors
 
   React.useEffect(() => {
     setConfig(

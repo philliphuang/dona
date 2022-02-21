@@ -21,6 +21,7 @@ import RoundUpEditor from './editors/RoundUpEditor';
 import FixedEditor from './editors/FixedEditor';
 import InputEditor from './editors/InputEditor';
 import MultiTypeEditor from './editors/MultiTypeEditor';
+import MultiRecipientEditor from './editors/MultiRecipientEditor';
 
 function ConfigCard(props) {
   const { index, isActive, initialConfig, setMerchantConfigs } = props;
@@ -79,7 +80,7 @@ function ConfigCard(props) {
       editorComponent = <MultiTypeEditor config={config} setConfig={setConfig}/>;
       break;
     case "multi_recipient":
-      editorComponent = <p>Multi Recipient</p>;
+      editorComponent = <MultiRecipientEditor config={config} setConfig={setConfig}/>;
       break;
     case "custom":
       editorComponent = <p>Custom</p>;

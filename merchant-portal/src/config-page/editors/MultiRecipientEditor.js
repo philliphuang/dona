@@ -10,6 +10,9 @@ import Paper from '@mui/material/Paper';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Alert from '@mui/material/Alert';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import ClearIcon from '@mui/icons-material/Clear';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -18,20 +21,30 @@ import RecipientSelector from './RecipientSelector';
 import InputField from './InputField';
 
 function FixedOptionEditor(props) {
-  const { option, index, setOptionByIndex } = props;
-  const [inputAmount, setInputAmount] = React.useState(option.donation_cents);
+  const { config, setConfig } = props;
+  const [inputAmount, setInputAmount] = React.useState(config.options[0].donation_cents);
 
   React.useEffect(() => {
-    setInputAmount(option.donation_cents);
-  }, [option]);
+    setInputAmount(config.options[0].donation_cents);
+  }, [config]);
 
   React.useEffect(() => {
-    setOptionByIndex(
-      index,
-      {
-        ...option,
-        donation_cents: inputAmount,
-        transaction_cents: option.purchase_cents + inputAmount,
+    setConfig(
+      (prevConfig) => {
+        return {
+          ...prevConfig,
+          options: prevConfig.options.map(
+            (option) => {
+              return (
+                {
+                  ...option,
+                  donation_cents: inputAmount,
+                  transaction_cents: option.purchase_cents + inputAmount,
+                }
+              )
+            }
+          )
+        };
       }
     );
   }, [inputAmount]);
@@ -42,20 +55,30 @@ function FixedOptionEditor(props) {
 }
 
 function InputDefaultField(props) {
-  const { option, index, setOptionByIndex } = props;
-  const [inputAmount, setInputAmount] = React.useState(option.donation_cents);
+  const { config, setConfig } = props;
+  const [inputAmount, setInputAmount] = React.useState(config.options[0].donation_cents);
 
   React.useEffect(() => {
-    setInputAmount(option.donation_cents);
-  }, [option]);
+    setInputAmount(config.options[0].donation_cents);
+  }, [config]);
 
   React.useEffect(() => {
-    setOptionByIndex(
-      index,
-      {
-        ...option,
-        donation_cents: inputAmount,
-        transaction_cents: option.purchase_cents + inputAmount,
+    setConfig(
+      (prevConfig) => {
+        return {
+          ...prevConfig,
+          options: prevConfig.options.map(
+            (option) => {
+              return (
+                {
+                  ...option,
+                  donation_cents: inputAmount,
+                  transaction_cents: option.purchase_cents + inputAmount,
+                }
+              )
+            }
+          )
+        };
       }
     );
   }, [inputAmount]);
@@ -65,42 +88,13 @@ function InputDefaultField(props) {
   )
 }
 
-function MultiTypeOptionEditor(props) {
+function MultiRecipientOptionEditor(props) {
   const { option, index, setOptionByIndex, deleteOption } = props;
-
-  let typeString;
-  let editingComponent;
-  switch(option.type) {
-    case "roundup":
-      typeString = "Round up to nearest dollar";
-      break;
-    case "fixed": 
-      typeString = "Fixed donation amount";
-      editingComponent = 
-        <FixedOptionEditor 
-          option={option} 
-          index={index} 
-          setOptionByIndex={setOptionByIndex}
-        />;
-      break;
-    case "input":
-      typeString = "Customer enters amount";
-      editingComponent = 
-        <InputDefaultField 
-          option={option} 
-          index={index} 
-          setOptionByIndex={setOptionByIndex}
-        />;
-      break;
-    default: 
-      typeString = "Invalid donation type.";
-  }
 
   return (
     <Paper sx={{p:1, display:"flex", flexDirection:"row", gap:2}} variant="outlined">
-      <Stack spacing={2} sx={{p: 1, flexGrow: 1, justifyContent: "center"}}>
-        <Typography>{typeString}</Typography>
-        {editingComponent}
+      <Stack spacing={2} sx={{p:1, flexGrow: 1, justifyContent: "center"}}>   
+        <RecipientSelector option={option} index={index} setOptionByIndex={setOptionByIndex} />
       </Stack>
       <Box sx={{display:"flex", flexDirection:"column", justifyContent:"center"}}>
           <IconButton 
@@ -113,9 +107,54 @@ function MultiTypeOptionEditor(props) {
   )
 }
 
-function MultiTypeEditor(props) {
+function MultiRecipientEditor(props) {
   const theme = useTheme();
   const { config, setConfig } = props;
+
+  const [donationType, setDonationType] = React.useState(config.options[0].type);
+  const handleDonationTypeChange = (event) => {
+    setDonationType(event.target.value);
+    setConfig(
+      (prevConfig) => {
+        return {
+          ...prevConfig,
+          options: prevConfig.options.map(
+            (option) => {
+              return (
+                {
+                  ...option,
+                  type: event.target.value,
+                  donation_cents: event.target.value === "roundup" ? 14 : 100,
+                  purchase_cents: 0,
+                  transaction_cents: event.target.value === "roundup" ? 14 : 100,
+                }
+              )
+            }
+          )
+        };
+      }
+    ); 
+  };
+  let typeEditorComponent;
+  switch(donationType) {
+    case "roundup":
+      break;
+    case "fixed": 
+      typeEditorComponent = 
+        <FixedOptionEditor 
+          config={config}
+          setConfig={setConfig}
+        />;
+      break;
+    case "input":
+      typeEditorComponent = 
+        <InputDefaultField 
+          config={config}
+          setConfig={setConfig}
+        />;
+      break;
+    default: 
+  }
 
   const deleteOption = (index) => {
     setConfig(
@@ -146,16 +185,7 @@ function MultiTypeEditor(props) {
     )
   }
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleAddOptionClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleAddOptionClose = () => {
-    setAnchorEl(null);
-  };
-  const handleAddOptionConfirm = (type) => {
-    handleAddOptionClose();
+  const addOption = () => {
     setConfig(
       (prevConfig) => {
         return {
@@ -163,25 +193,33 @@ function MultiTypeEditor(props) {
           "options": [
             ...prevConfig.options, 
             {
-              type: type,
-              donation_cents: type === "roundup" ? 14 : 100,
-              purchase_cents: 0,
-              transaction_cents: type === "roundup" ? 14 : 100,
-              recipient: prevConfig.options[0].recipient,
+              ...prevConfig.options[0]
             },
           ],
         };        
       }
     )
-  };
+  }
 
   return (
     <Stack spacing={2}>
-      <RecipientSelector config={config} setConfig={setConfig}/>
+      <FormControl fullWidth>
+        <InputLabel>Donation Type</InputLabel>
+        <Select
+          value={donationType}
+          label="Donation Type"
+          onChange={handleDonationTypeChange}
+        >
+          <MenuItem value={"roundup"}>Round up to nearest dollar</MenuItem>
+          <MenuItem value={"fixed"}>Fixed donation amount</MenuItem>
+          <MenuItem value={"input"}>Customer enters amount</MenuItem>
+        </Select>
+      </FormControl>
+      {typeEditorComponent}
       <Paper sx={{p:2, bgcolor:theme.palette.grey[100]}} variant="outlined">
         <Stack spacing={2}>
           {config.options.map((option, index) => (
-            <MultiTypeOptionEditor 
+            <MultiRecipientOptionEditor 
               option={option} 
               index={index} 
               key={index} 
@@ -197,7 +235,7 @@ function MultiTypeEditor(props) {
           }
         </Stack>
         <Button 
-          onClick={handleAddOptionClick}
+          onClick={addOption}
           startIcon={<AddCircleOutlineIcon />} 
           fullWidth 
           sx={{mt:2}} 
@@ -205,19 +243,10 @@ function MultiTypeEditor(props) {
         >
           Add new option
         </Button>
-        <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleAddOptionClose}
-        >
-          <MenuItem onClick={() => handleAddOptionConfirm("roundup")}>Round up to nearest dollar</MenuItem>
-          <MenuItem onClick={() => handleAddOptionConfirm("fixed")}>Fixed donation amount</MenuItem>
-          <MenuItem onClick={() => handleAddOptionConfirm("input")}>Customer enters amount</MenuItem>
-        </Menu>
       </Paper>
       
     </Stack>
   );
 }
 
-export default MultiTypeEditor;
+export default MultiRecipientEditor;
