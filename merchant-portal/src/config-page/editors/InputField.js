@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
 
 export function centsToDollars(cents) {
   return (cents / 100).toLocaleString(
@@ -33,13 +34,15 @@ function InputField(props) {
   };
 
   return (
-    <FormControl variant="filled">
-      <InputLabel htmlFor="filled-adornment-amount">{label}</InputLabel>
-      <FilledInput
+    <FormControl>
+      <InputLabel htmlFor="outlined-adornment-amount">{label}</InputLabel>
+      <OutlinedInput
+        id="outlined-adornment-amount"
+        value={inputAmount / 100}
         type="number"
         onChange={handleChange}
-        value={inputAmount / 100}
         startAdornment={<InputAdornment position="start">$</InputAdornment>}
+        label={label}
       />
     </FormControl>
   );
