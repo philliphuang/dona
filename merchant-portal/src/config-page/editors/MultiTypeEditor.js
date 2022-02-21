@@ -97,8 +97,8 @@ function MultiTypeOptionEditor(props) {
   }
 
   return (
-    <Paper sx={{p:2, display:"flex", flexDirection:"row", gap:2}} variant="outlined">
-      <Stack spacing={2} sx={{flexGrow: 1, justifyContent: "center"}}>
+    <Paper sx={{p:1, display:"flex", flexDirection:"row", gap:2}} variant="outlined">
+      <Stack spacing={2} sx={{p: 1, flexGrow: 1, justifyContent: "center"}}>
         <Typography>{typeString}</Typography>
         {editingComponent}
       </Stack>
