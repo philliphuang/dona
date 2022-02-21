@@ -20,6 +20,7 @@ import TitleEditor from './editors/TitleEditor';
 import RoundUpEditor from './editors/RoundUpEditor';
 import FixedEditor from './editors/FixedEditor';
 import InputEditor from './editors/InputEditor';
+import MultiTypeEditor from './editors/MultiTypeEditor';
 
 function ConfigCard(props) {
   const { index, isActive, initialConfig, setMerchantConfigs } = props;
@@ -75,7 +76,7 @@ function ConfigCard(props) {
       }
       break;
     case "multi_type":
-      editorComponent = <p>Multi Type</p>;
+      editorComponent = <MultiTypeEditor config={config} setConfig={setConfig}/>;
       break;
     case "multi_recipient":
       editorComponent = <p>Multi Recipient</p>;
@@ -229,7 +230,7 @@ function ConfigCard(props) {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleDeleteDialogClose}>Cancel</Button>
-              <Button onClick={handleDeleteConfirm} autoFocus>
+              <Button color="error" onClick={handleDeleteConfirm} autoFocus>
                 Delete
               </Button>
             </DialogActions>

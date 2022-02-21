@@ -8,6 +8,8 @@ function FixedEditor(props) {
   const { config, setConfig } = props;
   const [inputAmount, setInputAmount] = React.useState(config.options[0].donation_cents);
 
+  // TODO: unify with InputEditor for cleanliness
+
   React.useEffect(() => {
     setConfig(
       (prevConfig) => {

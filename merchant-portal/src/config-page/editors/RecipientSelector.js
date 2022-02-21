@@ -45,12 +45,17 @@ function RecipientSelector(props) {
       (prevConfig) => {
         return {
           ...prevConfig,
-          "options": [
-            {
-              ...prevConfig.options[0],
-              "recipient": value,
+          "options": prevConfig.options.map(
+            (option) => {
+              return (
+                {
+                  ...option,
+                  "recipient": value,
+                }
+              )
             }
-          ]
+            
+          )
         };
       }
     );
