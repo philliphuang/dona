@@ -2,6 +2,7 @@ import * as React from 'react';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import ConfigCard from './ConfigCard';
+import NewConfigButton from './NewConfigButton';
 
 function ConfigPage() {
   const [merchantConfigs, setMerchantConfigs] = React.useState();
@@ -62,6 +63,7 @@ function ConfigPage() {
             />
           ))
         }
+        <NewConfigButton setMerchantConfigs={setMerchantConfigs}/>
       </Stack>
     </Container>
   );
