@@ -69,10 +69,11 @@ const Content: FC = () => {
     <div>
       {
         publicKey ? 
-        <MerchantPortal/> :         
+        <MerchantPortal publicKey={publicKey} /> :
         <Container maxWidth="xs">
           <Stack spacing={2} sx={{mt:4, mb:4}}>
-            <Typography align="center" variant="h5">Sign in with your Solana Wallet</Typography>
+            <Typography align="center" variant="h3">Merchant Portal</Typography>
+            <Typography align="center" variant="h6">Sign in with your Solana Wallet</Typography>
             <WalletMultiButton/>
           </Stack>
         </Container>

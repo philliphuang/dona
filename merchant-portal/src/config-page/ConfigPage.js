@@ -4,53 +4,23 @@ import Stack from '@mui/material/Stack';
 import ConfigCard from './ConfigCard';
 import NewConfigButton from './NewConfigButton';
 
-function ConfigPage() {
-  const [merchantConfigs, setMerchantConfigs] = React.useState();
-  const [configsLoaded, setConfigsLoaded] = React.useState(false);
+function ConfigPage(props) {
+  const { configs, publicKey } = props;
+  const [merchantConfigs, setMerchantConfigs] = React.useState(configs);
 
   React.useEffect(() => {
-    if (configsLoaded) {
-      fetch(`http://127.0.0.1:5000/api/merchants/test-id/donation-configs`, {
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          donation_configs: merchantConfigs,
-        })
-      });
-    }
-  }, [merchantConfigs, configsLoaded]);
-
-  React.useEffect(() => {
-    fetch(`http://127.0.0.1:5000/api/merchants/test-id/donation-configs`, {
-      method: 'GET',
+    fetch(`http://127.0.0.1:5000/api/merchants/${publicKey}/donation-configs`, {
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       credentials: "include",
-    })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw res.status;
-      }
-    })
-    .then(
-      (result) => {
-        setMerchantConfigs(result);
-        setConfigsLoaded(true);
-      },
-      (error) => {
-        switch(error) {
-          default:
-        }
+      body: JSON.stringify({
+        donation_configs: merchantConfigs,
+      })
     });
-  }, []);
+  }, [merchantConfigs]);
 
   return (
     <Container maxWidth="sm">
