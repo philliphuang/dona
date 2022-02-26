@@ -23,6 +23,8 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 
 import ConfigPage from './config-page/ConfigPage';
 
+import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -132,9 +134,10 @@ function MerchantPortal() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
             {pageTitle}
           </Typography>
+          <WalletDisconnectButton/>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
