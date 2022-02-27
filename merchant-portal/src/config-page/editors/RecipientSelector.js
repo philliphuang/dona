@@ -6,32 +6,20 @@ import Autocomplete from '@mui/material/Autocomplete';
 const dummyRecipients = [
   {
     id: 0,
+    publicKey: "0",
     name: "UNICEF",
-    wallet: "loremipsumdolorsitamet",
     description: 'lorem ipsum dolor sit amet',
   },
   {
     id: 1,
+    publicKey: "1",
     name: "American Red Cross",
-    wallet: "loremipsumdolorsitamet",
     description: 'lorem ipsum dolor sit amet',
   },
   {
     id: 2,
-    name: "Charity: Water",
-    wallet: "loremipsumdolorsitamet",
-    description: 'lorem ipsum dolor sit amet',
-  },
-  {
-    id: 3,
-    name: "Salvation Army",
-    wallet: "loremipsumdolorsitamet",
-    description: 'lorem ipsum dolor sit amet',
-  },
-  {
-    id: 4,
+    publicKey: "2",
     name: "Malaria Consortium",
-    wallet: "loremipsumdolorsitamet",
     description: 'lorem ipsum dolor sit amet',
   },
 ]

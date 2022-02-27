@@ -11,8 +11,8 @@ export const defaultConfigs = [
         transaction_cents: 300,
         recipient: {
           id: 0,
+          publicKey: "0",
           name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -30,8 +30,8 @@ export const defaultConfigs = [
         transaction_cents: 386,
         recipient: {
           id: 0,
+          publicKey: "0",
           name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -49,8 +49,8 @@ export const defaultConfigs = [
         transaction_cents: 386,
         recipient: {
           id: 0,
+          publicKey: "0",
           name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -68,8 +68,8 @@ export const defaultConfigs = [
         transaction_cents: 386,
         recipient: {
           id: 0,
+          publicKey: "0",
           name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -80,8 +80,8 @@ export const defaultConfigs = [
         transaction_cents: 586,
         recipient: {
           id: 0,
+          publicKey: "0",
           name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -92,8 +92,8 @@ export const defaultConfigs = [
         transaction_cents: 786,
         recipient: {
           id: 0,
+          publicKey: "0",
           name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -104,8 +104,8 @@ export const defaultConfigs = [
         transaction_cents: 386,
         recipient: {
           id: 0,
+          publicKey: "0",
           name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -123,8 +123,8 @@ export const defaultConfigs = [
         transaction_cents: 300,
         recipient: {
           id: 0,
+          publicKey: "0",
           name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -135,8 +135,8 @@ export const defaultConfigs = [
         transaction_cents: 300,
         recipient: {
           id: 1,
+          publicKey: "1",
           name: "American Red Cross",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -147,8 +147,8 @@ export const defaultConfigs = [
         transaction_cents: 300,
         recipient: {
           id: 2,
-          name: "Charity: Water",
-          wallet: "loremipsumdolorsitamet",
+          publicKey: "2",
+          name: "Malaria Consortium",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -166,8 +166,8 @@ export const defaultConfigs = [
         transaction_cents: 386,
         recipient: {
           id: 0,
+          publicKey: "0",
           name: "UNICEF",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -178,8 +178,8 @@ export const defaultConfigs = [
         transaction_cents: 786,
         recipient: {
           id: 1,
+          publicKey: "1",
           name: "American Red Cross",
-          wallet: "loremipsumdolorsitamet",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -190,8 +190,8 @@ export const defaultConfigs = [
         transaction_cents: 300,
         recipient: {
           id: 2,
-          name: "Charity: Water",
-          wallet: "loremipsumdolorsitamet",
+          publicKey: "2",
+          name: "Malaria Consortium",
           description: 'lorem ipsum dolor sit amet',
         }
       },
