@@ -239,7 +239,7 @@ function DemoComponent(props) {
 function Demo() {
 	return (
 		<Container maxWidth="sm" sx={{mt:2, mb:2}}>
-      <Typography variant="h4" align="center">Checkout Donations Demo</Typography>
+      <Typography variant="h4" align="center">Donation Components Demo</Typography>
       <Stack 
         spacing={2} 
         sx={{pt:2, pb:2}}
