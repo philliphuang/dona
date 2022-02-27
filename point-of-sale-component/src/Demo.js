@@ -7,6 +7,7 @@ import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
+import JSONPretty from 'react-json-pretty';
 
 export const dummyDonationConfigs = [
   {
@@ -226,7 +227,10 @@ function DemoComponent(props) {
       </Box>
       {
         selectedOption &&
+        <div>
         <Alert severity="info">Selected donation option: ${donationDollars} to {recipientName}</Alert>
+        <JSONPretty id="json-pretty" data={selectedOption}></JSONPretty>
+        </div>
       }
     </Stack>
   );

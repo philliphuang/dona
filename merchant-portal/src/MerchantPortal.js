@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,12 +17,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Skeleton from '@mui/material/Skeleton';
+import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
 
 import BuildIcon from '@mui/icons-material/Build';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 
 import ConfigPage from './config-page/ConfigPage';
+
+import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 
 const drawerWidth = 240;
 
@@ -87,10 +93,56 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-function MerchantPortal() {
+function LoadingPage() {
+  return (
+    <Container maxWidth="sm">
+      <Stack spacing={4} sx={{mt:4, mb:4}}>
+        <Skeleton variant="rectangular" height={240}/>
+        <Skeleton variant="rectangular" height={240}/>
+        <Skeleton variant="rectangular" height={240}/>
+      </Stack>
+    </Container>
+  );
+}
+
+function MerchantPortal(props) {
+  const { publicKey } = props;
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [page, setPage] = React.useState("configs");
+  const [loading, setLoading] = React.useState(true);
+  const [merchantInfo, setMerchantInfo] = React.useState();
+
+  React.useEffect(() => {
+    if (publicKey) {
+      // TODO: update to be general merchant info endpoint
+      fetch(`http://127.0.0.1:5000/api/merchants/${publicKey}/donation-configs`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: "include",
+      })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res.status;
+        }
+      })
+      .then(
+        (result) => {
+          setMerchantInfo(result);
+          setLoading(false);
+        },
+        (error) => {
+          switch(error) {
+            default:
+          }
+      });
+    }
+  }, [publicKey]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -102,17 +154,24 @@ function MerchantPortal() {
 
   let pageComponent;
   let pageTitle;
-  switch(page) {
-    case "configs":
-      pageComponent = <ConfigPage/>;
-      pageTitle = "Checkout Donation Configurations";
-      break;
-    case "transactions":
-        pageComponent = <p>Transactions page</p>;
-        pageTitle = "Donation Transactions";
+  if (loading) {
+    pageComponent = <LoadingPage />;
+    pageTitle = "Loading data...";
+  } else {
+    switch(page) {
+      case "configs":
+        // TODO: update to handle general merchant info endpoint
+        pageComponent = <ConfigPage configs={merchantInfo} publicKey={publicKey} />;
+        pageTitle = "Checkout Donation Configurations";
         break;
-    default: 
-      pageComponent = <p>Invalid page.</p>;
+      case "transactions":
+          pageComponent = <p>Transactions page</p>;
+          pageTitle = "Donation Transactions";
+          break;
+      default: 
+        pageComponent = <p>Invalid page.</p>;
+        pageTitle = "Invalid Page";
+    }
   }
 
   return (
@@ -132,9 +191,10 @@ function MerchantPortal() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
             {pageTitle}
           </Typography>
+          <WalletDisconnectButton/>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
