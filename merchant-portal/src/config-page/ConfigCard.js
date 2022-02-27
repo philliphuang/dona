@@ -1,4 +1,6 @@
 import * as React from 'react';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -164,7 +166,11 @@ function ConfigCard(props) {
         <CardContent>
           <Typography variant="h6" sx={{mb:2}}>{config.name}</Typography>
           <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2,  borderRadius: 2}}>
-            <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+            <Container maxWidth="xs">
+              <Paper sx={{p:2}}>
+                <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+              </Paper>
+            </Container>
           </Box>
         </CardContent>
         <CardActions>
