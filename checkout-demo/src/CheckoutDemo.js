@@ -42,7 +42,7 @@ function CheckoutDemo() {
         recipient: {
           id: 0,
           public_key: "0",
-          name: "UNICEF",
+          name: "Charity: Water",
           description: 'lorem ipsum dolor sit amet',
         }
       },
@@ -63,14 +63,17 @@ function CheckoutDemo() {
           </Box>
         </Grid>
         <Grid item lg={4}>
-          <Paper sx={{
-            my:4,
-            p:4,
-            height:640,
-            display:"flex", 
-            flexDirection: "column", 
-            justifyContent:"space-between"
-          }}>
+          <Paper 
+            elevation={4}
+            sx={{
+              my:4,
+              p:4,
+              height:640,
+              display:"flex", 
+              flexDirection: "column", 
+              justifyContent:"space-between"
+            }}
+          >
             <Box>
               <Typography variant="h4" align="center" gutterBottom>
                 Order Summary
@@ -99,7 +102,7 @@ function CheckoutDemo() {
             </Box>
             <Box>
               <DonationComponent config={mockConfig} setSelectedOption={setSelectedOption}/>
-              <ListItem sx={{ py: 1, px: 0 }}>
+              <ListItem sx={{ py: 2, px: 0 }}>
                 <ListItemText primary="Total" />
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                   {centsToDollars(transactionCents)}
