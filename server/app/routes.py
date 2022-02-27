@@ -18,6 +18,8 @@ def merchant_info(public_key):
 			return {"message": "Merchant does not exist for provided public_key"}, 404
 
 		configs_template = merchant.donation_configs
+		if not configs_template:
+			return {}, 200
 		request_json = request.get_json()
 
 		for option in configs_template['active_config']['options']:
