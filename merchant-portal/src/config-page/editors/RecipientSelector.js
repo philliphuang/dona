@@ -6,19 +6,19 @@ import Autocomplete from '@mui/material/Autocomplete';
 const dummyRecipients = [
   {
     id: 0,
-    publicKey: "0",
+    public_key: "0",
     name: "UNICEF",
     description: 'lorem ipsum dolor sit amet',
   },
   {
     id: 1,
-    publicKey: "1",
+    public_key: "1",
     name: "American Red Cross",
     description: 'lorem ipsum dolor sit amet',
   },
   {
     id: 2,
-    publicKey: "2",
+    public_key: "2",
     name: "Malaria Consortium",
     description: 'lorem ipsum dolor sit amet',
   },
@@ -76,7 +76,7 @@ function RecipientSelector(props) {
       }}
       disableClearable
       options={dummyRecipients}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
+      isOptionEqualToValue={(option, value) => option.public_key === value.public_key}
       getOptionLabel={(option) => option.name}
       renderInput={(params) => <TextField {...params} label="Recipient" />}
     />
