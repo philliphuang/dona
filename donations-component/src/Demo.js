@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as utils from './donation-component/utils';
 import DonationComponent from "./donation-component/DonationComponent";
 import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
@@ -223,7 +224,11 @@ function DemoComponent(props) {
     <Stack spacing={1}>
       <Typography variant="h6">{config.name}</Typography>
       <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, borderRadius: 2}}>
-        <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+        <Container maxWidth="xs">
+          <Paper sx={{p:2}}>
+            <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+          </Paper>
+        </Container>
       </Box>
       {
         selectedOption &&

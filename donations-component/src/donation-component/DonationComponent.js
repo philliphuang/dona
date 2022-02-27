@@ -45,11 +45,9 @@ function DonationComponent(props) {
   }
   
   return (
-    <Container maxWidth="xs">
-      <Paper sx={{p:2}}>
-        {component}
-      </Paper>
-    </Container>
+    <div>
+      {component}
+    </div>
   );
 }
 
