@@ -168,7 +168,7 @@ function ConfigCard(props) {
           <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2,  borderRadius: 2}}>
             <Container maxWidth="xs">
               <Paper sx={{p:2}}>
-                <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+                <DonationComponent configOverride={config} setSelectedOption={setSelectedOption}/>
               </Paper>
             </Container>
           </Box>
