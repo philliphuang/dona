@@ -255,7 +255,7 @@ function ConfigCard(props) {
       </Card>
       {
         isActive &&
-        <Box sx={{m:1, display: 'flex', flexGrow: 1, justifyContent:"center", flexDirection: "row"}}>
+        <Box sx={{mt:1, display: 'flex', flexGrow: 1, justifyContent:"center", flexDirection: "row"}}>
         <CheckCircleOutlineIcon sx={{color:'success.light', mr:1}}/>
         <Typography align="center" sx={{fontWeight:"medium"}} color="success.light">ACTIVE</Typography>
         </Box>
