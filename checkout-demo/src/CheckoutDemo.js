@@ -25,10 +25,10 @@ const publicKey = "35pQAYGCE95rnzJvYFtxGhpnDpMoZKzk6f5DxJhGszE9";
 function CheckoutDemo() {
   const [selectedOption, setSelectedOption] = React.useState();
 
-  const itemCents = 999
+  const itemCents = 949
   const shippingCents = 299;
   const taxRate = 0.07;
-  const taxCents = (itemCents + shippingCents) * taxRate;
+  const taxCents = Math.round((itemCents + shippingCents) * taxRate);
   const preDonationCents = itemCents + shippingCents + taxCents;
 
   const transactionCents = 
@@ -87,6 +87,7 @@ function CheckoutDemo() {
             <Box>
               <DonationComponent 
                 merchantPublicKey={publicKey} 
+                purchaseCents={preDonationCents}
                 setSelectedOption={setSelectedOption}
               />
               <ListItem sx={{ py: 2, px: 0 }}>
