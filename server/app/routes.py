@@ -2,10 +2,13 @@ from flask import *
 from app import app
 from app.models import *
 from math import ceil
+from solana.keypair import Keypair
+from urllib.parse import quote
 
 @app.route('/', methods=["GET"])
 def index():
 	return "Welcome!"
+
 
 @app.route('/api/merchants/<public_key>/donation-configs', methods=["GET", "PUT"])
 def merchant_info(public_key):
@@ -32,17 +35,40 @@ def merchant_info(public_key):
 					option['purchase_cents'] = purchase_amount
 
 					if option['type'] == 'roundup':
-						transaction_amount = ceil(purchase_amount/ 100) * 100
+						transaction_amount = ceil(purchase_amount / 100) * 100
 						option['transaction_cents'] = transaction_amount
 						option['donation_cents'] = transaction_amount - purchase_amount
-					elif option['type'] in set({'fixed', 'input'}):
+					elif option['type'] in {'fixed', 'input'}:
 						option['transaction_cents'] = purchase_amount + option['donation_cents']
 
 				# Load refreshed recipient object
 				recipient = db.session.query(Recipient).filter_by(public_key=option['recipient']['public_key']).first()
 				option['recipient'] = recipient.to_dict()
 
-				# TODO: Populate donation_transfer object
+				# Create donation_transfer object
+				donation_recipient = option['recipient']['public_key']
+				amount = option['donation_cents'] * 0.01
+				spl_token = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+				reference = str(Keypair().public_key)
+				label = quote('Optional Purchase Donation')
+				message = quote('Donation to {}'.format(recipient.name))
+
+				option['donation_transfer'] = {
+					'recipient': donation_recipient,
+					'amount': amount,
+					'spl-token': spl_token,
+					'reference': reference,
+					'label': label,
+					'message': message
+				}
+
+				option['donation_transfer']['url'] = \
+					'solana:' + donation_recipient \
+					+ '?amount=' + str(amount) \
+					+ '&spl-token=' + spl_token \
+					+ '&label=' + label \
+					+ '&message=' + message \
+					+ '&reference=' + reference
 
 				# TODO: Load donation_transaction request object
 
