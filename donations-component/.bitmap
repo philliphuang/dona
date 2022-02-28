@@ -11,7 +11,7 @@
 {
     "ui/donation-component": {
         "scope": "demo-organization.demo-scope",
-        "version": "1.0.2",
+        "version": "1.0.3",
         "mainFile": "index.js",
         "rootDir": "src/donation-component"
     },
