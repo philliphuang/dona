@@ -22,3 +22,17 @@ class Recipient(db.Model):
 		}
 
 		return data
+
+class MarkedDonation(db.Model):
+	id = db.Column(db.BigInteger, primary_key=True)
+	uuid = db.Column(UUID(as_uuid=True), default=uuid4)
+	reference = db.Column(db.String(64))
+	merchant_transaction_id = db.Column(db.String(64))
+	donation_type = db.Column(db.String(64))
+	donation_amount = db.Column(db.Integer)
+	purchase_total = db.Column(db.Integer)
+	transaction_total = db.Column(db.Integer)
+	merchant_public_key = db.Column(db.String(64))
+	consumer_public_key = db.Column(db.String(64))
+	recipient_public_key = db.Column(db.String(64))
+	logged_at = db.Column(db.DateTime, default=datetime.utcnow)
