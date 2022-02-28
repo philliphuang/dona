@@ -15,6 +15,7 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
+import Container from '@mui/material/Container';
 
 import DonationComponent from '@demo-organization/demo-scope.ui.donation-component';
 
@@ -29,7 +30,11 @@ function ConfigTemplate(props) {
         <CardContent>
           <Typography>{config.name}</Typography>
           <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2, borderRadius: 2}}>
-            <DonationComponent config={config} setSelectedOption={setSelectedOption}/>
+            <Container maxWidth="xs">
+              <Paper sx={{p:2}}>
+                <DonationComponent configOverride={config} setSelectedOption={setSelectedOption}/>
+              </Paper>
+            </Container>
           </Box>
         </CardContent>
       </CardActionArea>

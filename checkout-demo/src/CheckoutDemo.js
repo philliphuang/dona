@@ -50,9 +50,8 @@ function CheckoutDemo() {
           <Paper 
             elevation={4}
             sx={{
-              my:4,
               p:4,
-              height:640,
+              height:"100vh",
               display:"flex", 
               flexDirection: "column", 
               justifyContent:"space-between"
