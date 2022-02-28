@@ -8,20 +8,28 @@ import MultiRecipientComponent from './MultiRecipientComponent';
 import CustomComponent from './CustomComponent';
 
 function DonationComponent(props) {
-  const { configOverride, merchantPublicKey, setSelectedOption } = props;
+  const { 
+    configOverride, 
+    merchantPublicKey, 
+    purchaseCents,
+    setSelectedOption
+  } = props;
   const [config, setConfig] = React.useState(configOverride);
 
   React.useEffect(() => {
     if (merchantPublicKey && !configOverride) {
       // TODO: update to be only active config
-      fetch(`http://127.0.0.1:5000/api/merchants/${merchantPublicKey}/donation-configs`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        credentials: "include",
-      })
+      fetch(
+        `http://127.0.0.1:5000/api/merchants/${merchantPublicKey}/donation-configs?purchase_amount=${purchaseCents}`, 
+        {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          credentials: "include",
+        }
+      )
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -44,7 +52,7 @@ function DonationComponent(props) {
     if (configOverride) {
       setConfig(configOverride);
     }
-  }, [merchantPublicKey, configOverride]);
+  }, [merchantPublicKey, configOverride, purchaseCents]);
 
   let component;
   if (config) {
