@@ -20,6 +20,8 @@ export function centsToDollars(cents) {
   );
 }
 
+const publicKey = "35pQAYGCE95rnzJvYFtxGhpnDpMoZKzk6f5DxJhGszE9";
+
 function CheckoutDemo() {
   const [selectedOption, setSelectedOption] = React.useState();
 
@@ -29,28 +31,10 @@ function CheckoutDemo() {
   const taxCents = (itemCents + shippingCents) * taxRate;
   const preDonationCents = itemCents + shippingCents + taxCents;
 
-  const mockConfig = {
-    id: 0,
-    name: "Round up to the nearest dollar",
-    type: "single",
-    options: [
-      {
-        type: "roundup",
-        donation_cents: 11,
-        purchase_cents: preDonationCents,
-        transaction_cents: preDonationCents + 11,
-        recipient: {
-          id: 0,
-          public_key: "0",
-          name: "Charity: Water",
-          description: 'lorem ipsum dolor sit amet',
-        }
-      },
-    ],
-  };
-
-  const donationCents = selectedOption ? selectedOption.donation_cents : 0;
-  const transactionCents = preDonationCents + donationCents;
+  const transactionCents = 
+    selectedOption ? 
+    selectedOption.transaction_cents : 
+    preDonationCents;
 
 	return (
     <Container maxWidth="lg">
@@ -95,13 +79,16 @@ function CheckoutDemo() {
                   selectedOption &&  
                   <ListItem sx={{ py: 1, px: 0 }}>
                     <ListItemText primary={"Donation to " + selectedOption.recipient.name} />
-                    <Typography>{centsToDollars(donationCents)}</Typography>
+                    <Typography>{centsToDollars(selectedOption.donation_cents)}</Typography>
                   </ListItem>
                 }
               </List>
             </Box>
             <Box>
-              <DonationComponent config={mockConfig} setSelectedOption={setSelectedOption}/>
+              <DonationComponent 
+                merchantPublicKey={publicKey} 
+                setSelectedOption={setSelectedOption}
+              />
               <ListItem sx={{ py: 2, px: 0 }}>
                 <ListItemText primary="Total" />
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
