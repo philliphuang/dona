@@ -36,3 +36,6 @@ class MarkedDonation(db.Model):
 	consumer_public_key = db.Column(db.String(64))
 	recipient_public_key = db.Column(db.String(64))
 	logged_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+	def to_dict(self):
+		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns if c.name != "id"}

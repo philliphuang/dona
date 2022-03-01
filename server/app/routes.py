@@ -9,7 +9,6 @@ from urllib.parse import quote
 def index():
 	return "Welcome!"
 
-
 @app.route('/api/merchants/<public_key>/donation-configs', methods=["GET", "PUT"])
 def merchant_info(public_key):
 	if request.method == "GET":
@@ -89,3 +88,53 @@ def merchant_info(public_key):
 				return {}, 200
 			else:
 				return {"message": "No donation_configs provided"}, 400
+
+@app.route('/api/marked-donations/<uuid>', methods=["GET"])
+def get_marked_donation(uuid):
+	if request.method == "GET":
+		marked_donation = db.session.query(MarkedDonation).filter_by(uuid=uuid).first()
+		if marked_donation:
+			return jsonify(marked_donation.to_dict()), 200
+
+		return {"message": "Donation with provided uuid not found"}, 404
+
+@app.route('/api/marked-donations', methods=["POST"])
+def mark_donation_complete():
+	if request.method == "POST":
+		body = request.get_json()
+
+		if body:
+			merchant_public_key = body.get('merchant_public_key')
+			consumer_public_key = body.get('consumer_public_key')
+			merchant_transaction_id = body.get('merchant_transaction_id')
+			selected_donation_option = body.get('selected_donation_option')
+
+			if merchant_public_key and selected_donation_option:
+				marked_donation = MarkedDonation(
+					reference=selected_donation_option['donation_transfer']['reference'],
+					merchant_transaction_id=merchant_transaction_id,
+					donation_type=selected_donation_option['type'],
+					donation_amount=selected_donation_option['donation_cents'],
+					purchase_total=selected_donation_option['purchase_cents'],
+					transaction_total=selected_donation_option['transaction_cents'],
+					merchant_public_key=merchant_public_key,
+					consumer_public_key=consumer_public_key,
+					recipient_public_key=selected_donation_option['recipient']['public_key']
+				)
+				db.session.add(marked_donation)
+				db.session.commit()
+
+				response = jsonify(marked_donation.to_dict())
+				response.status_code = 201
+				response.headers['Location'] = url_for('get_marked_donation', uuid=marked_donation.uuid)
+				return response
+
+			elif not merchant_public_key:
+				return {"message": "No merchant_public_key provided"}, 400
+			else:
+				return {"message": "No selected_donation_option provided"}, 400
+
+		return {"message": "No JSON body provided"}, 400
+
+
+
