@@ -4,6 +4,7 @@ from app.models import *
 from math import ceil
 from solana.keypair import Keypair
 from urllib.parse import quote
+from constants import *
 
 @app.route('/', methods=["GET"])
 def index():
@@ -12,8 +13,38 @@ def index():
 @app.route('/api/merchants/<public_key>/donation-configs', methods=["GET", "PUT"])
 def merchant_info(public_key):
 	if request.method == "GET":
-		print(request.args)
+		if public_key is None:
+			return {"message": "No public_key provided"}, 400
+		merchant = db.session.query(Merchant).filter_by(public_key=public_key).first()
 
+		if merchant is None:
+			return {"message": "Merchant does not exist for provided public_key"}, 404
+
+		configs_template = merchant.donation_configs
+		if not configs_template:
+			return {}, 200
+
+		return configs_template, 200
+
+	elif request.method == "PUT":
+		if public_key is None:
+			return {"message": "No public_key provided"}, 400
+
+		merchant = db.session.query(Merchant).filter_by(public_key=public_key).first()
+
+		if merchant is None:
+			return {"message": "Merchant does not exist for provided public_key"}, 404
+		if merchant is not None:
+			if request.json.get('donation_configs') is not None:
+				merchant.donation_configs = request.json['donation_configs']
+				db.session.commit()
+				return {}, 200
+			else:
+				return {"message": "No donation_configs provided"}, 400
+
+@app.route('/api/merchants/<public_key>/donation-configs/active', methods=["GET"])
+def get_active_donation_config(public_key):
+	if request.method == "GET":
 		if public_key is None:
 			return {"message": "No public_key provided"}, 400
 		merchant = db.session.query(Merchant).filter_by(public_key=public_key).first()
@@ -44,15 +75,15 @@ def merchant_info(public_key):
 				recipient = db.session.query(Recipient).filter_by(public_key=option['recipient']['public_key']).first()
 				option['recipient'] = recipient.to_dict()
 
-				# Create donation_transfer object
+				# Create donation_transfer_request object
 				donation_recipient = option['recipient']['public_key']
 				amount = option['donation_cents'] * 0.01
-				spl_token = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+				spl_token = USDC_SPL_ADDRESS
 				reference = str(Keypair().public_key)
-				label = quote('Optional Purchase Donation')
-				message = quote('Donation to {}'.format(recipient.name))
+				label = quote('Confirm donation to {}'.format(recipient.name))
+				message = quote('Donation of {} to {}'.format(str(amount) + ' USDC', recipient.name))
 
-				option['donation_transfer'] = {
+				option['donation_transfer_request'] = {
 					'recipient': donation_recipient,
 					'amount': amount,
 					'spl-token': spl_token,
@@ -61,7 +92,7 @@ def merchant_info(public_key):
 					'message': message
 				}
 
-				option['donation_transfer']['url'] = \
+				option['donation_transfer_request']['url'] = \
 					'solana:' + donation_recipient \
 					+ '?amount=' + str(amount) \
 					+ '&spl-token=' + spl_token \
@@ -69,25 +100,49 @@ def merchant_info(public_key):
 					+ '&message=' + message \
 					+ '&reference=' + reference
 
-				# TODO: Load donation_transaction request object
+				# Create donation_transaction_request object
+				split_transaction_request = SplitTransactionRequest(
+					spl_token=spl_token,
+					recipient_public_key=donation_recipient,
+					merchant_public_key=public_key,
+					merchant_amount=option['purchase_cents'],
+					recipient_amount=option['donation_cents'],
+					reference=reference
+				)
 
-		return configs_template, 200
-
-	elif request.method == "PUT":
-		if public_key is None:
-			return {"message": "No public_key provided"}, 400
-
-		merchant = db.session.query(Merchant).filter_by(public_key=public_key).first()
-
-		if merchant is None:
-			return {"message": "Merchant does not exist for provided public_key"}, 404
-		if merchant is not None:
-			if request.json.get('donation_configs') is not None:
-				merchant.donation_configs = request.json['donation_configs']
+				db.session.add(split_transaction_request)
 				db.session.commit()
-				return {}, 200
-			else:
-				return {"message": "No donation_configs provided"}, 400
+
+				# TODO: Add base URL
+				link = url_for('create_interactive_transaction', uuid=split_transaction_request.uuid)
+				label = quote('Confirm purchase including donation to {}').format(str(amount) + ' USDC', recipient.name)
+				message = quote('Your purchase includes a {} donation to {}'.format(str(amount) + ' USDC', recipient.name))
+
+				option['donation_transaction_request'] = {
+					'link': link,
+					'label': label,
+					'message': message
+				}
+
+				option['donation_transaction_request']['url'] = \
+					'solana:' + link \
+					+ '&label=' + label \
+					+ '&message=' + message \
+
+		return configs_template['active_config'], 200
+
+@app.route('/api/interactive-transactions', methods=["POST"])
+def create_interactive_transaction():
+	if request.method == "POST":
+		link_id = request.args.get('uuid')
+		if not link_id:
+			return {"message": "Required param link-id not provided"}, 400
+
+		split_transaction_request = db.session.query(SplitTransactionRequest).filter_by(uuid=uuid).first()
+		if split_transaction_request:
+			pass
+
+		return {"message": "Link with provided uuid not found"}, 404
 
 @app.route('/api/marked-donations/<uuid>', methods=["GET"])
 def get_marked_donation(uuid):

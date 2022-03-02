@@ -7,12 +7,14 @@ class Merchant(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	public_key = db.Column(db.String(64))
 	donation_configs = db.Column(JSONB)
+	created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Recipient(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	public_key = db.Column(db.String(64))
 	name = db.Column(db.String(300))
 	description = db.Column(db.String(1000))
+	created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 	def to_dict(self):
 		data = {
@@ -22,6 +24,17 @@ class Recipient(db.Model):
 		}
 
 		return data
+
+class SplitTransactionRequest(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	uuid = db.Column(UUID(as_uuid=True), default=uuid4)
+	spl_token = db.Column(db.String(64))
+	recipient_public_key = db.Column(db.String(64))
+	merchant_public_key = db.Column(db.String(64))
+	merchant_amount = db.Column(db.Integer)
+	recipient_amount = db.Column(db.Integer)
+	reference = db.Column(db.String(64))
+	created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class MarkedDonation(db.Model):
 	id = db.Column(db.BigInteger, primary_key=True)
