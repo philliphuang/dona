@@ -2,7 +2,14 @@ from flask import *
 from app import app
 from app.models import *
 from math import ceil
+
+from spl.token.constants import TOKEN_PROGRAM_ID
+from spl.token.instructions import transfer_checked, TransferCheckedParams, get_associated_token_address
+
 from solana.keypair import Keypair
+from solana.transaction import Transaction
+from solana.publickey import PublicKey
+
 from urllib.parse import quote
 from constants import *
 
@@ -134,13 +141,52 @@ def get_active_donation_config(public_key):
 @app.route('/api/interactive-transactions', methods=["POST"])
 def create_interactive_transaction():
 	if request.method == "POST":
-		link_id = request.args.get('uuid')
-		if not link_id:
-			return {"message": "Required param link-id not provided"}, 400
+		uuid = request.args.get('uuid')
+		if not uuid:
+			return {"message": "Required param uuid not provided"}, 400
+
+		body = request.get_json()
+		if not body:
+			return {"message": "Request body not provided"}, 400
+
+		account = body.get('account')
+		if not account:
+			return {"message": "account not in request body"}, 400
 
 		split_transaction_request = db.session.query(SplitTransactionRequest).filter_by(uuid=uuid).first()
 		if split_transaction_request:
-			pass
+			# Create Solana transaction with 2 transfers to merchant and recipient respectively
+			transaction = Transaction()
+			transaction.add(
+				transfer_checked(
+					TransferCheckedParams(
+						program_id=TOKEN_PROGRAM_ID,
+						source=get_associated_token_address(PublicKey(account), PublicKey(split_transaction_request.spl_token)),
+						mint=PublicKey(split_transaction_request.spl_token),
+						dest=get_associated_token_address(PublicKey(split_transaction_request.merchant_public_key), PublicKey(split_transaction_request.spl_token)),
+						owner=PublicKey(account),
+						amount = split_transaction_request.merchant_amount * 10000,
+					 	decimals = 6,
+						signers = []
+					)
+				)
+			)
+			transaction.add(
+				transfer_checked(
+					TransferCheckedParams(
+						program_id=TOKEN_PROGRAM_ID,
+						source=get_associated_token_address(PublicKey(account), PublicKey(split_transaction_request.spl_token)),
+						mint=PublicKey(split_transaction_request.spl_token),
+						dest=get_associated_token_address(PublicKey(split_transaction_request.recipient_public_key), PublicKey(split_transaction_request.spl_token)),
+						owner=PublicKey(account),
+						amount = split_transaction_request.recipient_amount * 10000,
+					 	decimals = 6,
+						signers = []
+					)
+				)
+			)
+
+			return {"transaction": transaction.serialize()}, 201
 
 		return {"message": "Link with provided uuid not found"}, 404
 
