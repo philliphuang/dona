@@ -17,11 +17,7 @@ function MultiTypeOptionComponent(props) {
     setInputAmount,
   } = props;
 
-  // TODO: fix single input amount bug
-
-  React.useEffect(() => {
-    setInputAmount(utils.centsToDollars(option.donation_cents));
-  }, [option]);
+  // TODO: handle switching between multiple default input amounts (low pri)
 
   let component;
   switch(option.type) {

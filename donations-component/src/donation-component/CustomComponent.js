@@ -17,6 +17,8 @@ function CustomOptionComponent(props) {
     setInputAmount,
   } = props;
 
+  // TODO: handle switching between multiple default input amounts (low pri)
+
   const onInputOptionClick = () => {
     if (inputAmount === undefined) {
       setInputAmount(utils.centsToDollars(option.donation_cents));
