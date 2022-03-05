@@ -165,9 +165,9 @@ def create_interactive_transaction():
 						mint=PublicKey(split_transaction_request.spl_token),
 						dest=get_associated_token_address(PublicKey(split_transaction_request.merchant_public_key), PublicKey(split_transaction_request.spl_token)),
 						owner=PublicKey(account),
-						amount = split_transaction_request.merchant_amount * 10000,
-					 	decimals = 6,
-						signers = []
+						amount=split_transaction_request.merchant_amount * 10000,
+					 	decimals=6,
+						signers=[]
 					)
 				)
 			)
@@ -179,9 +179,9 @@ def create_interactive_transaction():
 						mint=PublicKey(split_transaction_request.spl_token),
 						dest=get_associated_token_address(PublicKey(split_transaction_request.recipient_public_key), PublicKey(split_transaction_request.spl_token)),
 						owner=PublicKey(account),
-						amount = split_transaction_request.recipient_amount * 10000,
-					 	decimals = 6,
-						signers = []
+						amount=split_transaction_request.recipient_amount * 10000,
+					 	decimals=6,
+						signers=[]
 					)
 				)
 			)
