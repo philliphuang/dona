@@ -93,7 +93,7 @@ def get_active_donation_config(public_key):
 				option['donation_transfer_request'] = {
 					'recipient': donation_recipient,
 					'amount': amount,
-					'spl-token': spl_token,
+					'spl_token': spl_token,
 					'reference': reference,
 					'label': label,
 					'message': message
