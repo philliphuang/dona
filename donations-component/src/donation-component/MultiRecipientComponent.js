@@ -13,7 +13,9 @@ function MultiRecipientComponent(props) {
   const [selectedOptionIndex, setSelectedOptionIndex] = React.useState();
   const [inputAmount, setInputAmount] = React.useState(donationDollars);
 
-  // TODO: fix switch from roudnup input amount value sticking issue
+  React.useEffect(() => {
+    setInputAmount(utils.centsToDollars(config.options[0].donation_cents));
+  }, [config]);
 
   React.useEffect(() => {
     if (selectedOptionIndex === "none") {

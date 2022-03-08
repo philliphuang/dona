@@ -3,6 +3,7 @@
     "name": "merchant-portal",
     "version": "0.1.0",
     "dependencies": {
+        "@demo-organization/demo-scope.ui.currency-text-field": "^0.0.1",
         "@demo-organization/demo-scope.ui.donation-component": "^1.0.0",
         "@emotion/react": "^11.7.1",
         "@emotion/styled": "^11.6.0",
