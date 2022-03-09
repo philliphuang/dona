@@ -249,7 +249,7 @@ def get_dashboard_data(public_key):
 		if merchant is None:
 			return {"message": "Merchant does not exist for provided public_key"}, 404
 
-		# Compute analytics JSON
-		donation_analytics_json = merchant.get_donation_analytics_json(output_timezone)
+		# Compute dashboard JSON
+		dashboard_json = merchant.get_dashboard_data(output_timezone)
 
-		return donation_analytics_json, 200
+		return dashboard_json, 200

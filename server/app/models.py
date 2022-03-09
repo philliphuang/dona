@@ -17,7 +17,7 @@ class Merchant(db.Model):
 	donation_configs = db.Column(JSONB)
 	created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-	def get_donation_analytics_json(self, output_timezone):
+	def get_dashboard_data(self, output_timezone):
 		session = Session.object_session(self)
 
 		donations_with_recipients = session.query(MarkedDonation, Recipient)\
@@ -72,10 +72,13 @@ class Merchant(db.Model):
 			"donation_volume_daily": [dict(date=date, value=value) for date, value in donation_volume_daily]
 		}
 
+		recipients_list = db.session.query(Recipient).all()
+
 		return {
 			"output_timezone": output_timezone,
 			"donations": donations_list,
-			"analytics": analytics_dict
+			"analytics": analytics_dict,
+			"available_recipients": [recipient.to_dict() for recipient in recipients_list]
 		}
 
 
