@@ -237,5 +237,19 @@ def mark_donation_complete():
 
 		return {"message": "No JSON body provided"}, 400
 
+@app.route('/api/merchants/<public_key>/dashboard', methods=["GET"])
+def get_dashboard_data(public_key):
+	if request.method == "GET":
+		output_timezone = request.args.get("output_timezone", "America/Los_Angeles")
 
+		if public_key is None:
+			return {"message": "No public_key provided"}, 400
+		merchant = db.session.query(Merchant).filter_by(public_key=public_key).first()
 
+		if merchant is None:
+			return {"message": "Merchant does not exist for provided public_key"}, 404
+
+		# Compute analytics JSON
+		donation_analytics_json = merchant.get_donation_analytics_json(output_timezone)
+
+		return donation_analytics_json, 200
