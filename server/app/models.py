@@ -20,6 +20,7 @@ class Merchant(db.Model):
 	def get_dashboard_data(self, output_timezone):
 		session = Session.object_session(self)
 
+		# Fetch donations
 		donations_with_recipients = session.query(MarkedDonation, Recipient)\
 			.join(Recipient, MarkedDonation.recipient_public_key == Recipient.public_key)\
 			.filter(MarkedDonation.merchant_public_key == self.public_key)\
@@ -48,6 +49,7 @@ class Merchant(db.Model):
 			total_donation_amount += donation.donation_amount
 			total_donors += 1
 
+		# Compute analytics metrics
 		donations_by_recipient = session.query(Recipient.name, func.sum(MarkedDonation.donation_amount)) \
 			.join(Recipient, MarkedDonation.recipient_public_key == Recipient.public_key) \
 			.filter(MarkedDonation.merchant_public_key == self.public_key) \
@@ -72,13 +74,37 @@ class Merchant(db.Model):
 			"donation_volume_daily": [dict(date=date, value=value) for date, value in donation_volume_daily]
 		}
 
+		# Fetch all available recipients
 		recipients_list = db.session.query(Recipient).all()
+
+		# Fetch donation configs
+		configs = self.donation_configs
+		if configs:
+			# Fetch updated recipient data
+			if configs.get('active_config'):
+				for option in configs['active_config']['options']:
+					recipient = db.session.query(Recipient)\
+						.filter_by(public_key=option['recipient']['public_key'])\
+						.first()
+					option['recipient'] = recipient.to_dict()
+
+			if configs.get('inactive_configs'):
+				for config in configs['inactive_configs']:
+					for option in config['options']:
+						recipient = db.session.query(Recipient) \
+							.filter_by(public_key=option['recipient']['public_key']) \
+							.first()
+						option['recipient'] = recipient.to_dict()
+
+		else:
+			configs = {}
 
 		return {
 			"output_timezone": output_timezone,
 			"donations": donations_list,
 			"analytics": analytics_dict,
-			"available_recipients": [recipient.to_dict() for recipient in recipients_list]
+			"available_recipients": [recipient.to_dict() for recipient in recipients_list],
+			"configs": configs
 		}
 
 
