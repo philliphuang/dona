@@ -270,3 +270,20 @@ def get_recipient_dashboard_data(public_key):
 		dashboard_json = recipient.get_dashboard_data(output_timezone)
 
 		return dashboard_json, 200
+
+@app.route('/api/consumers/<public_key>/dashboard', methods=["GET"])
+def get_consumer_dashboard_data(public_key):
+	if request.method == "GET":
+		output_timezone = request.args.get("output_timezone", "America/Los_Angeles")
+
+		if public_key is None:
+			return {"message": "No public_key provided"}, 400
+		consumer = db.session.query(Consumer).filter_by(public_key=public_key).first()
+
+		if consumer is None:
+			return {"message": "Consumer does not exist for provided public_key"}, 404
+
+		# Compute dashboard JSON
+		dashboard_json = consumer.get_dashboard_data(output_timezone)
+
+		return dashboard_json, 200

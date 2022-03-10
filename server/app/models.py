@@ -217,3 +217,54 @@ class MarkedDonation(db.Model):
 
 	def to_dict(self):
 		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns if c.name != "id"}
+
+class Consumer(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	public_key = db.Column(db.String(64))
+	created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+	def get_dashboard_data(self, output_timezone):
+		session = Session.object_session(self)
+
+		# Fetch donations
+		donations_with_metadata = session.query(MarkedDonation, Merchant, Recipient)\
+			.join(Merchant, MarkedDonation.merchant_public_key == Merchant.public_key) \
+			.join(Recipient, MarkedDonation.recipient_public_key == Recipient.public_key) \
+			.filter(MarkedDonation.consumer_public_key == self.public_key)\
+			.order_by(MarkedDonation.logged_at.desc())\
+			.all()
+		donations_list = []
+		total_donation_amount = 0
+		donation_amount_ytd = 0
+
+		for donation, merchant, recipient in donations_with_metadata:
+			logged_at_utc = donation.logged_at.replace(tzinfo=ZoneInfo('UTC'))
+			logged_at_local = logged_at_utc.astimezone(ZoneInfo(output_timezone))
+			date_text = logged_at_local.strftime('%b %-d, %Y %-I:%M %p')
+
+			donations_list.append(
+				{
+					"donation_amount": donation.donation_amount,
+					"recipient_name": recipient.name,
+					"merchant_name": merchant.name,
+					"donation_type": donation.donation_type,
+					"reference": donation.reference,
+					"solscan_url": SOLSCAN_TX_BASE_URL + donation.reference,
+					"date_time": date_text
+				}
+			)
+
+			total_donation_amount += donation.donation_amount
+			if logged_at_local >= datetime(datetime.now().year,1,1).astimezone(ZoneInfo(output_timezone)):
+				donation_amount_ytd += donation.donation_amount
+
+		analytics_dict = {
+			"total_donation_amount": total_donation_amount,
+			"donation_amount_ytd": donation_amount_ytd
+		}
+
+		return {
+			"output_timezone": output_timezone,
+			"donations": donations_list,
+			"analytics": analytics_dict
+		}
