@@ -238,7 +238,7 @@ def mark_donation_complete():
 		return {"message": "No JSON body provided"}, 400
 
 @app.route('/api/merchants/<public_key>/dashboard', methods=["GET"])
-def get_dashboard_data(public_key):
+def get_merchant_dashboard_data(public_key):
 	if request.method == "GET":
 		output_timezone = request.args.get("output_timezone", "America/Los_Angeles")
 
@@ -251,5 +251,22 @@ def get_dashboard_data(public_key):
 
 		# Compute dashboard JSON
 		dashboard_json = merchant.get_dashboard_data(output_timezone)
+
+		return dashboard_json, 200
+
+@app.route('/api/recipients/<public_key>/dashboard', methods=["GET"])
+def get_recipient_dashboard_data(public_key):
+	if request.method == "GET":
+		output_timezone = request.args.get("output_timezone", "America/Los_Angeles")
+
+		if public_key is None:
+			return {"message": "No public_key provided"}, 400
+		recipient = db.session.query(Recipient).filter_by(public_key=public_key).first()
+
+		if recipient is None:
+			return {"message": "Recipient does not exist for provided public_key"}, 404
+
+		# Compute dashboard JSON
+		dashboard_json = recipient.get_dashboard_data(output_timezone)
 
 		return dashboard_json, 200

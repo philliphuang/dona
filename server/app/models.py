@@ -14,6 +14,7 @@ except ImportError:
 class Merchant(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	public_key = db.Column(db.String(64))
+	name = db.Column(db.String(300))
 	donation_configs = db.Column(JSONB)
 	created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -123,6 +124,69 @@ class Recipient(db.Model):
 		}
 
 		return data
+
+	def get_dashboard_data(self, output_timezone):
+		session = Session.object_session(self)
+
+		# Fetch donations
+		donations_with_merchants = session.query(MarkedDonation, Merchant)\
+			.join(Merchant, MarkedDonation.merchant_public_key == Merchant.public_key)\
+			.filter(MarkedDonation.recipient_public_key == self.public_key)\
+			.order_by(MarkedDonation.logged_at.desc())\
+			.all()
+		donations_list = []
+		total_donation_amount = 0
+		total_donors = 0
+
+		for donation, merchant in donations_with_merchants:
+			logged_at_utc = donation.logged_at.replace(tzinfo=ZoneInfo('UTC'))
+			logged_at_local = logged_at_utc.astimezone(ZoneInfo(output_timezone))
+			date_text = logged_at_local.strftime('%b %-d, %Y %-I:%M %p')
+
+			donations_list.append(
+				{
+					"donation_amount": donation.donation_amount,
+					"merchant_name": merchant.name,
+					"donation_type": donation.donation_type,
+					"reference": donation.reference,
+					"solscan_url": SOLSCAN_TX_BASE_URL + donation.reference,
+					"date_time": date_text
+				}
+			)
+
+			total_donation_amount += donation.donation_amount
+			total_donors += 1
+
+		# Compute analytics metrics
+		donations_by_merchant = session.query(Merchant.name, func.sum(MarkedDonation.donation_amount)) \
+			.join(Merchant, MarkedDonation.merchant_public_key == Merchant.public_key) \
+			.filter(MarkedDonation.recipient_public_key == self.public_key) \
+			.group_by(Merchant.name)\
+			.all()
+
+		donations_by_type = session.query(MarkedDonation.donation_type, func.sum(MarkedDonation.donation_amount)) \
+			.filter(MarkedDonation.recipient_public_key == self.public_key) \
+			.group_by(MarkedDonation.donation_type)\
+			.all()
+
+		donation_volume_daily = session.query(func.date(func.timezone(output_timezone, func.timezone('UTC', MarkedDonation.logged_at))), func.sum(MarkedDonation.donation_amount)) \
+			.filter(MarkedDonation.recipient_public_key == self.public_key) \
+			.group_by(func.date(func.timezone(output_timezone, func.timezone('UTC', MarkedDonation.logged_at)))) \
+			.all()
+
+		analytics_dict = {
+			"total_donation_amount": total_donation_amount,
+			"total_donors": total_donors,
+			"donation_volume_by_merchant": [dict(merchant_name=name, value=value) for name, value in donations_by_merchant],
+			"donation_volume_by_type": [dict(type=type, value=value) for type, value in donations_by_type],
+			"donation_volume_daily": [dict(date=date, value=value) for date, value in donation_volume_daily]
+		}
+
+		return {
+			"output_timezone": output_timezone,
+			"donations": donations_list,
+			"analytics": analytics_dict
+		}
 
 
 class SplitTransactionRequest(db.Model):
