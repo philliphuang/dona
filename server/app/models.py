@@ -169,6 +169,13 @@ class Recipient(db.Model):
 			.group_by(MarkedDonation.donation_type)\
 			.all()
 
+		donations_by_consumer = session.query(MarkedDonation.consumer_public_key, func.sum(MarkedDonation.donation_amount)) \
+			.filter(MarkedDonation.recipient_public_key == self.public_key) \
+			.group_by(MarkedDonation.consumer_public_key) \
+			.order_by(func.sum(MarkedDonation.donation_amount).desc()) \
+			.limit(10)
+
+
 		donation_volume_daily = session.query(func.date(func.timezone(output_timezone, func.timezone('UTC', MarkedDonation.logged_at))), func.sum(MarkedDonation.donation_amount)) \
 			.filter(MarkedDonation.recipient_public_key == self.public_key) \
 			.group_by(func.date(func.timezone(output_timezone, func.timezone('UTC', MarkedDonation.logged_at)))) \
@@ -179,6 +186,7 @@ class Recipient(db.Model):
 			"total_donors": total_donors,
 			"donation_volume_by_merchant": [dict(merchant_name=name, value=value) for name, value in donations_by_merchant],
 			"donation_volume_by_type": [dict(type=type, value=value) for type, value in donations_by_type],
+			"donation_volume_by_top_donors": [dict(public_key=public_key, value=value) for public_key, value in donations_by_consumer],
 			"donation_volume_daily": [dict(date=date, value=value) for date, value in donation_volume_daily]
 		}
 
