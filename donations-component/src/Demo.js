@@ -242,6 +242,7 @@ function DemoComponent(props) {
 }
 
 function Demo() {
+  const [selectedOption, setSelectedOption] = React.useState();
 	return (
 		<Container maxWidth="sm" sx={{mt:2, mb:2}}>
       <Typography variant="h4" align="center">Donation Components Demo</Typography>
@@ -250,6 +251,11 @@ function Demo() {
         sx={{pt:2, pb:2}}
         divider={<Divider />}
       >
+        <DonationComponent 
+          merchantPublicKey="35pQAYGCE95rnzJvYFtxGhpnDpMoZKzk6f5DxJhGszE9"
+          purchaseCents={86}
+          setSelectedOption={setSelectedOption}
+        />
       	{dummyDonationConfigs.map((config, index) => (
           <DemoComponent key={index} config={config}/>
 				))}

@@ -18,9 +18,8 @@ function DonationComponent(props) {
 
   React.useEffect(() => {
     if (merchantPublicKey && !configOverride) {
-      // TODO: update to be only active config
       fetch(
-        `http://127.0.0.1:5000/api/merchants/${merchantPublicKey}/donation-configs?purchase_amount=${purchaseCents}`, 
+        `http://127.0.0.1:5000/api/merchants/${merchantPublicKey}/donation-configs/active?purchase_amount=${purchaseCents}`, 
         {
           method: 'GET',
           headers: {
@@ -39,8 +38,8 @@ function DonationComponent(props) {
       })
       .then(
         (result) => {
-          if (result.active_config) {
-            setConfig(result.active_config);
+          if (result) {
+            setConfig(result);
           }
         },
         (error) => {
