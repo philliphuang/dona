@@ -10,8 +10,8 @@
 
 {
     "ui/donation-component": {
-        "scope": "demo-organization.demo-scope",
-        "version": "1.0.10",
+        "scope": "riptide-dona.react-components",
+        "version": "1.0.0",
         "mainFile": "index.js",
         "rootDir": "src/donation-component"
     },
