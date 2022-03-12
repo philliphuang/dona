@@ -27,6 +27,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 
 import ConfigPage from './config-page/ConfigPage';
 import DonationsPage from './donations-page/DonationsPage';
+import AnalyticsPage from './analytics-page/AnalyticsPage';
 
 import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 
@@ -163,7 +164,6 @@ function MerchantPortal(props) {
   } else {
     switch(page) {
       case "configs":
-        // TODO: update to handle general merchant info endpoint
         pageComponent = <ConfigPage configs={merchantInfo.configs} publicKey={publicKey} />;
         pageTitle = "Checkout Donation Configurations";
         break;
@@ -171,6 +171,10 @@ function MerchantPortal(props) {
           pageComponent = <DonationsPage donations={merchantInfo.donations} />;
           pageTitle = "Donations";
           break;
+      case "analytics":
+        pageComponent = <AnalyticsPage analytics={merchantInfo.analytics} />;
+        pageTitle = "Analytics";
+        break;
       default: 
         pageComponent = <p>Invalid page.</p>;
         pageTitle = "Invalid Page";
@@ -231,8 +235,8 @@ function MerchantPortal(props) {
             </ListItem>
             <ListItem 
               button 
-              onClick={() => setPage("transactions")}
-              selected={page === "transactions"}
+              onClick={() => setPage("analytics")}
+              selected={page === "analytics"}
             >
               <ListItemIcon>
                 <AssessmentIcon/>
