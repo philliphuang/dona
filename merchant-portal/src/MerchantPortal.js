@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -25,6 +26,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 
+import DashboardPage from './dashboard-page/DashboardPage';
 import ConfigPage from './config-page/ConfigPage';
 import DonationsPage from './donations-page/DonationsPage';
 import AnalyticsPage from './analytics-page/AnalyticsPage';
@@ -113,7 +115,7 @@ function MerchantPortal(props) {
   const { publicKey } = props;
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [page, setPage] = React.useState("configs");
+  const [page, setPage] = React.useState("dashboard");
   const [loading, setLoading] = React.useState(true);
   const [merchantInfo, setMerchantInfo] = React.useState();
 
@@ -163,17 +165,21 @@ function MerchantPortal(props) {
     pageTitle = "Loading data...";
   } else {
     switch(page) {
+      case "dashboard":
+        pageComponent = <DashboardPage merchantInfo={merchantInfo} setPage={setPage} />;
+        pageTitle = "Dashboard";
+        break;
       case "configs":
         pageComponent = <ConfigPage configs={merchantInfo.configs} publicKey={publicKey} />;
-        pageTitle = "Checkout Donation Configurations";
+        pageTitle = "Configurations";
         break;
-      case "donations":
-          pageComponent = <DonationsPage donations={merchantInfo.donations} />;
-          pageTitle = "Donations";
-          break;
       case "analytics":
         pageComponent = <AnalyticsPage analytics={merchantInfo.analytics} />;
         pageTitle = "Analytics";
+        break;
+      case "donations":
+        pageComponent = <DonationsPage donations={merchantInfo.donations} />;
+        pageTitle = "Donations";
         break;
       default: 
         pageComponent = <p>Invalid page.</p>;
@@ -215,6 +221,16 @@ function MerchantPortal(props) {
           <List>
             <ListItem 
               button 
+              onClick={() => setPage("dashboard")}
+              selected={page === "dashboard"}
+            >
+              <ListItemIcon>
+                <DashboardIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+            <ListItem 
+              button 
               onClick={() => setPage("configs")}
               selected={page === "configs"}
             >
@@ -225,16 +241,6 @@ function MerchantPortal(props) {
             </ListItem>
             <ListItem 
               button 
-              onClick={() => setPage("donations")}
-              selected={page === "donations"}
-            >
-              <ListItemIcon>
-                <PointOfSaleIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Donations" />
-            </ListItem>
-            <ListItem 
-              button 
               onClick={() => setPage("analytics")}
               selected={page === "analytics"}
             >
@@ -242,6 +248,16 @@ function MerchantPortal(props) {
                 <AssessmentIcon/>
               </ListItemIcon>
               <ListItemText primary="Analytics" />
+            </ListItem>
+            <ListItem 
+              button 
+              onClick={() => setPage("donations")}
+              selected={page === "donations"}
+            >
+              <ListItemIcon>
+                <PointOfSaleIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Donations" />
             </ListItem>
           </List>
         </Drawer>

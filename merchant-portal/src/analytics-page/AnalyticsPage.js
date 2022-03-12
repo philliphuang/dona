@@ -62,6 +62,8 @@ function AnalyticsPage(props) {
     ]
   };
 
+  // TODO: switch with real stuff
+
   return (
     <Container>
       <Grid container spacing={3} sx={{my:2}}>
