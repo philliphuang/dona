@@ -5,6 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Link from '@mui/material/Link';
 
 import { centsToDollars } from '../../utils';
 
@@ -34,7 +35,11 @@ function DonationsTable(props) {
               </TableCell>
               <TableCell>{donation.recipient_name}</TableCell>
               <TableCell>{donation.donation_type}</TableCell>
-              <TableCell>{donation.reference}</TableCell>
+              <TableCell>
+                <Link href={donation.solscan_url}>
+                  {donation.reference}
+                </Link>
+              </TableCell>
               <TableCell>{donation.date_time}</TableCell>
             </TableRow>
           ))}
