@@ -26,8 +26,11 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 
 import ConfigPage from './config-page/ConfigPage';
+import DonationsPage from './donations-page/DonationsPage';
 
 import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
+
+export const RecipientsContext = React.createContext();
 
 const drawerWidth = 240;
 
@@ -116,7 +119,7 @@ function MerchantPortal(props) {
   React.useEffect(() => {
     if (publicKey) {
       // TODO: update to be general merchant info endpoint
-      fetch(`http://127.0.0.1:5000/api/merchants/${publicKey}/donation-configs`, {
+      fetch(`http://127.0.0.1:5000/api/merchants/${publicKey}/dashboard`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -161,12 +164,12 @@ function MerchantPortal(props) {
     switch(page) {
       case "configs":
         // TODO: update to handle general merchant info endpoint
-        pageComponent = <ConfigPage configs={merchantInfo} publicKey={publicKey} />;
+        pageComponent = <ConfigPage configs={merchantInfo.configs} publicKey={publicKey} />;
         pageTitle = "Checkout Donation Configurations";
         break;
-      case "transactions":
-          pageComponent = <p>Transactions page</p>;
-          pageTitle = "Donation Transactions";
+      case "donations":
+          pageComponent = <DonationsPage donations={merchantInfo.donations} />;
+          pageTitle = "Donations";
           break;
       default: 
         pageComponent = <p>Invalid page.</p>;
@@ -175,81 +178,83 @@ function MerchantPortal(props) {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: '36px',
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
-            {pageTitle}
-          </Typography>
-          <WalletDisconnectButton/>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          <ListItem 
-            button 
-            onClick={() => setPage("configs")}
-            selected={page === "configs"}
-          >
-            <ListItemIcon>
-              <BuildIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Configurations" />
-          </ListItem>
-          <ListItem 
-            button 
-            onClick={() => setPage("transactions")}
-            selected={page === "transactions"}
-          >
-            <ListItemIcon>
-              <PointOfSaleIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Transactions" />
-          </ListItem>
-          <ListItem 
-            button 
-            onClick={() => setPage("transactions")}
-            selected={page === "transactions"}
-          >
-            <ListItemIcon>
-              <AssessmentIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Analytics" />
-          </ListItem>
-        </List>
-      </Drawer>
-      <Box
-        component="main"
-        sx={{
-          backgroundColor: theme.palette.grey[100],
-          flexGrow: 1,
-          height: '100vh',
-          overflow: 'auto',
-        }}
-      >
-        <DrawerHeader/>
-        {pageComponent}
+    <RecipientsContext.Provider value={merchantInfo && merchantInfo.available_recipients}>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: '36px',
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
+              {pageTitle}
+            </Typography>
+            <WalletDisconnectButton/>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            <ListItem 
+              button 
+              onClick={() => setPage("configs")}
+              selected={page === "configs"}
+            >
+              <ListItemIcon>
+                <BuildIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Configurations" />
+            </ListItem>
+            <ListItem 
+              button 
+              onClick={() => setPage("donations")}
+              selected={page === "donations"}
+            >
+              <ListItemIcon>
+                <PointOfSaleIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Donations" />
+            </ListItem>
+            <ListItem 
+              button 
+              onClick={() => setPage("transactions")}
+              selected={page === "transactions"}
+            >
+              <ListItemIcon>
+                <AssessmentIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Analytics" />
+            </ListItem>
+          </List>
+        </Drawer>
+        <Box
+          component="main"
+          sx={{
+            backgroundColor: theme.palette.grey[100],
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+          }}
+        >
+          <DrawerHeader/>
+          {pageComponent}
+        </Box>
       </Box>
-    </Box>
+    </RecipientsContext.Provider>
   );
 }
 
