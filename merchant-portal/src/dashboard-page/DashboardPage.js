@@ -84,6 +84,15 @@ function DashboardPage(props) {
   return (
     <Container>
       <Grid container spacing={3} sx={{my:2}}>
+        <Grid item xs={12} md={activeConfigPresent ? 6 : 12}>
+          <DashboardCard 
+            title="Donation Volume By Day"
+            content={<VolumeByDay data={analytics.donation_volume_daily} />}
+            setPage={setPage}
+            page="analytics"
+            pageText="See all analytics"
+          />
+        </Grid>
         {activeConfigPresent &&
           <Grid item xs={12} md={6}>
             <DashboardCard 
@@ -95,15 +104,6 @@ function DashboardPage(props) {
             />
           </Grid>
         }
-        <Grid item xs={12} md={activeConfigPresent ? 6 : 12}>
-          <DashboardCard 
-            title="Donation Volume By Day"
-            content={<VolumeByDay data={analytics.donation_volume_daily} />}
-            setPage={setPage}
-            page="analytics"
-            pageText="See all analytics"
-          />
-        </Grid>
         <Grid item xs={12}>
           <DashboardCard 
             title="Latest Donations" 
