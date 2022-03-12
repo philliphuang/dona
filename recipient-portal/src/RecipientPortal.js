@@ -111,7 +111,7 @@ function LoadingPage() {
   );
 }
 
-function MerchantPortal(props) {
+function RecipientPortal(props) {
   const { publicKey } = props;
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -167,7 +167,7 @@ function MerchantPortal(props) {
     switch(page) {
       case "dashboard":
         pageComponent = <DashboardPage merchantInfo={merchantInfo} setPage={setPage} />;
-        pageTitle = "Merchant Dashboard";
+        pageTitle = "Recipient Dashboard";
         break;
       case "configs":
         pageComponent = <ConfigPage configs={merchantInfo.configs} publicKey={publicKey} />;
@@ -276,4 +276,4 @@ function MerchantPortal(props) {
   );
 }
 
-export default MerchantPortal;
+export default RecipientPortal;

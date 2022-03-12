@@ -14,7 +14,7 @@ import {
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import React, { FC, ReactNode, useMemo } from 'react';
-import MerchantPortal from './MerchantPortal';
+import RecipientPortal from './RecipientPortal';
 
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -69,10 +69,10 @@ const Content: FC = () => {
     <div>
       {
         publicKey ? 
-        <MerchantPortal publicKey={publicKey} /> :
+        <RecipientPortal publicKey={publicKey} /> :
         <Container maxWidth="xs">
           <Stack spacing={2} sx={{mt:4, mb:4}}>
-            <Typography align="center" variant="h4">Dona Merchant Portal</Typography>
+            <Typography align="center" variant="h4">Dona Recipient Portal</Typography>
             <Typography align="center" variant="h6">Sign in with your Solana Wallet</Typography>
             <WalletMultiButton/>
           </Stack>
