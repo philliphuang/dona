@@ -11,7 +11,8 @@ import VolumeByDay from './components/VolumeByDay';
 import DonationType from './components/DonationType';
 import TotalAmount from './components/TotalAmount';
 import TotalDonors from './components/TotalDonors';
-import Recipients from './components/Recipients';
+import Merchants from './components/Merchants';
+import TopDonors from './components/TopDonors';
 
 function AnalyticsCard(props) {
   const { title, content, height } = props
@@ -28,39 +29,42 @@ function AnalyticsCard(props) {
 function AnalyticsPage(props) {
   // const { analytics } = props;
   const analytics = {
-    "total_donation_amount": 87,
-    "total_donors": 1,
-    "donation_volume_by_recipient": [
+    "total_donation_amount": 256, 
+    "total_donors": 2, 
+    "donation_volume_by_merchant": [
       {
-        "recipient_name": "Aid for Ukraine",
-        "value": 87
+        "merchant_name": "El Pollo Loco", 
+        "value": 256
       }
-    ],
+    ], 
     "donation_volume_by_type": [
       {
-        "type": "roundup",
+        "type": "input", 
+        "value": 169
+      }, 
+      {
+        "type": "roundup", 
         "value": 87
       }
-    ],
+    ], 
+    "donation_volume_by_top_donors": [
+      {
+        "public_key": "consumer_public_key", 
+        "value": 256
+      }
+    ], 
     "donation_volume_daily": [
       {
-        "date": "Mon, 28 Feb 2022 00:00:00 GMT",
+        "date": "Sun, 28 Feb 2021 00:00:00 GMT", 
+        "value": 169
+      }, 
+      {
+        "date": "Mon, 28 Feb 2022 00:00:00 GMT", 
         "value": 87
-      },
-      {
-        "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-        "value": 96
-      },
-      {
-        "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-        "value": 38
-      },
-      {
-        "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-        "value": 104
       }
     ]
   };
+
 
   // TODO: switch with real stuff
 
@@ -96,8 +100,14 @@ function AnalyticsPage(props) {
         </Grid>
         <Grid item xs={12}>
           <AnalyticsCard 
-            title="Recipients" 
-            content={<Recipients data={analytics.donation_volume_by_recipient} />}
+            title="Merchants" 
+            content={<Merchants data={analytics.donation_volume_by_merchant} />}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <AnalyticsCard 
+            title="Top Donors" 
+            content={<TopDonors data={analytics.donation_volume_by_top_donors} />}
           />
         </Grid>
       </Grid>

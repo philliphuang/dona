@@ -121,7 +121,6 @@ function MerchantPortal(props) {
 
   React.useEffect(() => {
     if (publicKey) {
-      // TODO: update to be general merchant info endpoint
       fetch(`http://127.0.0.1:5000/api/merchants/${publicKey}/dashboard`, {
         method: 'GET',
         headers: {
@@ -167,7 +166,7 @@ function MerchantPortal(props) {
     switch(page) {
       case "dashboard":
         pageComponent = <DashboardPage merchantInfo={merchantInfo} setPage={setPage} />;
-        pageTitle = "Merchant Dashboard";
+        pageTitle = "Dashboard";
         break;
       case "configs":
         pageComponent = <ConfigPage configs={merchantInfo.configs} publicKey={publicKey} />;
@@ -216,7 +215,7 @@ function MerchantPortal(props) {
             <Typography variant="h4">DONA</Typography>
           </DrawerHeader>
           <Divider />
-          <List>
+          <List sx={{flexGrow:1}}>
             <ListItem 
               button 
               onClick={() => setPage("dashboard")}
@@ -258,6 +257,7 @@ function MerchantPortal(props) {
               <ListItemText primary="Donations" />
             </ListItem>
           </List>
+          <Typography variant="overline" sx={{pb:2}} align="center">MERCHANT PORTAL</Typography>
         </Drawer>
         <Box
           component="main"

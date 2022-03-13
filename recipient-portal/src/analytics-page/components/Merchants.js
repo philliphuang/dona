@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ResponsiveContainer, BarChart, Bar, CartesianGrid, Legend, XAxis, YAxis, Tooltip } from 'recharts';
 
-function Recipients(props) {
+function Merchants(props) {
   const { data } = props;
 
   return (
@@ -18,7 +18,7 @@ function Recipients(props) {
         }}
       >
         <CartesianGrid />
-        <XAxis dataKey="recipient_name" />
+        <XAxis dataKey="merchant_name" />
         <YAxis label={{ value: 'Dollars', angle: -90, position: 'insideLeft' }} />
         <Tooltip />
         <Tooltip/>
@@ -28,4 +28,4 @@ function Recipients(props) {
   );
 }
 
-export default Recipients;
+export default Merchants;

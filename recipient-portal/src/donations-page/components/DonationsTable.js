@@ -18,7 +18,7 @@ function DonationsTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>Donation Amount</TableCell>
-            <TableCell>Recipient</TableCell>
+            <TableCell>Merchant</TableCell>
             <TableCell>Donation Type</TableCell>
             <TableCell>Reference</TableCell>
             <TableCell>Date</TableCell>
@@ -33,7 +33,7 @@ function DonationsTable(props) {
               <TableCell component="th" scope="row">
                 {'$' + centsToDollars(donation.donation_amount)}
               </TableCell>
-              <TableCell>{donation.recipient_name}</TableCell>
+              <TableCell>{donation.merchant_name}</TableCell>
               <TableCell>{donation.donation_type}</TableCell>
               <TableCell>
                 <Link href={donation.solscan_url}>

@@ -65,26 +65,32 @@ const analytics = {
 
 const donations = [
   {
-    "donation_amount": 87,
-    "recipient_name": "Aid for Ukraine",
-    "donation_type": "roundup",
-    "reference": "Hf8gQHSV972JsKfgfbZP2fVWrCgXUhRPJnkRag9GUWjr",
-    "solscan_url": "https://solscan.io/tx/Hf8gQHSV972JsKfgfbZP2fVWrCgXUhRPJnkRag9GUWjr",
+    "donation_amount": 87, 
+    "merchant_name": "El Pollo Loco", 
+    "donation_type": "roundup", 
+    "reference": "Hf8gQHSV972JsKfgfbZP2fVWrCgXUhRPJnkRag9GUWjr", 
+    "solscan_url": "https://solscan.io/tx/Hf8gQHSV972JsKfgfbZP2fVWrCgXUhRPJnkRag9GUWjr", 
     "date_time": "Feb 28, 2022 4:33 PM"
+  }, 
+  {
+    "donation_amount": 169, 
+    "merchant_name": "El Pollo Loco", 
+    "donation_type": "input", 
+    "reference": "abcd", 
+    "solscan_url": "https://solscan.io/tx/abcd", 
+    "date_time": "Feb 28, 2021 4:33 PM"
   }
 ];
 
 // TODO: switch with real stuff
 
 function DashboardPage(props) {
-  const { merchantInfo, setPage } = props;
-
-  const activeConfigPresent = merchantInfo.configs.active_config;
+  const { recipientInfo, setPage } = props;
   
   return (
     <Container>
       <Grid container spacing={3} sx={{my:2}}>
-        <Grid item xs={12} md={activeConfigPresent ? 6 : 12}>
+        <Grid item xs={12}>
           <DashboardCard 
             title="Donation Volume By Day"
             content={<VolumeByDay data={analytics.donation_volume_daily} />}
@@ -93,17 +99,6 @@ function DashboardPage(props) {
             pageText="See all analytics"
           />
         </Grid>
-        {activeConfigPresent &&
-          <Grid item xs={12} md={6}>
-            <DashboardCard 
-              title="Active Configuration" 
-              content={<ActiveConfig config={merchantInfo.configs.active_config} />}
-              setPage={setPage}
-              page="configs"
-              pageText="See all configurations"
-            />
-          </Grid>
-        }
         <Grid item xs={12}>
           <DashboardCard 
             title="Latest Donations" 
