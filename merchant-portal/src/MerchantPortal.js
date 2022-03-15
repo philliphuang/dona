@@ -139,7 +139,7 @@ function MerchantPortal(props) {
           }}
         >
           <Typography variant="h4" sx={{py:2}} align="center">DONA</Typography>
-          <List sx={{flexGrow:1}}>
+          <List sx={{flexGrow:1}} disablePadding>
             <ListItem 
               button 
               onClick={() => setPage("dashboard")}
@@ -147,7 +147,7 @@ function MerchantPortal(props) {
               sx={{
                 borderTopRightRadius:32, 
                 borderBottomRightRadius: 32,
-                my: 1,
+                mb: 1,
                 backgroundColor: page === "dashboard" && theme.palette.grey[300],
               }}
             >
