@@ -17,7 +17,6 @@ function Recipients(props) {
           bottom: 5,
         }}
       >
-        <CartesianGrid />
         <XAxis dataKey="recipient_name" />
         <YAxis label={{ value: 'Dollars', angle: -90, position: 'insideLeft' }} />
         <Tooltip />
