@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from app.models import *
 from solana.keypair import Keypair
-from mimesis import Finance
+from mimesis import Finance, Datetime
 from random import choice
 
 # Actual Solana wallet addresses
@@ -90,7 +90,7 @@ with Session(engine) as session:
 
 	# Generate sample random donations for demo
 	for consumer_key in DEMO_CONSUMER_KEYS:
-		for _ in range(5):
+		for _ in range(10):
 			donation_type = choice(['input', 'fixed', 'roundup'])
 			if donation_type == 'input':
 				donation_amount = choice(range(10, 1001))
@@ -108,7 +108,8 @@ with Session(engine) as session:
 				transaction_total=donation_amount + purchase_amount,
 				merchant_public_key=choice(DEMO_MERCHANT_KEYS),
 				consumer_public_key=choice(DEMO_CONSUMER_KEYS),
-				recipient_public_key=choice(DEMO_RECIPIENT_KEYS)
+				recipient_public_key=choice(DEMO_RECIPIENT_KEYS),
+				logged_at=Datetime().datetime(start=2022, end=2022)
 			)
 
 			session.add(dummy_donation)
