@@ -4,11 +4,50 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+    },
+    shape: {
+        borderRadius: 16,
+    },
+    typography: {
+      fontFamily: '"Barlow", "Roboto", "Helvetica", "Arial", sans-serif',
+      h1: {
+        fontWeight: 700,
+      },
+      h2: {
+        fontWeight: 700,
+      },
+      h3: {
+        fontWeight: 700,
+      },
+      h4: {
+        fontWeight: 700,
+      },
+      h5: {
+        fontWeight: 700,
+      },
+      h6: {
+        fontWeight: 600,
+      },
+      body1: {
+        fontWeight: 600,
+      },
+      button: {
+        fontWeight: 700,
+        textTransform: "none",
+      },
+    },
+  });
 
 ReactDOM.render(
     <React.StrictMode>
-        <CssBaseline />
-        <App />
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <App />
+        </ThemeProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );

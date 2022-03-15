@@ -21,6 +21,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Skeleton from '@mui/material/Skeleton';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
+import Drawer from '@mui/material/Drawer';
 
 import BuildIcon from '@mui/icons-material/Build';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
@@ -36,68 +37,6 @@ import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 export const RecipientsContext = React.createContext();
 
 const drawerWidth = 240;
-
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-});
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-  }),
-);
 
 function LoadingPage() {
   return (
@@ -149,14 +88,6 @@ function MerchantPortal(props) {
     }
   }, [publicKey]);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   let pageComponent;
   let pageTitle;
   if (loading) {
@@ -190,36 +121,31 @@ function MerchantPortal(props) {
     <RecipientsContext.Provider value={merchantInfo && merchantInfo.available_recipients}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="fixed" open={open}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
-              {pageTitle}
-            </Typography>
-            <WalletDisconnectButton/>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <DrawerHeader>
-            <Typography variant="h4">DONA</Typography>
-          </DrawerHeader>
-          <Divider />
+
+        <Drawer 
+          variant="permanent"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              borderRight: 0,
+              bgcolor: theme.palette.grey[100]
+            },
+          }}
+        >
+          <Typography variant="h4" sx={{py:2}} align="center">DONA</Typography>
           <List sx={{flexGrow:1}}>
             <ListItem 
               button 
               onClick={() => setPage("dashboard")}
-              selected={page === "dashboard"}
+              // selected={page === "dashboard"}
+              sx={{
+                borderTopRightRadius:32, 
+                borderBottomRightRadius: 32,
+                my: 1,
+                backgroundColor: page === "dashboard" && theme.palette.grey[300],
+              }}
             >
               <ListItemIcon>
                 <DashboardIcon/>
@@ -229,7 +155,12 @@ function MerchantPortal(props) {
             <ListItem 
               button 
               onClick={() => setPage("configs")}
-              selected={page === "configs"}
+              sx={{
+                borderTopRightRadius:32, 
+                borderBottomRightRadius: 32,
+                my: 1,
+                backgroundColor: page === "configs" && theme.palette.grey[300],
+              }}
             >
               <ListItemIcon>
                 <BuildIcon/>
@@ -239,7 +170,12 @@ function MerchantPortal(props) {
             <ListItem 
               button 
               onClick={() => setPage("analytics")}
-              selected={page === "analytics"}
+              sx={{
+                borderTopRightRadius:32, 
+                borderBottomRightRadius: 32,
+                my: 1,
+                backgroundColor: page === "analytics" && theme.palette.grey[300],
+              }}
             >
               <ListItemIcon>
                 <AssessmentIcon/>
@@ -249,7 +185,12 @@ function MerchantPortal(props) {
             <ListItem 
               button 
               onClick={() => setPage("donations")}
-              selected={page === "donations"}
+              sx={{
+                borderTopRightRadius:32, 
+                borderBottomRightRadius: 32,
+                my: 1,
+                backgroundColor: page === "donations" && theme.palette.grey[300],
+              }}
             >
               <ListItemIcon>
                 <PointOfSaleIcon/>
@@ -258,7 +199,28 @@ function MerchantPortal(props) {
             </ListItem>
           </List>
           <Typography variant="overline" sx={{pb:2}} align="center">MERCHANT PORTAL</Typography>
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            py: 1,
+          }}>
+            <WalletDisconnectButton />
+          </Box>
         </Drawer>
+
+        {/* <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            height: '100vh',
+            width: 32,
+            overflow: 'auto',
+            background: `linear-gradient(to right, ${theme.palette.background.paper}, ${theme.palette.grey[100]})`
+          }}
+        >
+        </Box> */}
+
         <Box
           component="main"
           sx={{
@@ -268,9 +230,14 @@ function MerchantPortal(props) {
             overflow: 'auto',
           }}
         >
-          <DrawerHeader/>
+          <Container sx={{pt:4}}>
+           <Typography variant="h2">
+              {pageTitle}
+            </Typography>
+          </Container>
           {pageComponent}
         </Box>
+        
       </Box>
     </RecipientsContext.Provider>
   );

@@ -16,7 +16,7 @@ function DashboardCard(props) {
   const { title, content, setPage, page, pageText, height } = props
 
   return (
-    <Card  variant="outlined">
+    <Card>
       <CardContent sx={{height: height}}>
         <Typography variant="h6" gutterBottom>{title}</Typography>
         {content}
@@ -27,54 +27,6 @@ function DashboardCard(props) {
     </Card>
   );
 }
-
-const analytics = {
-  "total_donation_amount": 87,
-  "total_donors": 1,
-  "donation_volume_by_recipient": [
-    {
-      "recipient_name": "Aid for Ukraine",
-      "value": 87
-    }
-  ],
-  "donation_volume_by_type": [
-    {
-      "type": "roundup",
-      "value": 87
-    }
-  ],
-  "donation_volume_daily": [
-    {
-      "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-      "value": 87
-    },
-    {
-      "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-      "value": 96
-    },
-    {
-      "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-      "value": 38
-    },
-    {
-      "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-      "value": 104
-    }
-  ]
-};
-
-const donations = [
-  {
-    "donation_amount": 87,
-    "recipient_name": "Aid for Ukraine",
-    "donation_type": "roundup",
-    "reference": "Hf8gQHSV972JsKfgfbZP2fVWrCgXUhRPJnkRag9GUWjr",
-    "solscan_url": "https://solscan.io/tx/Hf8gQHSV972JsKfgfbZP2fVWrCgXUhRPJnkRag9GUWjr",
-    "date_time": "Feb 28, 2022 4:33 PM"
-  }
-];
-
-// TODO: switch with real stuff
 
 function DashboardPage(props) {
   const { merchantInfo, setPage } = props;
@@ -87,7 +39,7 @@ function DashboardPage(props) {
         <Grid item xs={12} md={activeConfigPresent ? 6 : 12}>
           <DashboardCard 
             title="Donation Volume By Day"
-            content={<VolumeByDay data={analytics.donation_volume_daily} />}
+            content={<VolumeByDay data={merchantInfo.analytics.donation_volume_daily} />}
             setPage={setPage}
             page="analytics"
             pageText="See all analytics"
@@ -107,7 +59,7 @@ function DashboardPage(props) {
         <Grid item xs={12}>
           <DashboardCard 
             title="Latest Donations" 
-            content={<DonationsTable donations={donations} />}
+            content={<DonationsTable donations={merchantInfo.donations.slice(0, 5)} />}
             setPage={setPage}
             page="donations"
             pageText="See all donations"
