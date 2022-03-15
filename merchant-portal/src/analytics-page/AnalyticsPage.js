@@ -26,43 +26,7 @@ function AnalyticsCard(props) {
 }
 
 function AnalyticsPage(props) {
-  // const { analytics } = props;
-  const analytics = {
-    "total_donation_amount": 87,
-    "total_donors": 1,
-    "donation_volume_by_recipient": [
-      {
-        "recipient_name": "Aid for Ukraine",
-        "value": 87
-      }
-    ],
-    "donation_volume_by_type": [
-      {
-        "type": "roundup",
-        "value": 87
-      }
-    ],
-    "donation_volume_daily": [
-      {
-        "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-        "value": 87
-      },
-      {
-        "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-        "value": 96
-      },
-      {
-        "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-        "value": 38
-      },
-      {
-        "date": "Mon, 28 Feb 2022 00:00:00 GMT",
-        "value": 104
-      }
-    ]
-  };
-
-  // TODO: switch with real stuff
+  const { analytics } = props;
 
   return (
     <Container>
