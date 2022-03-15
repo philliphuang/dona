@@ -80,61 +80,63 @@ def get_active_donation_config(public_key):
 
 				# Load refreshed recipient object
 				recipient = db.session.query(Recipient).filter_by(public_key=option['recipient']['public_key']).first()
-				option['recipient'] = recipient.to_dict()
+				if recipient is not None:
+					option['recipient'] = recipient.to_dict()
 
-				# Create donation_transfer_request object
-				donation_recipient = option['recipient']['public_key']
-				amount = option['donation_cents'] * 0.01
-				spl_token = USDC_SPL_ADDRESS
-				reference = str(Keypair().public_key)
-				label = quote('Confirm donation to {}'.format(recipient.name))
-				message = quote('Donation of {} to {}'.format(str(amount) + ' USDC', recipient.name))
+					# Create donation_transfer_request object
+					donation_recipient = option['recipient']['public_key']
+					amount = option['donation_cents'] * 0.01
+					spl_token = USDC_SPL_ADDRESS
+					reference = str(Keypair().public_key)
+					label = quote('Confirm donation to {}'.format(recipient.name))
+					message = quote('Donation of {} to {}'.format(str(amount) + ' USDC', recipient.name))
 
-				option['donation_transfer_request'] = {
-					'recipient': donation_recipient,
-					'amount': amount,
-					'spl_token': spl_token,
-					'reference': reference,
-					'label': label,
-					'message': message
-				}
+					option['donation_transfer_request'] = {
+						'recipient': donation_recipient,
+						'amount': amount,
+						'spl_token': spl_token,
+						'reference': reference,
+						'label': label,
+						'message': message
+					}
 
-				option['donation_transfer_request']['url'] = \
-					'solana:' + donation_recipient \
-					+ '?amount=' + str(amount) \
-					+ '&spl-token=' + spl_token \
-					+ '&label=' + label \
-					+ '&message=' + message \
-					+ '&reference=' + reference
+					option['donation_transfer_request']['url'] = \
+						'solana:' + donation_recipient \
+						+ '?amount=' + str(amount) \
+						+ '&spl-token=' + spl_token \
+						+ '&label=' + label \
+						+ '&message=' + message \
+						+ '&reference=' + reference
 
-				# Create donation_transaction_request object
-				split_transaction_request = SplitTransactionRequest(
-					spl_token=spl_token,
-					recipient_public_key=donation_recipient,
-					merchant_public_key=public_key,
-					merchant_amount=option['purchase_cents'],
-					recipient_amount=option['donation_cents'],
-					reference=reference
-				)
+					# Create donation_transaction_request object
+					split_transaction_request = SplitTransactionRequest(
+						spl_token=spl_token,
+						recipient_public_key=donation_recipient,
+						merchant_public_key=public_key,
+						merchant_amount=option['purchase_cents'],
+						recipient_amount=option['donation_cents'],
+						reference=reference
+					)
 
-				db.session.add(split_transaction_request)
-				db.session.commit()
+					db.session.add(split_transaction_request)
+					db.session.commit()
 
-				# TODO: Add base URL
-				link = url_for('create_interactive_transaction', uuid=split_transaction_request.uuid)
-				label = quote('Confirm purchase including donation to {}').format(str(amount) + ' USDC', recipient.name)
-				message = quote('Your purchase includes a {} donation to {}'.format(str(amount) + ' USDC', recipient.name))
+					link = app.config["APP_BASE_URL"] + url_for('create_interactive_transaction', uuid=split_transaction_request.uuid)
+					label = quote('Confirm purchase including donation to {}').format(str(amount) + ' USDC', recipient.name)
+					message = quote('Your purchase includes a {} donation to {}'.format(str(amount) + ' USDC', recipient.name))
 
-				option['donation_transaction_request'] = {
-					'link': link,
-					'label': label,
-					'message': message
-				}
+					option['donation_transaction_request'] = {
+						'link': link,
+						'label': label,
+						'message': message
+					}
 
-				option['donation_transaction_request']['url'] = \
-					'solana:' + link \
-					+ '&label=' + label \
-					+ '&message=' + message \
+					option['donation_transaction_request']['url'] = \
+						'solana:' + link \
+						+ '&label=' + label \
+						+ '&message=' + message
+				else:
+					return {"message": "No recipient found for active config"}, 400
 
 		return configs_template['active_config'], 200
 
@@ -227,7 +229,7 @@ def mark_donation_complete():
 
 				response = jsonify(marked_donation.to_dict())
 				response.status_code = 201
-				response.headers['Location'] = url_for('get_marked_donation', uuid=marked_donation.uuid)
+				response.headers['Location'] = app.config["APP_BASE_URL"] + url_for('get_marked_donation', uuid=marked_donation.uuid)
 				return response
 
 			elif not merchant_public_key:
