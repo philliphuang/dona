@@ -14,6 +14,8 @@ import Avatar from '@mui/material/Avatar';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import DonationComponent from '@riptide-dona/react-components.ui.donation-component';
 
+import { styled, useTheme } from '@mui/material/styles';
+
 export function centsToDollars(cents) {
   return (cents / 100).toLocaleString(
     "en-US", 
@@ -59,7 +61,7 @@ function CheckoutItem(props) {
 
 function CheckoutDemo() {
   const [selectedOption, setSelectedOption] = React.useState();
-
+  const theme = useTheme();
   const itemCents = items.reduce((prev, current) => prev + current.cents, 0);
   const shippingCents = 299;
   const taxRate = 0.07;
@@ -72,103 +74,103 @@ function CheckoutDemo() {
     preDonationCents;
 
 	return (
-    <Container maxWidth="lg">
-      <Grid container spacing={2}>
-        <Grid item lg={8}>
-          <Stack spacing={2} sx={{py:4, mr:4}}>
-            <Typography variant="h2">
-              Checkout
-            </Typography>
-            <Paper variant="outlined" square>
-              <Stack 
-                direction="row" 
-                divider={<Divider orientation="vertical" flexItem />} 
-                justifyContent="space-between"
-              >
-                <Box sx={{flexGrow:1, p:4}}>
-                  <Typography variant="h5" gutterBottom>Shipping Address</Typography>
-                  <Typography>Mark Zuckerberg</Typography>
-                  <Typography>1 Facebook Way</Typography>
-                  <Typography>Menlo Park, CA</Typography>
-                </Box>
-                <Box sx={{flexGrow:1, p:4}}>
-                  <Typography variant="h5" gutterBottom>Billing Address</Typography>
-                  <Typography>Same as shipping address.</Typography>
-                </Box>
-              </Stack>
-            </Paper>
-            <Paper variant="outlined" square sx={{p:4}}>
-              <Typography variant="h5" gutterBottom>
-                Your Cart
+    <Box sx={{bgcolor: theme.palette.grey[100], height: '100vh'}}>
+      <Container maxWidth="lg">
+        <Grid container spacing={2}>
+          <Grid item lg={8}>
+            <Stack spacing={2} sx={{py:4, mr:4}}>
+              <Typography variant="h2">
+                Checkout
               </Typography>
-              <Stack spacing={2} divider={<Divider />}>
-                
-                { 
-                  items.map(
-                    (item, index) => <CheckoutItem item={item} key={index} />
-                  ) 
-                }
-              </Stack>
-            </Paper>
-          </Stack>
-        </Grid>
-        <Grid item lg={4}>
-          <Paper 
-            variant="outlined"
-            square
-            sx={{
-              mt:4,
-              p:4,
-              height: 720,
-              display:"flex", 
-              flexDirection: "column", 
-              justifyContent:"space-between"
-            }}
-          >
-            <Box>
-              <Typography variant="h5" align="center" gutterBottom>
-                Order Summary
-              </Typography>
-              <List disablePadding>
-                <ListItem sx={{ py: 1, px: 0 }}>
-                  <ListItemText primary="Items" />
-                  <Typography>{centsToDollars(itemCents)}</Typography>
-                </ListItem>
-                <ListItem sx={{ py: 1, px: 0 }}>
-                  <ListItemText primary="Shipping" />
-                  <Typography>{centsToDollars(shippingCents)}</Typography>
-                </ListItem>
-                <ListItem sx={{ py: 1, px: 0 }}>
-                  <ListItemText primary="Tax" />
-                  <Typography>{centsToDollars(taxCents)}</Typography>
-                </ListItem>
-                {
-                  selectedOption &&  
-                  <ListItem sx={{ py: 1, px: 0 }}>
-                    <ListItemText primary={"Donation to " + selectedOption.recipient.name} />
-                    <Typography>{centsToDollars(selectedOption.donation_cents)}</Typography>
-                  </ListItem>
-                }
-              </List>
-            </Box>
-            <Box>
-              <DonationComponent 
-                merchantPublicKey={publicKey} 
-                purchaseCents={preDonationCents}
-                setSelectedOption={setSelectedOption}
-              />
-              <ListItem sx={{ py: 2, px: 0 }}>
-                <ListItemText primary="Total" primaryTypographyProps={{ fontWeight: 700 }} />
-                <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                  {centsToDollars(transactionCents)}
+              <Paper>
+                <Stack 
+                  direction="row" 
+                  divider={<Divider orientation="vertical" flexItem />} 
+                  justifyContent="space-between"
+                >
+                  <Box sx={{flexGrow:1, p:4}}>
+                    <Typography variant="h5" gutterBottom>Shipping Address</Typography>
+                    <Typography>Mark Zuckerberg</Typography>
+                    <Typography>1 Facebook Way</Typography>
+                    <Typography>Menlo Park, CA</Typography>
+                  </Box>
+                  <Box sx={{flexGrow:1, p:4}}>
+                    <Typography variant="h5" gutterBottom>Billing Address</Typography>
+                    <Typography>Same as shipping address.</Typography>
+                  </Box>
+                </Stack>
+              </Paper>
+              <Paper sx={{p:4}}>
+                <Typography variant="h5" gutterBottom>
+                  Your Cart
                 </Typography>
-              </ListItem>
-              <Button variant="contained" fullWidth size="large">Pay with Solana Pay</Button>
-            </Box>
-          </Paper>
+                <Stack spacing={2} divider={<Divider />}>
+                  
+                  { 
+                    items.map(
+                      (item, index) => <CheckoutItem item={item} key={index} />
+                    ) 
+                  }
+                </Stack>
+              </Paper>
+            </Stack>
+          </Grid>
+          <Grid item lg={4}>
+            <Paper 
+              sx={{
+                mt:4,
+                p:4,
+                height: 720,
+                display:"flex", 
+                flexDirection: "column", 
+                justifyContent:"space-between"
+              }}
+            >
+              <Box>
+                <Typography variant="h5" align="center" gutterBottom>
+                  Order Summary
+                </Typography>
+                <List disablePadding>
+                  <ListItem sx={{ py: 1, px: 0 }}>
+                    <ListItemText primary="Items" />
+                    <Typography>{centsToDollars(itemCents)}</Typography>
+                  </ListItem>
+                  <ListItem sx={{ py: 1, px: 0 }}>
+                    <ListItemText primary="Shipping" />
+                    <Typography>{centsToDollars(shippingCents)}</Typography>
+                  </ListItem>
+                  <ListItem sx={{ py: 1, px: 0 }}>
+                    <ListItemText primary="Tax" />
+                    <Typography>{centsToDollars(taxCents)}</Typography>
+                  </ListItem>
+                  {
+                    selectedOption &&  
+                    <ListItem sx={{ py: 1, px: 0 }}>
+                      <ListItemText primary={"Donation to " + selectedOption.recipient.name} />
+                      <Typography>{centsToDollars(selectedOption.donation_cents)}</Typography>
+                    </ListItem>
+                  }
+                </List>
+              </Box>
+              <Box>
+                <DonationComponent 
+                  merchantPublicKey={publicKey} 
+                  purchaseCents={preDonationCents}
+                  setSelectedOption={setSelectedOption}
+                />
+                <ListItem sx={{ py: 2, px: 0 }}>
+                  <ListItemText primary="Total" primaryTypographyProps={{ fontWeight: 700 }} />
+                  <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                    {centsToDollars(transactionCents)}
+                  </Typography>
+                </ListItem>
+                <Button variant="contained" fullWidth size="large">Pay with Solana Pay</Button>
+              </Box>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </Box>
 	);
 }
 

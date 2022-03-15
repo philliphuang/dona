@@ -213,18 +213,6 @@ function MerchantPortal(props) {
           </Box>
         </Drawer>
 
-        {/* <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            height: '100vh',
-            width: 32,
-            overflow: 'auto',
-            background: `linear-gradient(to right, ${theme.palette.background.paper}, ${theme.palette.grey[100]})`
-          }}
-        >
-        </Box> */}
-
         <Box
           component="main"
           sx={{
