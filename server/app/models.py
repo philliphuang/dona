@@ -72,7 +72,7 @@ class Merchant(db.Model):
 			"total_donors": total_donors,
 			"donation_volume_by_recipient": [dict(recipient_name=name, value=value) for name, value in donations_by_recipient],
 			"donation_volume_by_type": [dict(type=type, value=value) for type, value in donations_by_type],
-			"donation_volume_daily": [dict(date=date, value=value) for date, value in donation_volume_daily]
+			"donation_volume_daily": [dict(date=str(date), value=value) for date, value in donation_volume_daily]
 		}
 
 		# Fetch all available recipients
@@ -187,7 +187,7 @@ class Recipient(db.Model):
 			"donation_volume_by_merchant": [dict(merchant_name=name, value=value) for name, value in donations_by_merchant],
 			"donation_volume_by_type": [dict(type=type, value=value) for type, value in donations_by_type],
 			"donation_volume_by_top_donors": [dict(public_key=public_key, value=value) for public_key, value in donations_by_consumer],
-			"donation_volume_daily": [dict(date=date, value=value) for date, value in donation_volume_daily]
+			"donation_volume_daily": [dict(date=str(date), value=value) for date, value in donation_volume_daily]
 		}
 
 		return {
