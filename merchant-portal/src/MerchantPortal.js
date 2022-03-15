@@ -100,7 +100,11 @@ function MerchantPortal(props) {
         pageTitle = "Dashboard";
         break;
       case "configs":
-        pageComponent = <ConfigPage configs={merchantInfo.configs} publicKey={publicKey} />;
+        pageComponent = <ConfigPage 
+          configs={merchantInfo.configs} 
+          publicKey={publicKey} 
+          setMerchantInfo={setMerchantInfo}
+        />;
         pageTitle = "Configurations";
         break;
       case "analytics":
@@ -135,7 +139,7 @@ function MerchantPortal(props) {
           }}
         >
           <Typography variant="h4" sx={{py:2}} align="center">DONA</Typography>
-          <List sx={{flexGrow:1}}>
+          <List sx={{flexGrow:1}} disablePadding>
             <ListItem 
               button 
               onClick={() => setPage("dashboard")}
@@ -143,7 +147,7 @@ function MerchantPortal(props) {
               sx={{
                 borderTopRightRadius:32, 
                 borderBottomRightRadius: 32,
-                my: 1,
+                mb: 1,
                 backgroundColor: page === "dashboard" && theme.palette.grey[300],
               }}
             >
@@ -198,12 +202,12 @@ function MerchantPortal(props) {
               <ListItemText primary="Donations" />
             </ListItem>
           </List>
-          <Typography variant="overline" sx={{pb:2}} align="center">MERCHANT PORTAL</Typography>
+          <Typography variant="overline" sx={{pb:1}} align="center">MERCHANT PORTAL</Typography>
           <Box sx={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            py: 1,
+            pb: 2,
           }}>
             <WalletDisconnectButton />
           </Box>

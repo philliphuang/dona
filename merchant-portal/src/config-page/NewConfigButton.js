@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { defaultConfigs } from './DefaultConfigs';
+import { getDefaultConfigs } from './DefaultConfigs';
 import Button from '@mui/material/Button';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Dialog from '@mui/material/Dialog';
@@ -17,6 +17,8 @@ import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
 import Container from '@mui/material/Container';
 
+import { RecipientsContext } from '../MerchantPortal';
+
 import DonationComponent from '@riptide-dona/react-components.ui.donation-component';
 
 function ConfigTemplate(props) {
@@ -29,7 +31,7 @@ function ConfigTemplate(props) {
       <CardActionArea>
         <CardContent>
           <Typography>{config.name}</Typography>
-          <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2, borderRadius: 2}}>
+          <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2}}>
             <Container maxWidth="xs">
               <Paper sx={{p:2}}>
                 <DonationComponent configOverride={config} setSelectedOption={setSelectedOption}/>
@@ -44,6 +46,7 @@ function ConfigTemplate(props) {
 
 function NewConfigButton(props) {
   const { setMerchantConfigs } = props;
+  const recipients = React.useContext(RecipientsContext);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -75,6 +78,8 @@ function NewConfigButton(props) {
   };
   
   // TODO: fix grid system
+
+  const defaultConfigs = getDefaultConfigs(recipients);
 
   return (
     <div>

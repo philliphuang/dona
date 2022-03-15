@@ -5,10 +5,18 @@ import ConfigCard from './ConfigCard';
 import NewConfigButton from './NewConfigButton';
 
 function ConfigPage(props) {
-  const { configs, publicKey } = props;
+  const { configs, publicKey, setMerchantInfo } = props;
   const [merchantConfigs, setMerchantConfigs] = React.useState(configs);
 
   React.useEffect(() => {
+    setMerchantInfo(
+      (prevMerchantInfo) => {
+        return {
+          ...prevMerchantInfo,
+          configs: merchantConfigs,
+        }
+      }
+    );
     fetch(`http://127.0.0.1:5000/api/merchants/${publicKey}/donation-configs`, {
       method: 'PUT',
       headers: {

@@ -11,9 +11,9 @@ function ActiveConfig(props) {
 
   return (
     <div>
-      <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2,  borderRadius: 2}}>
+      <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2}}>
         <Container maxWidth="xs">
-          <Paper sx={{p:2}}>
+          <Paper sx={{p:2}} variant="outlined">
             <DonationComponent configOverride={config} setSelectedOption={setSelectedOption}/>
           </Paper>
         </Container>
