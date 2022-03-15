@@ -16,7 +16,7 @@ import Recipients from './components/Recipients';
 function AnalyticsCard(props) {
   const { title, content, height } = props
   return (
-    <Card sx={{height: height}} variant="outlined">
+    <Card sx={{height: height}}>
       <CardContent>
         <Typography variant="h6" gutterBottom>{title}</Typography>
         {content}

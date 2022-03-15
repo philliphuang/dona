@@ -9,7 +9,7 @@ function DonationsPage(props) {
 
   return (
     <Container>
-      <Paper variant="outlined" sx={{my:4}}>
+      <Paper sx={{my:4}}>
         <DonationsTable donations={donations} />
       </Paper>
     </Container>

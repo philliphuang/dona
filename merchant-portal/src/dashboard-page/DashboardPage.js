@@ -16,7 +16,7 @@ function DashboardCard(props) {
   const { title, content, setPage, page, pageText, height } = props
 
   return (
-    <Card  variant="outlined">
+    <Card>
       <CardContent sx={{height: height}}>
         <Typography variant="h6" gutterBottom>{title}</Typography>
         {content}

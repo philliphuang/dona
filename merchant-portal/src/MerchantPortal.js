@@ -199,7 +199,14 @@ function MerchantPortal(props) {
             </ListItem>
           </List>
           <Typography variant="overline" sx={{pb:2}} align="center">MERCHANT PORTAL</Typography>
-          <WalletDisconnectButton />
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            py: 1,
+          }}>
+            <WalletDisconnectButton />
+          </Box>
         </Drawer>
 
         {/* <Box
