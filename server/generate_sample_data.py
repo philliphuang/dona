@@ -14,9 +14,9 @@ RECIPIENT_TO_KEY = {
 
 # To demo login with Solana wallet adaptor, replace demo keys with
 # wallet addresses you have access to
-RECIPIENT_DEMO_KEY = 'PnENxubNFCZBPQR3nD4rJWcDwZ1d2FqGRMSWzwPpAnK'
-MERCHANT_DEMO_KEY = '35pQAYGCE95rnzJvYFtxGhpnDpMoZKzk6f5DxJhGszE9'
-CONSUMER_DEMO_KEY = '9qZTcVj5h6TPQy3nyhHg9UWf9aSkfWYVTH5Yx1NGCzKp'
+RECIPIENT_DEMO_KEY = environ.get('RECIPIENT_DEMO_KEY', 'PnENxubNFCZBPQR3nD4rJWcDwZ1d2FqGRMSWzwPpAnK')
+MERCHANT_DEMO_KEY = environ.get('MERCHANT_DEMO_KEY', '35pQAYGCE95rnzJvYFtxGhpnDpMoZKzk6f5DxJhGszE9')
+CONSUMER_DEMO_KEY = environ.get('CONSUMER_DEMO_KEY', '9qZTcVj5h6TPQy3nyhHg9UWf9aSkfWYVTH5Yx1NGCzKp')
 
 # Connect to db
 SQLALCHEMY_DATABASE_URI = environ['DATABASE_URI']
