@@ -1,0 +1,11 @@
+{
+  "name": "riptide-dona-api",
+  "version": "1.0.1",
+  "description": "API for Dona project for Solana Riptide hackathon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

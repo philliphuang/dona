@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import DonationComponent from '@demo-organization/demo-scope.ui.donation-component';
+import DonationComponent from '@riptide-dona/react-components.ui.donation-component';
 
 export function centsToDollars(cents) {
   return (cents / 100).toLocaleString(

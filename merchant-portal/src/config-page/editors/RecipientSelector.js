@@ -2,30 +2,11 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-
-const dummyRecipients = [
-  {
-    id: 0,
-    public_key: "0",
-    name: "UNICEF",
-    description: 'lorem ipsum dolor sit amet',
-  },
-  {
-    id: 1,
-    public_key: "1",
-    name: "American Red Cross",
-    description: 'lorem ipsum dolor sit amet',
-  },
-  {
-    id: 2,
-    public_key: "2",
-    name: "Malaria Consortium",
-    description: 'lorem ipsum dolor sit amet',
-  },
-]
+import { RecipientsContext } from '../../MerchantPortal';
 
 function RecipientSelector(props) {
   const { config, setConfig, option, index, setOptionByIndex } = props;
+  const recipients = React.useContext(RecipientsContext);
   const [value, setValue] = React.useState(
     config ? config.options[0].recipient : option.recipient
   );
@@ -75,7 +56,7 @@ function RecipientSelector(props) {
         setValue(newValue);
       }}
       disableClearable
-      options={dummyRecipients}
+      options={recipients}
       isOptionEqualToValue={(option, value) => option.public_key === value.public_key}
       getOptionLabel={(option) => option.name}
       renderInput={(params) => <TextField {...params} label="Recipient" />}

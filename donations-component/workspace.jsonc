@@ -27,7 +27,7 @@
     /**
      * default scope for all components in workspace.
      **/
-    "defaultScope": "demo-organization.demo-scope"
+    "defaultScope": "riptide-dona.react-components"
   },
   /**
    * main configuration for component dependency resolution.

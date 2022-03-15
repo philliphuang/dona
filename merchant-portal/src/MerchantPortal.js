@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -25,9 +26,14 @@ import BuildIcon from '@mui/icons-material/Build';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 
+import DashboardPage from './dashboard-page/DashboardPage';
 import ConfigPage from './config-page/ConfigPage';
+import DonationsPage from './donations-page/DonationsPage';
+import AnalyticsPage from './analytics-page/AnalyticsPage';
 
 import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
+
+export const RecipientsContext = React.createContext();
 
 const drawerWidth = 240;
 
@@ -52,7 +58,7 @@ const closedMixin = (theme) => ({
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'flex-end',
+  justifyContent: 'center',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -109,14 +115,13 @@ function MerchantPortal(props) {
   const { publicKey } = props;
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [page, setPage] = React.useState("configs");
+  const [page, setPage] = React.useState("dashboard");
   const [loading, setLoading] = React.useState(true);
   const [merchantInfo, setMerchantInfo] = React.useState();
 
   React.useEffect(() => {
     if (publicKey) {
-      // TODO: update to be general merchant info endpoint
-      fetch(`http://127.0.0.1:5000/api/merchants/${publicKey}/donation-configs`, {
+      fetch(`http://127.0.0.1:5000/api/merchants/${publicKey}/dashboard`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -159,15 +164,22 @@ function MerchantPortal(props) {
     pageTitle = "Loading data...";
   } else {
     switch(page) {
-      case "configs":
-        // TODO: update to handle general merchant info endpoint
-        pageComponent = <ConfigPage configs={merchantInfo} publicKey={publicKey} />;
-        pageTitle = "Checkout Donation Configurations";
+      case "dashboard":
+        pageComponent = <DashboardPage merchantInfo={merchantInfo} setPage={setPage} />;
+        pageTitle = "Dashboard";
         break;
-      case "transactions":
-          pageComponent = <p>Transactions page</p>;
-          pageTitle = "Donation Transactions";
-          break;
+      case "configs":
+        pageComponent = <ConfigPage configs={merchantInfo.configs} publicKey={publicKey} />;
+        pageTitle = "Configurations";
+        break;
+      case "analytics":
+        pageComponent = <AnalyticsPage analytics={merchantInfo.analytics} />;
+        pageTitle = "Analytics";
+        break;
+      case "donations":
+        pageComponent = <DonationsPage donations={merchantInfo.donations} />;
+        pageTitle = "Donations";
+        break;
       default: 
         pageComponent = <p>Invalid page.</p>;
         pageTitle = "Invalid Page";
@@ -175,81 +187,92 @@ function MerchantPortal(props) {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: '36px',
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
-            {pageTitle}
-          </Typography>
-          <WalletDisconnectButton/>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          <ListItem 
-            button 
-            onClick={() => setPage("configs")}
-            selected={page === "configs"}
-          >
-            <ListItemIcon>
-              <BuildIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Configurations" />
-          </ListItem>
-          <ListItem 
-            button 
-            onClick={() => setPage("transactions")}
-            selected={page === "transactions"}
-          >
-            <ListItemIcon>
-              <PointOfSaleIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Transactions" />
-          </ListItem>
-          <ListItem 
-            button 
-            onClick={() => setPage("transactions")}
-            selected={page === "transactions"}
-          >
-            <ListItemIcon>
-              <AssessmentIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Analytics" />
-          </ListItem>
-        </List>
-      </Drawer>
-      <Box
-        component="main"
-        sx={{
-          backgroundColor: theme.palette.grey[100],
-          flexGrow: 1,
-          height: '100vh',
-          overflow: 'auto',
-        }}
-      >
-        <DrawerHeader/>
-        {pageComponent}
+    <RecipientsContext.Provider value={merchantInfo && merchantInfo.available_recipients}>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: '36px',
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div" sx={{flexGrow:1}}>
+              {pageTitle}
+            </Typography>
+            <WalletDisconnectButton/>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <Typography variant="h4">DONA</Typography>
+          </DrawerHeader>
+          <Divider />
+          <List sx={{flexGrow:1}}>
+            <ListItem 
+              button 
+              onClick={() => setPage("dashboard")}
+              selected={page === "dashboard"}
+            >
+              <ListItemIcon>
+                <DashboardIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+            <ListItem 
+              button 
+              onClick={() => setPage("configs")}
+              selected={page === "configs"}
+            >
+              <ListItemIcon>
+                <BuildIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Configurations" />
+            </ListItem>
+            <ListItem 
+              button 
+              onClick={() => setPage("analytics")}
+              selected={page === "analytics"}
+            >
+              <ListItemIcon>
+                <AssessmentIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Analytics" />
+            </ListItem>
+            <ListItem 
+              button 
+              onClick={() => setPage("donations")}
+              selected={page === "donations"}
+            >
+              <ListItemIcon>
+                <PointOfSaleIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Donations" />
+            </ListItem>
+          </List>
+          <Typography variant="overline" sx={{pb:2}} align="center">MERCHANT PORTAL</Typography>
+        </Drawer>
+        <Box
+          component="main"
+          sx={{
+            backgroundColor: theme.palette.grey[100],
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+          }}
+        >
+          <DrawerHeader/>
+          {pageComponent}
+        </Box>
       </Box>
-    </Box>
+    </RecipientsContext.Provider>
   );
 }
 
