@@ -100,7 +100,11 @@ function MerchantPortal(props) {
         pageTitle = "Dashboard";
         break;
       case "configs":
-        pageComponent = <ConfigPage configs={merchantInfo.configs} publicKey={publicKey} />;
+        pageComponent = <ConfigPage 
+          configs={merchantInfo.configs} 
+          publicKey={publicKey} 
+          setMerchantInfo={setMerchantInfo}
+        />;
         pageTitle = "Configurations";
         break;
       case "analytics":
