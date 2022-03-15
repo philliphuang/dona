@@ -165,7 +165,7 @@ function ConfigCard(props) {
       <Card variant="outlined" sx={isActive ? {borderColor:"success.light", borderWidth:2} : {}}>
         <CardContent>
           <Typography variant="h6" sx={{mb:2}}>{config.name}</Typography>
-          <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2,  borderRadius: 2}}>
+          <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2}}>
             <Container maxWidth="xs">
               <Paper sx={{p:2}}>
                 <DonationComponent configOverride={config} setSelectedOption={setSelectedOption}/>

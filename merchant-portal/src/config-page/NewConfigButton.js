@@ -29,7 +29,7 @@ function ConfigTemplate(props) {
       <CardActionArea>
         <CardContent>
           <Typography>{config.name}</Typography>
-          <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2, borderRadius: 2}}>
+          <Box sx={{bgcolor:"#e7ebf0", pt:4, pb:4, mt:2}}>
             <Container maxWidth="xs">
               <Paper sx={{p:2}}>
                 <DonationComponent configOverride={config} setSelectedOption={setSelectedOption}/>

@@ -198,12 +198,12 @@ function MerchantPortal(props) {
               <ListItemText primary="Donations" />
             </ListItem>
           </List>
-          <Typography variant="overline" sx={{pb:2}} align="center">MERCHANT PORTAL</Typography>
+          <Typography variant="overline" sx={{pb:1}} align="center">MERCHANT PORTAL</Typography>
           <Box sx={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            py: 1,
+            pb: 2,
           }}>
             <WalletDisconnectButton />
           </Box>
