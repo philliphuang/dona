@@ -15,10 +15,13 @@ import {
 import { clusterApiUrl } from '@solana/web3.js';
 import React, { FC, ReactNode, useMemo } from 'react';
 import MerchantPortal from './MerchantPortal';
+import dona from './dona.svg';
 
+import { styled, useTheme } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -65,18 +68,24 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
 
 const Content: FC = () => {
   const { publicKey } = useWallet();
+  const theme = useTheme();
   return (
     <div>
       {
         publicKey ? 
         <MerchantPortal publicKey={publicKey} /> :
-        <Container maxWidth="xs">
-          <Stack spacing={2} sx={{mt:4, mb:4}}>
-            <Typography align="center" variant="h4">Dona Merchant Portal</Typography>
-            <Typography align="center" variant="h6">Sign in with your Solana Wallet</Typography>
-            <WalletMultiButton/>
-          </Stack>
-        </Container>
+        <Box sx={{background:"linear-gradient(30deg, rgba(91,0,181,1) 14%, rgba(157,0,172,1) 27%, rgba(153,13,201,1) 53%, rgba(74,0,124,1) 81%, rgba(0,0,0,1) 100%)"}}>
+          <Container maxWidth="sm" sx={{background: theme.palette.common.white, height:"100vh"}}>
+            <Stack spacing={4} sx={{px: 16, height: "100vh"}} justifyContent="center">
+              <Box sx={{ px:6}}>
+                <img width="100%" src={dona} alt="Dona" />
+              </Box>
+              <Typography align="center" variant="h4">Merchant Portal</Typography>
+              <Typography align="center" variant="h6">Sign in with your Solana Wallet</Typography>
+              <WalletMultiButton/>
+            </Stack>
+          </Container>
+        </Box>
       }
     </div>
   );

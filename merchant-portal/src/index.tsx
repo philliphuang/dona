@@ -28,6 +28,9 @@ const theme = createTheme({
     info: {
       main: "#ff1493",
     },
+    background: {
+      default: "#f5f5f5",
+    },
   },
   shape: {
       borderRadius: 16,
