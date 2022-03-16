@@ -34,7 +34,7 @@ function AnalyticsPage(props) {
         <Grid item xs={12}>
           <AnalyticsCard 
             title="Donation Volume" 
-            content={<VolumeByDay data={analytics.donation_volume_daily} />}
+            content={<VolumeByDay data={analytics.donation_volume_daily.slice(0, 30)} />}
           />
         </Grid>
         <Grid item xs={12} md={6}>

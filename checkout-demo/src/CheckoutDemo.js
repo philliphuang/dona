@@ -82,7 +82,7 @@ function CheckoutDemo() {
       <Container maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item lg={8}>
-            <Stack spacing={2} sx={{py:4, mr:4}}>
+            <Stack spacing={4} sx={{py:4, mr:4}}>
               <Typography variant="h2">
                 Checkout
               </Typography>
@@ -109,7 +109,6 @@ function CheckoutDemo() {
                   Your Cart
                 </Typography>
                 <Stack spacing={2} divider={<Divider />}>
-                  
                   { 
                     items.map(
                       (item, index) => <CheckoutItem item={item} key={index} />

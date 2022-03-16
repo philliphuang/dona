@@ -5,7 +5,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Legend, Tooltip } from 'recha
 function DonationType(props) {
   const { data } = props;
   const theme = useTheme();
-  const COLORS = [theme.palette.warning.main, theme.palette.primary.main, theme.palette.info.main, theme.palette.success.main];
+  const COLORS = [theme.palette.warning.main, theme.palette.success.main, theme.palette.info.main, theme.palette.success.main];
 
   return (
     <ResponsiveContainer width="100%" height={280}>
