@@ -13,6 +13,7 @@ import Divider from '@mui/material/Divider';
 import Avatar from '@mui/material/Avatar';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import DonationComponent from '@riptide-dona/react-components.ui.donation-component';
+import logo from './spaylogo.svg';
 
 import { styled, useTheme } from '@mui/material/styles';
 
@@ -29,19 +30,22 @@ export function centsToDollars(cents) {
 const publicKey = "35pQAYGCE95rnzJvYFtxGhpnDpMoZKzk6f5DxJhGszE9";
 const items = [
   {
-    name: "Item 1",
-    description: "Item 1 description",
-    cents: 599,
+    name: "White Glossy Solana Mug",
+    description: "Whether you're drinking your morning coffee, evening tea, or something in between – this mug's for you! It's sturdy and glossy with a vivid print that'll withstand the microwave and dishwasher.",
+    cents: 1049,
+    img: "https://cdn.shopify.com/s/files/1/0560/2017/2968/products/white-glossy-mug-11oz-handle-on-right-60a1944717b7d_1024x1024@2x.jpg?v=1621201993",
   },
   {
-    name: "Item 2",
-    description: "Item 2 description",
-    cents: 399,
+    name: "Solana Hat",
+    description: "Dad hats aren't just for dads. This one's got a low profile with an adjustable strap and curved visor.",
+    cents: 2099,
+    img: "https://cdn.shopify.com/s/files/1/0560/2017/2968/products/classic-dad-hat-black-front-61956e96e82c1_1024x1024@2x.jpg?v=1637183131"
   },
   {
-    name: "Item 1",
-    description: "Item 3 description",
-    cents: 1699,
+    name: "Solana Gradient Socks",
+    description: "These socks are extra comfortable thanks to their cushioned bottom. The foot is black with artwork printed along the leg with crisp, bold colors that won't fade.",
+    cents: 1449,
+    img: "https://cdn.shopify.com/s/files/1/0560/2017/2968/products/black-foot-sublimated-socks-right-61956dc4b26d4_1024x1024@2x.jpg?v=1637182921",
   }
 ]
 
@@ -51,7 +55,7 @@ function CheckoutItem(props) {
   return (
     <ListItem disableGutters>
       <ListItemAvatar>
-        <Avatar variant='rounded' sx={{ mr:4, width: 72, height: 72 }}/>
+        <Avatar variant='rounded' sx={{ mr:4, width: 72, height: 72 }} src={item.img}/>
       </ListItemAvatar>
       <ListItemText primary={item.name} secondary={item.description}/>
       <Typography>{centsToDollars(item.cents)}</Typography>
@@ -164,7 +168,19 @@ function CheckoutDemo() {
                     {centsToDollars(transactionCents)}
                   </Typography>
                 </ListItem>
-                <Button variant="contained" fullWidth size="large">Pay with Solana Pay</Button>
+                <Button sx={{
+                  borderRadius: 0.5,
+                  background: 'black',
+                  '&:hover': {
+                    background: 'grey'
+                  },
+                }} 
+                  variant="contained" 
+                  fullWidth 
+                  size="large"
+                >
+                  <Typography variant="h6" sx={{pr:1}}>Buy with </Typography><img src={logo} alt="Pay with Solana Pay" />
+                </Button>
               </Box>
             </Paper>
           </Grid>
