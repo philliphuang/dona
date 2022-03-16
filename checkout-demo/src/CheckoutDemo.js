@@ -31,7 +31,7 @@ const publicKey = "35pQAYGCE95rnzJvYFtxGhpnDpMoZKzk6f5DxJhGszE9";
 const items = [
   {
     name: "White Glossy Solana Mug",
-    description: "Whether you're drinking your morning coffee, evening tea, or something in between – this mug's for you! It's sturdy and glossy with a vivid print that'll withstand the microwave and dishwasher.",
+    description: "Whether you're drinking your morning coffee, evening tea, or something in between, this mug's for you! It's sturdy and glossy with a vivid print that'll withstand the microwave and dishwasher.",
     cents: 1049,
     img: "https://cdn.shopify.com/s/files/1/0560/2017/2968/products/white-glossy-mug-11oz-handle-on-right-60a1944717b7d_1024x1024@2x.jpg?v=1621201993",
   },
@@ -42,10 +42,10 @@ const items = [
     img: "https://cdn.shopify.com/s/files/1/0560/2017/2968/products/classic-dad-hat-black-front-61956e96e82c1_1024x1024@2x.jpg?v=1637183131"
   },
   {
-    name: "Solana Gradient Socks",
-    description: "These socks are extra comfortable thanks to their cushioned bottom. The foot is black with artwork printed along the leg with crisp, bold colors that won't fade.",
-    cents: 1449,
-    img: "https://cdn.shopify.com/s/files/1/0560/2017/2968/products/black-foot-sublimated-socks-right-61956dc4b26d4_1024x1024@2x.jpg?v=1637182921",
+    name: "Unisex Long Sleeve Tee",
+    description: "Enrich your wardrobe with a versatile long sleeve tee. For a casual look, combine it with your favorite jeans, and layer it with a button-up shirt, a zip-up hoodie, or a snazzy jacket. Dress it up with formal trousers or chinos to achieve a more professional look.",
+    cents: 2299,
+    img: "https://cdn.shopify.com/s/files/1/0560/2017/2968/products/unisex-long-sleeve-tee-black-heather-front-61956d16cec6b_1024x1024@2x.jpg?v=1637182749",
   }
 ]
 
@@ -78,7 +78,7 @@ function CheckoutDemo() {
     preDonationCents;
 
 	return (
-    <Box sx={{bgcolor: theme.palette.grey[100], height: '100vh'}}>
+    <Box sx={{background: theme.palette.grey[100], height: '100vh'}}>
       <Container maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item lg={8}>
