@@ -31,8 +31,9 @@ import DashboardPage from './dashboard-page/DashboardPage';
 import ConfigPage from './config-page/ConfigPage';
 import DonationsPage from './donations-page/DonationsPage';
 import AnalyticsPage from './analytics-page/AnalyticsPage';
+import dona from './dona.svg';
 
-import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
+import { WalletDisconnectButton } from '@solana/wallet-adapter-material-ui'; 
 
 export const RecipientsContext = React.createContext();
 
@@ -138,23 +139,37 @@ function MerchantPortal(props) {
             },
           }}
         >
-          <Typography variant="h4" sx={{py:2}} align="center">DONA</Typography>
+          <Box sx={{ px:6, py:4 }}>
+            <img width="100%" src={dona} alt="Dona" />
+          </Box>
           <List sx={{flexGrow:1}} disablePadding>
             <ListItem 
               button 
               onClick={() => setPage("dashboard")}
-              // selected={page === "dashboard"}
               sx={{
                 borderTopRightRadius:32, 
                 borderBottomRightRadius: 32,
                 mb: 1,
                 backgroundColor: page === "dashboard" && theme.palette.grey[300],
+                '&:hover': {
+                  background: theme.palette.grey[300]
+                },
               }}
             >
               <ListItemIcon>
-                <DashboardIcon/>
+                <DashboardIcon 
+                  sx={{ 
+                  color: page === "dashboard" ? 
+                  theme.palette.secondary.main : 
+                  theme.palette.grey[800] }} 
+                />
               </ListItemIcon>
-              <ListItemText primary="Dashboard" />
+              <ListItemText 
+                primary="Dashboard"  
+                sx={{ 
+                  color: page === "dashboard" && 
+                  theme.palette.secondary.main }} 
+              />
             </ListItem>
             <ListItem 
               button 
@@ -164,12 +179,25 @@ function MerchantPortal(props) {
                 borderBottomRightRadius: 32,
                 my: 1,
                 backgroundColor: page === "configs" && theme.palette.grey[300],
+                '&:hover': {
+                  background: theme.palette.grey[300]
+                },
               }}
             >
               <ListItemIcon>
-                <BuildIcon/>
+                <BuildIcon 
+                  sx={{ 
+                    color: page === "configs" ? 
+                    theme.palette.secondary.main : 
+                    theme.palette.grey[800] }} 
+                />
               </ListItemIcon>
-              <ListItemText primary="Configurations" />
+              <ListItemText 
+                primary="Configurations"  
+                sx={{ 
+                  color: page === "configs" && 
+                  theme.palette.secondary.main }} 
+              />
             </ListItem>
             <ListItem 
               button 
@@ -179,12 +207,25 @@ function MerchantPortal(props) {
                 borderBottomRightRadius: 32,
                 my: 1,
                 backgroundColor: page === "analytics" && theme.palette.grey[300],
+                '&:hover': {
+                  background: theme.palette.grey[300]
+                },
               }}
             >
               <ListItemIcon>
-                <AssessmentIcon/>
+                <AssessmentIcon 
+                  sx={{ 
+                    color: page === "analytics" ? 
+                    theme.palette.secondary.main : 
+                    theme.palette.grey[800] }} 
+                />
               </ListItemIcon>
-              <ListItemText primary="Analytics" />
+              <ListItemText 
+                primary="Analytics"  
+                sx={{ 
+                  color: page === "analytics" && 
+                  theme.palette.secondary.main }} 
+              />
             </ListItem>
             <ListItem 
               button 
@@ -194,12 +235,25 @@ function MerchantPortal(props) {
                 borderBottomRightRadius: 32,
                 my: 1,
                 backgroundColor: page === "donations" && theme.palette.grey[300],
+                '&:hover': {
+                  background: theme.palette.grey[300]
+                },
               }}
             >
               <ListItemIcon>
-                <PointOfSaleIcon/>
+                <PointOfSaleIcon  
+                  sx={{ 
+                    color: page === "donations" ? 
+                    theme.palette.secondary.main : 
+                    theme.palette.grey[800] }} 
+                />
               </ListItemIcon>
-              <ListItemText primary="Donations" />
+              <ListItemText 
+                primary="Donations"  
+                sx={{ 
+                  color: page === "donations" && 
+                  theme.palette.secondary.main }} 
+              />
             </ListItem>
           </List>
           <Typography variant="overline" sx={{pb:1}} align="center">MERCHANT PORTAL</Typography>
@@ -208,8 +262,9 @@ function MerchantPortal(props) {
             alignItems: 'center',
             justifyContent: 'center',
             pb: 2,
+            px: 2,
           }}>
-            <WalletDisconnectButton />
+            <WalletDisconnectButton fullWidth variant="outlined" color="secondary"/>
           </Box>
         </Drawer>
 
@@ -222,11 +277,6 @@ function MerchantPortal(props) {
             overflow: 'auto',
           }}
         >
-          <Container sx={{pt:4}}>
-           <Typography variant="h2">
-              {pageTitle}
-            </Typography>
-          </Container>
           {pageComponent}
         </Box>
         
