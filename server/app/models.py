@@ -83,9 +83,9 @@ class Merchant(db.Model):
 		analytics_dict = {
 			"total_donation_amount": total_donation_amount,
 			"total_donors": total_donors,
-			"donation_volume_by_recipient": [dict(recipient_name=name, value=value / 100.) for name, value in donations_by_recipient],
-			"donation_volume_by_type": [dict(type=type, value=value / 100.) for type, value in donations_by_type],
-			"donation_volume_daily": [dict(date=date, value=value / 100.) for date, value in donation_volume_daily_dict.items()]
+			"donation_volume_by_recipient": [dict(recipient_name=name, value=value) for name, value in donations_by_recipient],
+			"donation_volume_by_type": [dict(type=type, value=value) for type, value in donations_by_type],
+			"donation_volume_daily": [dict(date=date, value=value) for date, value in donation_volume_daily_dict.items()]
 		}
 
 		# Fetch all available recipients
