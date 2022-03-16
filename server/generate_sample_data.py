@@ -25,7 +25,8 @@ engine = create_engine(SQLALCHEMY_DATABASE_URI)
 
 with Session(engine) as session:
 	# Generate sample recipients
-	DEMO_RECIPIENT_KEYS = [RECIPIENT_DEMO_KEY] + list(RECIPIENT_TO_KEY.values())
+	RECIPIENT_DUMMY_KEY = 'sample_recipient_public_key'
+	DEMO_RECIPIENT_KEYS = [RECIPIENT_DEMO_KEY] + list(RECIPIENT_TO_KEY.values()) + [RECIPIENT_DUMMY_KEY]
 
 	sample_recipient = Recipient(
 		public_key=RECIPIENT_TO_KEY['Aid for Ukraine'],
@@ -55,7 +56,7 @@ with Session(engine) as session:
 	session.commit()
 
 	sample_recipient = Recipient(
-		public_key='sample_recipient_public_key',
+		public_key=RECIPIENT_DUMMY_KEY,
 		name="Sam's Hip Surgery Drive",
 		description=("Sam is a longtime friend and a great member of our community. "
 					 "Unfortunately, he recently got into a car accident and will be going into "
@@ -102,7 +103,7 @@ with Session(engine) as session:
 
 	# Generate sample random donations for demo
 	for consumer_key in DEMO_CONSUMER_KEYS:
-		for _ in range(1000):
+		for _ in range(100):
 			donation_type = choice(['input', 'fixed', 'roundup'])
 			if donation_type == 'input':
 				donation_amount = choice(range(10, 1001))
