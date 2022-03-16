@@ -67,6 +67,8 @@ class Merchant(db.Model):
 			.group_by(func.date(func.timezone(output_timezone, func.timezone('UTC', MarkedDonation.logged_at)))) \
 			.all()
 
+		donation_volume_daily.sort(key=lambda x: x[0])
+
 		analytics_dict = {
 			"total_donation_amount": total_donation_amount,
 			"total_donors": total_donors,
@@ -180,6 +182,8 @@ class Recipient(db.Model):
 			.filter(MarkedDonation.recipient_public_key == self.public_key) \
 			.group_by(func.date(func.timezone(output_timezone, func.timezone('UTC', MarkedDonation.logged_at)))) \
 			.all()
+
+		donation_volume_daily.sort(key=lambda x: x[0])
 
 		analytics_dict = {
 			"total_donation_amount": total_donation_amount,
