@@ -10,7 +10,7 @@ function DonationsPage(props) {
   return (
     <Container>
       <Paper sx={{my:4}}>
-        <DonationsTable donations={donations} />
+        <DonationsTable donations={donations.slice(0, 50)} />
       </Paper>
     </Container>
   );
