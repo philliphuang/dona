@@ -54,6 +54,18 @@ with Session(engine) as session:
 	session.add(sample_recipient)
 	session.commit()
 
+	sample_recipient = Recipient(
+		public_key='sample_recipient_public_key',
+		name="Sam's Hip Surgery Drive",
+		description=("Sam is a longtime friend and a great member of our community. "
+					 "Unfortunately, he recently got into a car accident and will be going into "
+					 "hip surgery next month. 100% of proceeds will go towards helping pay "
+					 "for his operation.")
+	)
+
+	session.add(sample_recipient)
+	session.commit()
+
 	dummy_recipient = Recipient(
 		public_key=RECIPIENT_DEMO_KEY,
 		name="Fremont High School Book Drive",
@@ -90,7 +102,7 @@ with Session(engine) as session:
 
 	# Generate sample random donations for demo
 	for consumer_key in DEMO_CONSUMER_KEYS:
-		for _ in range(10):
+		for _ in range(1000):
 			donation_type = choice(['input', 'fixed', 'roundup'])
 			if donation_type == 'input':
 				donation_amount = choice(range(10, 1001))
