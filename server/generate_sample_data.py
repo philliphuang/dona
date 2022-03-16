@@ -29,6 +29,19 @@ with Session(engine) as session:
 	DEMO_RECIPIENT_KEYS = [RECIPIENT_DEMO_KEY] + list(RECIPIENT_TO_KEY.values()) + [RECIPIENT_DUMMY_KEY]
 
 	sample_recipient = Recipient(
+		public_key=RECIPIENT_TO_KEY['FTX Foundation'],
+		name="FTX Foundation",
+		description=("FTX was founded with the goal of donating to the world's "
+					 "most effective charities. FTX, its affiliates, and its employees "
+					 "have donated over $10m to help save lives, prevent suffering, "
+					 "and ensure a brighter future. "
+					 "More details at: https://ftx.com/foundation")
+	)
+
+	session.add(sample_recipient)
+	session.commit()
+
+	sample_recipient = Recipient(
 		public_key=RECIPIENT_TO_KEY['Aid for Ukraine'],
 		name="Aid for Ukraine",
 		description=('Aid For Ukraine is cooperating with the cryptocurrency exchange '
@@ -37,19 +50,6 @@ with Session(engine) as session:
 			'cryptocurrency exchange directly cooperating with a public financial entity '
 			'to provide a conduit for crypto donations. '
 			'More details at: https://donate.thedigital.gov.ua')
-	)
-
-	session.add(sample_recipient)
-	session.commit()
-
-	sample_recipient = Recipient(
-		public_key=RECIPIENT_TO_KEY['FTX Foundation'],
-		name="FTX Foundation",
-		description=("FTX was founded with the goal of donating to the world's "
-					 "most effective charities. FTX, its affiliates, and its employees "
-					 "have donated over $10m to help save lives, prevent suffering, "
-					 "and ensure a brighter future. "
-					 "More details at: https://ftx.com/foundation")
 	)
 
 	session.add(sample_recipient)
@@ -121,7 +121,7 @@ with Session(engine) as session:
 				transaction_total=donation_amount + purchase_amount,
 				merchant_public_key=choice(DEMO_MERCHANT_KEYS),
 				consumer_public_key=choice(DEMO_CONSUMER_KEYS),
-				recipient_public_key=choices(DEMO_RECIPIENT_KEYS, weights=(20, 10, 46, 24), k=1)[0],
+				recipient_public_key=choices(DEMO_RECIPIENT_KEYS, weights=(24, 46, 10, 20), k=1)[0],
 				logged_at=Datetime().datetime(start=2022, end=2022)
 			)
 
