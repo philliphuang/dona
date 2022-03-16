@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.models import *
 from solana.keypair import Keypair
 from mimesis import Finance, Datetime
-from random import choice
+from random import choice, choices
 
 # Actual Solana wallet addresses of real donation recipients
 RECIPIENT_TO_KEY = {
@@ -121,7 +121,7 @@ with Session(engine) as session:
 				transaction_total=donation_amount + purchase_amount,
 				merchant_public_key=choice(DEMO_MERCHANT_KEYS),
 				consumer_public_key=choice(DEMO_CONSUMER_KEYS),
-				recipient_public_key=choice(DEMO_RECIPIENT_KEYS),
+				recipient_public_key=choices(DEMO_RECIPIENT_KEYS, weights=(20, 10, 46, 24), k=1)[0],
 				logged_at=Datetime().datetime(start=2022, end=2022)
 			)
 
