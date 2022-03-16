@@ -1,5 +1,5 @@
 from app import db
-from datetime import datetime
+from datetime import datetime, timedelta
 from uuid import uuid4
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Session
@@ -69,12 +69,23 @@ class Merchant(db.Model):
 
 		donation_volume_daily.sort(key=lambda x: x[0])
 
+		# Fill in dates with zero donations
+		if len(donation_volume_daily) > 0:
+			first_date = datetime.strptime(str(donation_volume_daily[0][0]), '%Y-%m-%d')
+			last_date = datetime.strptime(str(donation_volume_daily[-1][0]), '%Y-%m-%d')
+			date_delta = last_date - first_date
+			date_range = [first_date + timedelta(days=i) for i in range(date_delta.days+1)]
+
+			donation_volume_daily_dict = {datetime.strftime(date, '%Y-%m-%d'): 0 for date in date_range}
+			for d, v in donation_volume_daily:
+				donation_volume_daily_dict[str(d)] = v
+
 		analytics_dict = {
 			"total_donation_amount": total_donation_amount,
 			"total_donors": total_donors,
 			"donation_volume_by_recipient": [dict(recipient_name=name, value=value) for name, value in donations_by_recipient],
 			"donation_volume_by_type": [dict(type=type, value=value) for type, value in donations_by_type],
-			"donation_volume_daily": [dict(date=str(date), value=value) for date, value in donation_volume_daily]
+			"donation_volume_daily": [dict(date=date, value=value) for date, value in donation_volume_daily_dict.items()]
 		}
 
 		# Fetch all available recipients
@@ -177,7 +188,6 @@ class Recipient(db.Model):
 			.order_by(func.sum(MarkedDonation.donation_amount).desc()) \
 			.limit(10)
 
-
 		donation_volume_daily = session.query(func.date(func.timezone(output_timezone, func.timezone('UTC', MarkedDonation.logged_at))), func.sum(MarkedDonation.donation_amount)) \
 			.filter(MarkedDonation.recipient_public_key == self.public_key) \
 			.group_by(func.date(func.timezone(output_timezone, func.timezone('UTC', MarkedDonation.logged_at)))) \
@@ -185,13 +195,24 @@ class Recipient(db.Model):
 
 		donation_volume_daily.sort(key=lambda x: x[0])
 
+		# Fill in dates with zero donations
+		if len(donation_volume_daily) > 0:
+			first_date = datetime.strptime(str(donation_volume_daily[0][0]), '%Y-%m-%d')
+			last_date = datetime.strptime(str(donation_volume_daily[-1][0]), '%Y-%m-%d')
+			date_delta = last_date - first_date
+			date_range = [first_date + timedelta(days=i) for i in range(date_delta.days+1)]
+
+			donation_volume_daily_dict = {datetime.strftime(date, '%Y-%m-%d'): 0 for date in date_range}
+			for d, v in donation_volume_daily:
+				donation_volume_daily_dict[str(d)] = v
+
 		analytics_dict = {
 			"total_donation_amount": total_donation_amount,
 			"total_donors": total_donors,
 			"donation_volume_by_merchant": [dict(merchant_name=name, value=value) for name, value in donations_by_merchant],
 			"donation_volume_by_type": [dict(type=type, value=value) for type, value in donations_by_type],
 			"donation_volume_by_top_donors": [dict(public_key=public_key, value=value) for public_key, value in donations_by_consumer],
-			"donation_volume_daily": [dict(date=str(date), value=value) for date, value in donation_volume_daily]
+			"donation_volume_daily": [dict(date=date, value=value) for date, value in donation_volume_daily_dict.items()]
 		}
 
 		return {
