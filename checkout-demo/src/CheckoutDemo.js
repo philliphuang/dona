@@ -28,7 +28,7 @@ export function centsToDollars(cents) {
   );
 }
 
-const publicKey = "35pQAYGCE95rnzJvYFtxGhpnDpMoZKzk6f5DxJhGszE9";
+const publicKey = process.env.REACT_APP_MERCHANT_PUBLIC_KEY;
 const items = [
   {
     name: "White Glossy Solana Mug",
