@@ -1,27 +1,27 @@
-# Dona
 ![Dona Logo](merchant-portal/src/dona.svg)
-Dona is a checkout donations platform built on Solana Pay
 
-[Presentation Link](https://docs.google.com/presentation/d/1jOvFfoGpHa9zBjC2quTEGFc7hLyspL3vVwWp19CYApw/edit?usp=sharing)
+Dona is a checkout donations platform built on Solana Pay
+- [Presentation Link](https://docs.google.com/presentation/d/1jOvFfoGpHa9zBjC2quTEGFc7hLyspL3vVwWp19CYApw/edit?usp=sharing)
+- [Video Demo](https://www.youtube.com/watch?v=uzxK5JNRXHM)
 
 ### Project Description
-Dona is a checkout donations platform built on Solana Pay. Using Dona, merchants can set up a checkout donation campaign that smoothly integrates into their existing Solana Pay checkout flow to enable charitable donations. With flexible integration options, plug-and-play React components, no-code configuration settings, and analytics, we make it easy for merchants to showcase their values, support their favorite causes, and ultimately do good.
+Dona is a checkout donations platform built on Solana Pay. Using Dona, merchants can set up a checkout donation campaign that smoothly integrates into their existing Solana Pay checkout flow to enable charitable donations. With flexible integration options, plug-and-play React components, no-code configuration settings, and analytics, we make it easy for merchants to showcase their values, support their community, and do good for the world.
 
 ### Why we built it
-Traditional checkout donation systems (e.g. round-up-and donate at the grocery store) generate over $605 M annually in charitable giving. However, by running on traditional payment rails, traditional checkout donations suffer from issues such as high merchant processing fees, slow settlement of time-sensitive funds, limited transparency on donation delivery, and limited accessibility. With the new Solana Pay rails, we see an opportunity to reimagine and improve the checkout donations experience for merchants, consumers, and donation recipients alike.
+Traditional checkout donation systems (e.g. round-up-and-donate at the grocery store) generate over $605 M annually in charitable giving. However, by running on traditional payment rails, traditional checkout donations suffer from issues such as high merchant processing fees, slow settlement of time-sensitive funds, limited transparency on donation delivery, and limited accessibility. With the new Solana Pay rails, we see an opportunity to reimagine and improve the checkout donations experience for merchants, consumers, and donation recipients alike.
 
-### Components
+### The Dona Platform
 The Dona platform consists of the following components:
-- `donations-api`:  API endpoints used to integrate Dona in a checkout flow
+- `donations-api`:  API endpoints used to integrate Dona into a Solana Pay checkout flow
 - `donations-component`: ready-to-use React component that uses Dona's Donations API
 - `merchant-portal`: web app for merchants to configure the donation options presented at checkout and to access metadata and analytics
 - `recipient-portal`: web app for donation recipients to access metadata and analytics
-- `consumer-portal`: web app for consumers / donors to access metadata and analytics
-- `server`: database and back-end logic to host the api and merchant, recipient, and consumer portals
+- `consumer-portal`: web app for consumers to access metadata and analytics
+- `server`: database and back-end logic to host the API and the merchant, recipient, and consumer portals
 - `checkout-demo`: mock e-commerce checkout page to showcase the Donations Component
 
 ## Integrating Dona at checkout
-Dona's Donations API and Donations Component are used to present customers with an option to donate in the checkout flow for a e-commerce store or a point-of-sale kiosk.
+Dona's Donations API and Donations Component are used to present customers with an option to donate in the checkout flow for a e-commerce store or a point-of-sale kiosk using Solana Pay.
 ### Quick Start
 Install the Donations API and the Donations Component.
 ```
@@ -49,7 +49,7 @@ After the customer selects a donation using the Donation Component, `selectedOpt
 - Customer pays the donation recipient separately using Solana Pay's [Transfer Request Specification](https://github.com/solana-labs/solana-pay/blob/link-request/SPEC.md#specification-transfer-request) 
 - Customer pays both the merchant and the donation recipient with a single payment using Solana Pay's [Transaction Request Specification](https://github.com/solana-labs/solana-pay/blob/link-request/SPEC.md#specification-transaction-request) 
 
-Use either of these to present the donation to the customer.
+Use either of these to present the donation to the customer. See Solana Pay's [Merchant Integration](https://docs.solanapay.com/core/merchant-integration) for an example.
 
 *Note: As of the time of writing, **Transaction Requests have not been officially released by Solana Pay**, so Transaction Requests have been implemented using the unmerged pull request code.*
 ```javascript
@@ -77,7 +77,7 @@ A Donation Option contains information about a specific donation a customer coul
 	- `public_key`: the public key of the recipient's wallet
 	- `name`: the name of the recipient
 	- `description`: a description of the recipient
-- `donation_cents`: the amount of the donation in cents
+- `donation_cents`: the amount of the donation in cents, if the type of the Donation Option is `input` the value represents the default amount of the donation in cents
 - `purchase_cents`: the amount of pre-donation subtotal
 - `transaction_cents`: the amount of the total purchase including the donation
 - `donation_transfer_request`: an object containing information necessary to implement Solana Pay's [Transfer Request Specification](https://github.com/solana-labs/solana-pay/blob/link-request/SPEC.md#specification-transfer-request), consisting of the following fields:
@@ -85,9 +85,9 @@ A Donation Option contains information about a specific donation a customer coul
 	- `amount`: the amount of the transfer in units of the SPL token
 	- `spl_token`: the address of the SPL token used for the transfer
 	- `reference`: the reference of the solana 
-	- TODO: finish this
+	- TODO: finish this, make sure to make clear it's only paying recipient
 - `donation_transaction_request`: an object containing information necessary to implement Solana Pay's [Transaction Request Specification](https://github.com/solana-labs/solana-pay/blob/link-request/SPEC.md#specification-transaction-request), consisting of the following fields:
-	- TODO: finish this
+	- TODO: finish this, make sure to make clear it's splitting the payment
 
 *Note: As of the time of writing, **Transaction Requests have not been officially released by Solana Pay**, so Transaction Requests have been implemented using the unmerged pull request code.*
 
@@ -104,7 +104,7 @@ A Donation Configuration contains information about the options to donate presen
 ### Donations API Specification
 #### `getDonationConfig`
 - Purpose
-	- fetch the merchant's active configuration to implement a custom donation component
+	- fetch the merchant's active configuration
 - Inputs
 	- `merchantPublicKey`: the public key of the merchant's wallet used to log in to the merchant portal
 	- `purchaseCents`: the amount of the purchase subtotal (pre-donation) in cents
@@ -112,7 +112,7 @@ A Donation Configuration contains information about the options to donate presen
 	- `active_config` the active Donation Configuration for the merchant, null if inputs are invalid
 #### `markDonationComplete`
 - Purpose
-	- mark a donation complete after the customer completes the transaction, for analytics and metadata records
+	- mark a donation complete after the customer completes the transaction, to allow for accurate analytics and metadata
 - Inputs
 	- `merchantPublicKey`: the public key of the merchant's wallet used to log in to the merchant portal
 	- `selectedOption`: the Donation Option used for the donation
@@ -122,19 +122,19 @@ A Donation Configuration contains information about the options to donate presen
 	- None
 
 ### Donations Component Specification
-The Donations Component is an optional React component that displays the options to donate to the customer. The Donations Component fetches and renders the merchant's Donation Configuration without needing to call `getDonationConfig`. The component is implemented with [Material UI](https://mui.com/) and can be [themed accordingly](https://mui.com/customization/theming/). 
+The Donations Component is a React component that displays the options to donate to the customer. The Donations Component fetches and renders the merchant's Donation Configuration based on the public key and purchase amount provided. Usage of the Donations Component is optional and typically makes calling `getDonationConfig` unnecessary. The component is implemented with [Material UI](https://mui.com/) and can be [themed accordingly](https://mui.com/customization/theming/). 
 
 Props
 - `merchantPublicKey`: the public key of the merchant's wallet used to log in to the merchant portal
 - `purchaseCents`: the amount of the purchase subtotal (pre-donation) in cents
 - `setSelectedOption`: the `setState` function of a [React state hook](https://reactjs.org/docs/hooks-state.html), which will be called with the correct Donation Option when the customer selects a non-zero donation
-- `configOverride`: (optional) an override of the Donation Configuration to render. When present, `merchantPublicKey` and `purchaseCents` are ignored. 
+- `configOverride`: (optional) a Donation Configuration to render. When present, `merchantPublicKey` and `purchaseCents` are ignored. 
 
 ## Local Setup Instructions
-Dona consists of a React app frontend, Flask App backend, and PostgreSQL database. Follow the instructions below in order to demo on your local machine.
+Dona consists of a React app frontend, Flask App backend, and PostgreSQL database. Follow the instructions below in order to demo on a local machine.
 
 ### PostgreSQL Setup
-You will need to set up a local [PostgreSQL db](https://www.codementor.io/@engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb).
+Set up a local [PostgreSQL db](https://www.codementor.io/@engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb).
 
 Once PostgreSQL is installed, create the database for the application within postgresql: `CREATE DATABASE dona;`
 
@@ -146,12 +146,19 @@ Once PostgreSQL is installed, create the database for the application within pos
 5. Install dependencies: `pip install -r requirements.txt`
 6. Set environment variables e.g. `export SECRET_KEY=foo && export DATABASE_URI=postgresql://user:password@localhost:5432/dona && export FLASK_ENV=development && export APP_BASE_URL=http://127.0.0.1:5000`
 7. Apply database migrations: `flask db upgrade`
-8. Set an env variable with the public key of a wallet (e.g. Phantom) you want to log into the merchant dashboard with e.g. `export MERCHANT_DEMO_KEY=9ZNTfG4NyQgxy2SWjSiQoUyBPEvXT2xo7fKc5hPYYJ7b`. Make sure that **you have access to this wallet**, otherwise wallet adaptor will not work when you try to log in.
+8. Set an env variable with the public key of a wallet (e.g. Phantom) you want to log into the merchant dashboard with e.g. `export MERCHANT_DEMO_KEY=9ZNTfG4NyQgxy2SWjSiQoUyBPEvXT2xo7fKc5hPYYJ7b`. Make sure that **you have access to this wallet**, otherwise wallet adapter will not work when you try to log in.
 9. Generate some dummy demo data to populate the dashboard: `python generate_sample_data.py`
 10. Run app: `flask run`
 
 ### React App Setup
+The Donations API and Donations Component can be used with just the PostgreSQL and Flask App server running. 
 
+To demo the merchant, recipient, or consumer portals, or the checkout demo, use the following steps:
+1. navigate to the directory of the React App (e.g. `cd merchant-portal`
+2. Run `npm install`
+3. Run `npm start`
 
-
-
+For the Checkout Demo, to load the active configuration of a merchant account, add the environment variable `REACT_APP_MERCHANT_PUBLIC_KEY` containing the value of the merchant wallet's public key.
+```
+REACT_APP_MERCHANT_PUBLIC_KEY=35pQAYGCE95rnzJvYFtxGhpnDpMoZKzk6f5DxJhGszE9 npm start
+```
