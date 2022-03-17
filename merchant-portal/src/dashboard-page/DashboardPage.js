@@ -39,7 +39,7 @@ function DashboardPage(props) {
         <Grid item xs={12} md={activeConfigPresent ? 6 : 12}>
           <DashboardCard 
             title="Donation Volume By Day"
-            content={<VolumeByDay data={merchantInfo.analytics.donation_volume_daily.slice(0, 7)} />}
+            content={<VolumeByDay data={merchantInfo.analytics.donation_volume_daily.slice(-7)} />}
             setPage={setPage}
             page="analytics"
             pageText="See all analytics"

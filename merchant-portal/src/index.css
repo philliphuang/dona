@@ -12,3 +12,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.xAxis .recharts-cartesian-axis-ticks:first-child {
+  display: none;
+ }
+.recharts-x-axis .recharts-cartesian-axis-ticks:first-child text {
+  font-size: 0;
+}

@@ -33,34 +33,34 @@ function AnalyticsPage(props) {
       <Grid container spacing={3} sx={{my:2}}>
         <Grid item xs={12}>
           <AnalyticsCard 
-            title="Donation Volume" 
-            content={<VolumeByDay data={analytics.donation_volume_daily.slice(0, 30)} />}
+            title="Donation Volume by Day" 
+            content={<VolumeByDay data={analytics.donation_volume_daily.slice(-30)} />}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <AnalyticsCard 
-            title="Donation Type" 
+            title="Donations by Type" 
             content={<DonationType data={analytics.donation_volume_by_type} />}
             height={360}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={4}>
           <AnalyticsCard 
             title="Total Amount Donated" 
             content={<TotalAmount data={analytics.total_donation_amount} />}
             height={360}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={4}>
           <AnalyticsCard 
-            title="Total Donors" 
+            title="Total Number of Donations" 
             content={<TotalDonors data={analytics.total_donors} />}
             height={360}
           />
         </Grid>
         <Grid item xs={12}>
           <AnalyticsCard 
-            title="Recipients" 
+            title="Donations by Recipient" 
             content={<Recipients data={analytics.donation_volume_by_recipient} />}
           />
         </Grid>

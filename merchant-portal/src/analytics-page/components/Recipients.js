@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ResponsiveContainer, BarChart, Bar, Cell, CartesianGrid, Legend, XAxis, YAxis, Tooltip } from 'recharts';
 import { styled, useTheme } from '@mui/material/styles';
+import { centsToDollars } from '../../utils';
 
 function Recipients(props) {
   const { data } = props;
@@ -21,9 +22,8 @@ function Recipients(props) {
         }}
       >
         <XAxis dataKey="recipient_name" />
-        <YAxis label={{ value: 'Dollars', angle: -90, position: 'insideLeft' }} />
-        <Tooltip />
-        <Tooltip/>
+        <YAxis tickFormatter={(value) => {return "$" + centsToDollars(value)}} />
+        <Tooltip formatter={(value) => {return "$" + centsToDollars(value)}} />
         <Bar dataKey="value" fill="#8884d8">
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
