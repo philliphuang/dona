@@ -41,12 +41,18 @@ const drawerWidth = 240;
 
 function LoadingPage() {
   return (
-    <Container maxWidth="sm">
-      <Stack spacing={4} sx={{mt:4, mb:4}}>
-        <Skeleton variant="rectangular" height={240}/>
-        <Skeleton variant="rectangular" height={240}/>
-        <Skeleton variant="rectangular" height={240}/>
-      </Stack>
+    <Container>
+      <Grid container spacing={3} sx={{my:2}}>
+        <Grid item xs={12} md={6}>
+          <Skeleton variant="rectangular" height={320}/>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Skeleton variant="rectangular" height={320}/>
+        </Grid>
+        <Grid item xs={12}>
+          <Skeleton variant="rectangular" height={1024}/>
+        </Grid>
+      </Grid>
     </Container>
   );
 }
