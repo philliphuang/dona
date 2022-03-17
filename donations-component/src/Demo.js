@@ -256,6 +256,7 @@ function Demo() {
           purchaseCents={86}
           setSelectedOption={setSelectedOption}
         />
+        <JSONPretty id="json-pretty" data={selectedOption}></JSONPretty>
       	{dummyDonationConfigs.map((config, index) => (
           <DemoComponent key={index} config={config}/>
 				))}

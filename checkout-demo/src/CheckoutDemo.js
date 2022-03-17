@@ -14,6 +14,7 @@ import Avatar from '@mui/material/Avatar';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import DonationComponent from '@riptide-dona/react-components.ui.donation-component';
 import logo from './spaylogo.svg';
+import { getDonationConfig, markDonationComplete } from 'riptide-dona-api';
 
 import { styled, useTheme } from '@mui/material/styles';
 
