@@ -17,7 +17,7 @@ The Dona platform consists of the following components:
 - `merchant-portal`: web app for merchants to configure the donation options presented at checkout and to access metadata and analytics
 - `recipient-portal`: web app for donation recipients to access metadata and analytics
 - `consumer-portal`: web app for consumers to access metadata and analytics
-- `server`: database and back-end logic to host the API and the merchant, recipient, and consumer portals
+- `server`: backend logic for the API and the merchant, recipient, and consumer portals
 - `checkout-demo`: mock e-commerce checkout page to showcase the Donations Component
 
 ## Integrating Dona Into A Checkout Flow
@@ -51,7 +51,7 @@ After the customer selects a donation using the Donation Component, `selectedOpt
 
 Use either of these to present the donation to the customer. See Solana Pay's [Merchant Integration](https://docs.solanapay.com/core/merchant-integration) for an example.
 
-*Note: As of the time of writing, **Transaction Requests have not been officially released by Solana Pay**, so Transaction Requests have been implemented using the unmerged pull request code.*
+*Note: As of the 3/17/22, **Transaction Requests have not been officially released by Solana Pay**, so Transaction Requests have been implemented using the unmerged pull request code.*
 ```javascript
 // pay the donation recipient separately
 selectedOption.donation_transfer_request.url
@@ -80,14 +80,20 @@ A Donation Option contains information about a specific donation a customer coul
 - `donation_cents`: the amount of the donation in cents, if the type of the Donation Option is `input` the value represents the default amount of the donation in cents
 - `purchase_cents`: the amount of pre-donation subtotal
 - `transaction_cents`: the amount of the total purchase including the donation
-- `donation_transfer_request`: an object containing information necessary to implement Solana Pay's [Transfer Request Specification](https://github.com/solana-labs/solana-pay/blob/link-request/SPEC.md#specification-transfer-request), consisting of the following fields:
+- `donation_transfer_request`: an object containing information necessary to implement Solana Pay's [Transfer Request Specification](https://github.com/solana-labs/solana-pay/blob/link-request/SPEC.md#specification-transfer-request), consisting of the following fields (which may be overridden if the developer so chooses):
 	- `recipient`: the public key of the recipient's wallet
-	- `amount`: the amount of the transfer in units of the SPL token
+	- `amount`: the amount of the transfer in units of the SPL token (Note that this is **only the donation amount**, not the total amount inclusive of the donation amount)
 	- `spl_token`: the address of the SPL token used for the transfer
-	- `reference`: the reference of the solana 
-	- TODO: finish this, make sure to make clear it's only paying recipient
-- `donation_transaction_request`: an object containing information necessary to implement Solana Pay's [Transaction Request Specification](https://github.com/solana-labs/solana-pay/blob/link-request/SPEC.md#specification-transaction-request), consisting of the following fields:
-	- TODO: finish this, make sure to make clear it's splitting the payment
+	- `reference`: randomly generated public key that can be used as a unique identifier for the transaction
+	- `label`: URL-encoded UTF-8 string of the form 'Confirm donation to (recipient name)'
+	- `message`: URL-encoded UTF-8 string of the form 'Donation of (amount) USDC to (recipient name)'
+	- `url`: A Solana Pay transfer request URL combining the information in the previous fields. If no overrides are needed for the previous fields, a developer can use this URL directly as a link to pay the donation recipient.
+
+- `donation_transaction_request`: an object containing information necessary to implement Solana Pay's [Transaction Request Specification](https://github.com/solana-labs/solana-pay/blob/link-request/SPEC.md#specification-transaction-request), consisting of the following fields (which may be overridden if the developer so chooses):
+	- `link`: URL for the wallet to POST to in order to access the serialized Solana transaction which splits the payment between merchant and donation recipient respectively
+	- `label`: URL-encoded UTF-8 string of the form 'Confirm purchase including donation to (recipient name)
+	- `message`: URL-encoded UTF-8 string of the form 'Your purchase includes a (donation amount) donation to (recipient name)'
+	- `url`: A Solana Pay transaction request URL combining the information in the previous fields. If no overrides are needed for the previous fields, a developer can use this URL directly as a link to pay both the merchant and the donation recipient with a single payment.
 
 *Note: As of the time of writing, **Transaction Requests have not been officially released by Solana Pay**, so Transaction Requests have been implemented using the unmerged pull request code.*
 
@@ -154,7 +160,7 @@ Once PostgreSQL is installed, create the database for the application within pos
 The Donations API and Donations Component can be used with just the PostgreSQL and Flask App server running. 
 
 To demo the merchant, recipient, or consumer portals, or the checkout demo, use the following steps:
-1. navigate to the directory of the React App (e.g. `cd merchant-portal`
+1. Navigate to the directory of the React App (e.g. `cd merchant-portal`
 2. Run `npm install`
 3. Run `npm start`
 
