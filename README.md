@@ -20,7 +20,7 @@ The Dona platform consists of the following components:
 - `server`: database and back-end logic to host the API and the merchant, recipient, and consumer portals
 - `checkout-demo`: mock e-commerce checkout page to showcase the Donations Component
 
-## Integrating Dona at checkout
+## Integrating Dona Into A Checkout Flow
 Dona's Donations API and Donations Component are used to present customers with an option to donate in the checkout flow for a e-commerce store or a point-of-sale kiosk using Solana Pay.
 ### Quick Start
 Install the Donations API and the Donations Component.
