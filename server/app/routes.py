@@ -122,7 +122,7 @@ def get_active_donation_config(public_key):
 					db.session.commit()
 
 					link = app.config["APP_BASE_URL"] + url_for('create_interactive_transaction', uuid=split_transaction_request.uuid)
-					label = quote('Confirm purchase including donation to {}').format(str(amount) + ' USDC', recipient.name)
+					label = quote('Confirm purchase including donation to {}').format(recipient.name)
 					message = quote('Your purchase includes a {} donation to {}'.format(str(amount) + ' USDC', recipient.name))
 
 					option['donation_transaction_request'] = {
