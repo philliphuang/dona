@@ -1,5 +1,6 @@
 # Dona
 Dona is a checkout donations platform built on Solana Pay
+
 [Presentation Link](https://docs.google.com/presentation/d/1jOvFfoGpHa9zBjC2quTEGFc7hLyspL3vVwWp19CYApw/edit?usp=sharing)
 
 ### Project Description
