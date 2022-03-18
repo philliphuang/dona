@@ -51,7 +51,7 @@ After the customer selects a donation using the Donation Component, `selectedOpt
 
 Use either of these to present the donation to the customer. See Solana Pay's [Merchant Integration](https://docs.solanapay.com/core/merchant-integration) for an example.
 
-*Note: As of the 3/17/22, **Transaction Requests have not been officially released by Solana Pay**, so Transaction Requests have been implemented using the unmerged pull request code.*
+*Note: As of 3/17/22, **Transaction Requests have not been officially released by Solana Pay**, so Transaction Requests have been implemented using the unmerged pull request code.*
 ```javascript
 // pay the donation recipient separately
 selectedOption.donation_transfer_request.url
@@ -95,7 +95,7 @@ A Donation Option contains information about a specific donation a customer coul
 	- `message`: URL-encoded UTF-8 string of the form 'Your purchase includes a (donation amount) donation to (recipient name)'
 	- `url`: A Solana Pay transaction request URL combining the information in the previous fields. If no overrides are needed for the previous fields, a developer can use this URL directly as a link to pay both the merchant and the donation recipient with a single payment.
 
-*Note: As of the time of writing, **Transaction Requests have not been officially released by Solana Pay**, so Transaction Requests have been implemented using the unmerged pull request code.*
+*Note: As of 3/17/22, **Transaction Requests have not been officially released by Solana Pay**, so Transaction Requests have been implemented using the unmerged pull request code.*
 
 ### Donation Configurations
 A Donation Configuration contains information about the options to donate presented to the customer at checkout. It consists of the following fields:
@@ -137,7 +137,7 @@ Props
 - `configOverride`: (optional) a Donation Configuration to render. When present, `merchantPublicKey` and `purchaseCents` are ignored. 
 
 ## Local Setup Instructions
-Dona consists of a React app frontend, Flask App backend, and PostgreSQL database. Follow the instructions below in order to demo on a local machine.
+Dona consists of a React app frontend, Flask App backend, and PostgreSQL database. Follow the instructions below in order to demo Dona's functionality on a local machine.
 
 ### PostgreSQL Setup
 Set up a local [PostgreSQL db](https://www.codementor.io/@engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb).
