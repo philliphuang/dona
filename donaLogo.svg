@@ -35,7 +35,7 @@
 </linearGradient>
 <linearGradient id="paint6_linear_31_3" x1="189" y1="1" x2="189" y2="79" gradientUnits="userSpaceOnUse">
 <stop stop-color="#5B00B5"/>
-<stop offset="1" stop-color="#5B00B5" stop-opacity="0.3"/>
+<stop offset="1" stop-color="#BDBDBD" stop-opacity="0.3"/>
 </linearGradient>
 <linearGradient id="paint7_linear_31_3" x1="189" y1="1" x2="189" y2="40" gradientUnits="userSpaceOnUse">
 <stop stop-color="#5B00B5"/>
